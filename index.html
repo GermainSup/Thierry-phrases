@@ -76,7 +76,7 @@ h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)}
 
 .sentence{
   min-height:145px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
-  gap:6px;font-size:clamp(24px,3.7vw,38px);line-height:1.62;text-align:center;
+  gap:6px;font-size:clamp(20px,2.8vw,30px);line-height:1.55;text-align:center;
   padding:22px;border:2px dashed #c8d3ec;border-radius:20px;background:#fbfcff
 }
 .target{
@@ -121,6 +121,12 @@ button:disabled{opacity:.42;cursor:not-allowed}
 .next{background:#4767d7;color:white}
 .finish{background:#172554;color:white}
 .secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
+.buttonLink{
+  display:inline-block;text-decoration:none;border-radius:12px;
+  padding:11px 16px;font-weight:850;background:#eef1f6;
+  color:#344054;border:1px solid var(--border)
+}
+.buttonLink:hover{background:#e5e9f0}
 .final{
   margin-top:18px;padding:22px;border-radius:18px;background:#f4f7ff;
   border:2px solid #cbd7ff;text-align:center
@@ -139,7 +145,7 @@ th{background:#f8f9fc}
 @media(max-width:720px){
   .groups{grid-template-columns:1fr}
   .wrap{padding:12px}.hero,.lesson,.section{padding:17px}
-  .sentence{min-height:125px}
+  .sentence{min-height:110px;font-size:clamp(19px,5vw,26px)}
 }
 </style>
 </head>
@@ -161,7 +167,7 @@ th{background:#f8f9fc}
         <button class="difficultyBtn" data-mode="mix">Mélange 1 à 3</button>
       </div>
       <div id="difficultyNote" class="difficultyNote">
-        Niveau 1 : textes courts et repères simples. Niveau 2 : phrases enrichies, devinettes et petites histoires. Niveau 3 : textes plus longs, davantage de noms propres et énigmes plus élaborées.
+        Niveau 1 : textes courts et repères simples. Niveau 2 : phrases enrichies, devinettes et faits étonnants. Niveau 3 : mini-histoires, énigmes et nombreux « Savais-tu que… » sur les animaux, la nature et l’espace.
       </div>
     </div>
     <div class="statusbar">
@@ -216,8 +222,14 @@ th{background:#f8f9fc}
       <div id="feedback"></div>
     </div>
 
+    <div class="small" style="text-align:center;margin-top:14px">
+      <b>Autre phrase</b> : passe à une autre activité. 
+      <b>Nouvelle session</b> : enregistre les réponses actuelles puis repart à zéro. 
+      <b>Terminer</b> : disponible dès qu’au moins un mot a été répondu.
+    </div>
     <div class="actions">
-      <button id="nextBtn" class="next" disabled>Autre phrase</button>
+      <button id="nextBtn" class="next">Autre phrase</button>
+      <button id="newSessionBtn" class="secondary">Nouvelle session</button>
       <button id="finishBtn" class="finish" disabled>Terminer</button>
     </div>
 
@@ -226,13 +238,13 @@ th{background:#f8f9fc}
       <div id="finalScore" class="score">—</div>
       <div id="finalText"></div>
       <div style="margin-top:14px">
-        <button id="restartBtn" class="secondary">Recommencer une session</button>
+        <a id="restartLink" class="buttonLink" href="./">Nouvelle session</a>
       </div>
     </div>
   </section>
 
   <section class="section card">
-    <h2>Historique des mots ciblés</h2>
+    <h2>Historique des mots — session en cours</h2>
     <div class="tablewrap">
       <table>
         <thead>
@@ -248,7 +260,7 @@ th{background:#f8f9fc}
   </section>
 
   <section class="section card">
-    <h2>Sessions terminées</h2>
+    <h2>Historique des sessions terminées</h2>
     <div class="tablewrap">
       <table>
         <thead>
@@ -259,9 +271,11 @@ th{background:#f8f9fc}
     </div>
     <div id="sessionsEmpty" class="empty">Aucune session terminée.</div>
     <button id="clearSessionsBtn" class="secondary">Effacer l’historique des sessions</button>
+    <span id="archiveStatus" class="small" style="margin-left:10px"></span>
+    <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Les données sont conservées seulement dans ce navigateur.</div>
+  <div class="footer">Version 12 — Astres classés comme noms propres; « Terminer » disponible après une première réponse; « Nouvelle session » archive automatiquement la session en cours.</div>
 </div>
 
 <script>
@@ -465,14 +479,207 @@ const activities = [
     T(" à ses "),C("élèves","masculin","pluriel"),T(" : retrouver "),P("Montréal","non évalué","ville"),
     T(" et "),P("Mexique","masculin","pays"),T(" sur une "),C("carte","féminin"),T(". "),
     P("Louis","masculin"),T(" trouve d’abord la "),C("ville","féminin"),T(", puis le "),C("pays","masculin"),T(".")
-  ])
+  ]),
+
+  // Devinettes sur l'espace
+  makeActivity(1,"devinette",[
+    P("Thierry","masculin"),T(" pense à notre "),C("planète","féminin"),T(", celle où vivent les humains. Quel est son nom ?")
+  ],"La Terre"),
+  makeActivity(2,"devinette",[
+    P("Thierry","masculin"),T(" cherche une "),C("planète","féminin"),T(" rouge qui tourne autour du "),P("Soleil","masculin","astre"),T(". Laquelle est-ce ?")
+  ],"Mars"),
+  makeActivity(2,"devinette",[
+    P("Léa","féminin"),T(" pense à une "),C("planète","féminin"),T(" connue pour ses grands "),C("anneaux","masculin","pluriel"),T(". Laquelle est-ce ?")
+  ],"Saturne"),
+  makeActivity(3,"devinette",[
+    P("Noah","masculin"),T(" cherche la plus grande "),C("planète","féminin"),T(" du système solaire. Elle possède de nombreuses "),C("lunes","féminin","pluriel"),T(". Laquelle est-ce ?")
+  ],"Jupiter"),
+  makeActivity(3,"devinette",[
+    P("Emma","féminin"),T(" cherche la "),C("planète","féminin"),T(" la plus proche du "),P("Soleil","masculin","astre"),T(". Elle est petite et très rapide autour de son étoile. Laquelle est-ce ?")
+  ],"Mercure"),
+  makeActivity(3,"devinette",[
+    P("Arthur","masculin"),T(" pense à une "),C("planète","féminin"),T(" très lointaine, bleue et balayée par de puissants "),C("vents","masculin","pluriel"),T(". Laquelle est-ce ?")
+  ],"Neptune"),
+
+  // Devinettes originales inspirées des personnages de Tintin
+  makeActivity(1,"devinette",[
+    T("Je suis un jeune "),C("reporter","masculin"),T(" accompagné de "),P("Milou","masculin","personnage"),T(". Qui suis-je ?")
+  ],"Tintin"),
+  makeActivity(1,"devinette",[
+    T("Je suis le petit "),C("chien","masculin"),T(" blanc qui accompagne "),P("Tintin","masculin","personnage"),T(" dans ses aventures. Qui suis-je ?")
+  ],"Milou"),
+  makeActivity(2,"devinette",[
+    T("Je suis un "),C("capitaine","masculin"),T(" barbu et un grand ami de "),P("Tintin","masculin","personnage"),T(". J’habite à "),P("Moulinsart","masculin","lieu fictif"),T(". Qui suis-je ?")
+  ],"Le capitaine Haddock"),
+  makeActivity(2,"devinette",[
+    T("Je suis un "),C("professeur","masculin"),T(" et un "),C("inventeur","masculin"),T(" souvent distrait. Je suis l’ami de "),P("Tintin","masculin","personnage"),T(". Qui suis-je ?")
+  ],"Le professeur Tournesol"),
+  makeActivity(3,"devinette",[
+    T("Nous sommes deux "),C("détectives","masculin","pluriel"),T(" qui se ressemblent beaucoup et qui croisent souvent "),P("Tintin","masculin","personnage"),T(". Quels sont nos noms ?")
+  ],"Dupond et Dupont"),
+  makeActivity(3,"devinette",[
+    T("Je suis une "),C("chanteuse","féminin"),T(" d’opéra connue dans les aventures de "),P("Tintin","masculin","personnage"),T(". Qui suis-je ?")
+  ],"Bianca Castafiore"),
+
+  // Quelques activités supplémentaires pour élargir la rotation.
+  makeActivity(1,"phrase",[
+    P("Thierry","masculin"),T(" observe la "),P("Lune","féminin","satellite naturel"),T(" avec un "),C("télescope","masculin"),T(".")
+  ]),
+  makeActivity(2,"histoire",[
+    P("Thierry","masculin"),T(" prépare une "),C("maquette","féminin"),T(" du système solaire. Il place les "),
+    C("planètes","féminin","pluriel"),T(" autour du "),P("Soleil","masculin","astre"),T(" et ajoute plusieurs "),C("lunes","féminin","pluriel"),T(".")
+  ]),
+  makeActivity(2,"histoire",[
+    P("Camille","féminin"),T(" trouve une "),C("boussole","féminin"),T(" dans un vieux "),C("coffre","masculin"),T(". "),
+    T("Avec "),P("Thomas","masculin"),T(", elle dessine une "),C("carte","féminin"),T(" pour imaginer une aventure.")
+  ]),
+  makeActivity(3,"histoire",[
+    P("Thierry","masculin"),T(" lit une "),C("histoire","féminin"),T(" de voyage avant de regarder une "),
+    C("carte","féminin"),T(" du monde. Il repère le "),P("Canada","masculin","pays"),T(", la "),
+    P("France","féminin","pays"),T(" et plusieurs "),C("océans","masculin","pluriel"),T(".")
+  ]),
+
+  // ---------------- SAVAIS-TU QUE... : ANIMAUX ----------------
+  makeActivity(1,"savastu",[
+    T("Savais-tu que le "),C("colibri","masculin"),T(" peut voler vers l’arrière grâce au mouvement très rapide de ses "),C("ailes","féminin","pluriel"),T(" ?")
+  ]),
+  makeActivity(1,"savastu",[
+    T("Savais-tu que le "),C("papillon","masculin"),T(" peut goûter certaines substances avec ses "),C("pattes","féminin","pluriel"),T(" ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("poulpe","masculin"),T(" possède trois "),C("cœurs","masculin","pluriel"),T(" ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que l’"),C("éléphant","masculin"),T(" peut communiquer avec des "),C("sons","masculin","pluriel"),T(" si graves que les humains ne les entendent pas toujours ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que l’"),C("ours","masculin"),T(" polaire a une "),C("peau","féminin"),T(" noire sous son pelage clair ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que certains "),C("dauphins","masculin","pluriel"),T(" peuvent laisser une moitié de leur "),C("cerveau","masculin"),
+    T(" se reposer pendant que l’autre moitié reste attentive ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que la "),C("chouette","féminin"),T(" ne roule presque pas ses "),C("yeux","masculin","pluriel"),
+    T(" dans leurs orbites et compense en tournant beaucoup la "),C("tête","féminin"),T(" ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que les premiers "),C("requins","masculin","pluriel"),T(" existaient sur la "),P("Terre","féminin","planète"),
+    T(" bien avant l’apparition des premiers grands "),C("arbres","masculin","pluriel"),T(" ?")
+  ]),
+
+  // Devinettes animales
+  makeActivity(1,"devinette",[
+    T("Je suis un grand "),C("animal","masculin"),T(" gris avec une longue "),C("trompe","féminin"),T(". Qui suis-je ?")
+  ],"L’éléphant"),
+  makeActivity(2,"devinette",[
+    T("Je suis un "),C("oiseau","masculin"),T(" qui ne vole pas, mais je nage très bien dans l’"),C("eau","féminin"),T(". Qui suis-je ?")
+  ],"Le manchot"),
+  makeActivity(2,"devinette",[
+    T("Je suis un "),C("mammifère","masculin"),T(" marin immense. Mon "),C("chant","masculin"),T(" peut voyager très loin sous l’eau. Qui suis-je ?")
+  ],"La baleine"),
+  makeActivity(3,"devinette",[
+    T("Je suis un "),C("animal","masculin"),T(" qui change parfois de "),C("couleur","féminin"),T(" pour se camoufler et je possède huit "),C("bras","masculin","pluriel"),T(". Qui suis-je ?")
+  ],"Le poulpe"),
+
+  // ---------------- PHÉNOMÈNES NATURELS ----------------
+  makeActivity(1,"savastu",[
+    T("Savais-tu que la "),C("lumière","féminin"),T(" arrive jusqu’à nos yeux bien plus vite que le "),C("son","masculin"),T(" ? C’est pourquoi on voit l’éclair avant d’entendre le tonnerre.")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu qu’un "),C("arc-en-ciel","masculin"),T(" apparaît lorsque la "),C("lumière","féminin"),T(" du Soleil est déviée et réfléchie dans des "),C("gouttes","féminin","pluriel"),T(" d’eau ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que les "),C("flocons","masculin","pluriel"),T(" de neige ont généralement une forme organisée autour de six "),C("branches","féminin","pluriel"),T(" ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que la "),C("marée","féminin"),T(" est surtout influencée par l’attraction de la "),P("Lune","féminin","satellite naturel"),T(" sur les océans ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que les "),C("aurores","féminin","pluriel"),T(" polaires apparaissent lorsque des "),C("particules","féminin","pluriel"),
+    T(" venant du Soleil interagissent avec l’atmosphère près des pôles ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que le "),C("ciel","masculin"),T(" nous paraît bleu parce que l’"),C("air","masculin"),
+    T(" diffuse davantage la lumière bleue que plusieurs autres couleurs ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’un "),C("mirage","masculin"),T(" peut apparaître lorsque la "),C("lumière","féminin"),
+    T(" traverse des couches d’air ayant des températures différentes ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que la "),C("lave","féminin"),T(" est du "),C("magma","masculin"),
+    T(" qui a atteint la surface lors d’une éruption volcanique ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’un "),C("tremblement","masculin"),T(" de terre peut se produire lorsque des "),
+    C("roches","féminin","pluriel"),T(" bougent brusquement le long d’une faille ?")
+  ]),
+
+  // Devinettes nature
+  makeActivity(2,"devinette",[
+    T("Je peux apparaître après la "),C("pluie","féminin"),T(" quand le "),P("Soleil","masculin","astre"),
+    T(" éclaire encore des gouttes d’eau. J’ai plusieurs couleurs. Qui suis-je ?")
+  ],"L’arc-en-ciel"),
+  makeActivity(3,"devinette",[
+    T("Je suis un "),C("phénomène","masculin"),T(" lumineux que l’on observe surtout près des "),
+    C("pôles","masculin","pluriel"),T(". Je peux être vert, rouge ou violet. Qui suis-je ?")
+  ],"Une aurore polaire"),
+
+  // ---------------- ESPACE ET PLANÈTES ----------------
+  makeActivity(2,"savastu",[
+    T("Savais-tu que sur "),P("Vénus","féminin","planète"),T(", une "),C("journée","féminin"),
+    T(" dure plus longtemps qu’une année de cette planète ?")
+  ]),
+  makeActivity(2,"savastu",[
+    T("Savais-tu que "),P("Jupiter","masculin","planète"),T(" tourne si vite qu’une "),C("journée","féminin"),
+    T(" y dure environ dix heures ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que "),P("Mars","masculin","planète"),T(" possède un immense "),C("volcan","masculin"),
+    T(" appelé "),P("Olympus Mons","masculin","montagne martienne"),T(", beaucoup plus haut que les montagnes terrestres ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que la "),P("Lune","féminin","astre"),T(" nous montre presque toujours la même "),C("face","féminin"),
+    T(" parce qu’elle tourne sur elle-même au même rythme qu’elle tourne autour de la Terre ?")
+  ]),
+  makeActivity(3,"savastu",[
+    T("Savais-tu que "),P("Saturne","masculin","planète"),T(" a une densité moyenne plus faible que celle de l’"),C("eau","féminin"),
+    T(" ? Dans un océan imaginaire assez grand, elle pourrait théoriquement flotter.")
+  ]),
+
+  // Questions de curiosité
+  makeActivity(3,"devinette",[
+    P("Thierry","masculin"),T(" cherche la "),C("planète","féminin"),T(" où se trouve le volcan "),
+    P("Olympus Mons","masculin","montagne martienne"),T(". Quelle planète est-ce ?")
+  ],"Mars"),
+  makeActivity(3,"devinette",[
+    T("Je suis le "),C("satellite","masculin"),T(" naturel de la "),P("Terre","féminin","planète"),
+    T(" et j’influence fortement les "),C("marées","féminin","pluriel"),T(". Qui suis-je ?")
+  ],"La Lune")
 ];
+
+activities.forEach((activity,index)=>activity.id=index);
+let usedActivityIds={1:new Set(),2:new Set(),3:new Set()};
+
+function resetActivityRotation(){
+  usedActivityIds={1:new Set(),2:new Set(),3:new Set()};
+}
 
 function generateSentence(mode){
   const actualLevel = mode==="mix" ? (1+Math.floor(Math.random()*3)) : Number(mode);
   currentLevel=actualLevel;
+
   const bank=activities.filter(a=>a.level===actualLevel);
-  const chosen=pick(bank);
+  let available=bank.filter(a=>!usedActivityIds[actualLevel].has(a.id));
+
+  if(!available.length){
+    usedActivityIds[actualLevel].clear();
+    available=[...bank];
+  }
+
+  const chosen=pick(available);
+  usedActivityIds[actualLevel].add(chosen.id);
   currentActivity={...chosen};
   return chosen.parts;
 }
@@ -498,8 +705,8 @@ function updatePhraseState(){
   const answered=targets.filter(t=>t.answered).length;
   $("phraseProgress").textContent=`${answered} / ${targets.length}`;
   const complete=phraseCompleted();
-  nextBtn.disabled=sessionFinished || !complete;
-  finishBtn.disabled=sessionFinished || !complete;
+  nextBtn.disabled=sessionFinished;
+  finishBtn.disabled=sessionFinished || history.length===0;
   completionMsg.classList.toggle("hidden", !complete || sessionFinished);
 
   if(complete && !sessionFinished && currentActivity.kind==="devinette" && currentActivity.answer){
@@ -522,7 +729,8 @@ function renderSentence(){
   const kindInfo={
     phrase:["💬 Phrase","Lis attentivement avant de classer les noms."],
     devinette:["🧩 Devinette","Classe les noms, puis découvre la réponse à la devinette."],
-    histoire:["📖 Mini-histoire","Suis l’histoire et repère les caractéristiques des noms."]
+    histoire:["📖 Mini-histoire","Suis l’histoire et repère les caractéristiques des noms."],
+    savastu:["💡 Savais-tu que…","Découvre un fait étonnant tout en classant les noms."]
   };
   const info=kindInfo[currentActivity.kind] || kindInfo.phrase;
   activityBadge.textContent=info[0];
@@ -564,7 +772,7 @@ function openTarget(index){
   if(targets[index].answered){
     showStoredFeedback(targets[index]);
   }else{
-    panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+    panel.scrollIntoView();
   }
 }
 
@@ -642,19 +850,38 @@ function updateScore(){
 }
 
 nextBtn.addEventListener("click",()=>{
-  // On recalcule au clic pour éviter qu'un état visuel périmé bloque la suite.
   if(sessionFinished) return;
-  if(!phraseCompleted()){ updatePhraseState(); return; }
   phraseNumber++;
   currentSentence=generateSentence(difficultyMode);
   renderSentence();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo(0,0);
 });
 
 finishBtn.addEventListener("click",finishSession);
 
+function archiveCurrentSession(){
+  const attempted=history.length;
+  if(!attempted) return null;
+
+  const good=history.filter(h=>h.allOK).length;
+  const percent=Math.round(good/attempted*100);
+
+  const sessions=loadSessions();
+  const record={
+    date:new Date().toLocaleString("fr-CA"),
+    phrases:phrasesShown,
+    words:attempted,
+    good,
+    percent
+  };
+  sessions.unshift(record);
+  saveSessions(sessions.slice(0,50));
+  renderSessions();
+  return record;
+}
+
 function finishSession(){
-  if(sessionFinished || !phraseCompleted()){
+  if(sessionFinished || history.length===0){
     updatePhraseState();
     return;
   }
@@ -669,31 +896,105 @@ function finishSession(){
     ? `${good} mot${good>1?"s":""} réussi${good>1?"s":""} sur ${attempted} mot${attempted>1?"s":""} essayé${attempted>1?"s":""}.`
     : "Essaie quelques mots lors de la prochaine session.";
   finalBox.classList.remove("hidden");
+  const restartLink=$("restartLink");
+  if(restartLink) restartLink.style.pointerEvents="auto";
 
   if(attempted){
-    const sessions=loadSessions();
-    sessions.unshift({date:new Date().toLocaleString("fr-CA"),phrases:phrasesShown,words:attempted,good,percent});
-    saveSessions(sessions.slice(0,50)); renderSessions();
+    archiveCurrentSession();
   }
-  finalBox.scrollIntoView({behavior:"smooth",block:"center"});
+
+  // Une session terminée quitte l'historique de travail courant.
+  history.length=0;
+  $("historyBody").innerHTML="";
+  $("historyEmpty").textContent="Session terminée : les mots ont été transférés dans le résumé de la session.";
+  $("historyEmpty").style.display="block";
+  $("attemptCount").textContent="0";
+  $("goodCount").textContent="0";
+  $("liveScore").textContent="—";
+
+  finalBox.scrollIntoView();
 }
 
-$("restartBtn").addEventListener("click",()=>{
-  phraseNumber=1;history=[];phrasesShown=0;sessionFinished=false;
-  finishBtn.disabled=true;finalBox.classList.add("hidden");
+function resetCurrentSessionData(){
+  phraseNumber=1;
+  history.length=0;
+  phrasesShown=0;
+  sessionFinished=false;
+  activeIndex=null;
+  selectedType=null;
+  selectedNumber=null;
+  resetActivityRotation();
+
+  // Remise à zéro explicite de l'interface.
+  $("historyBody").innerHTML="";
+  $("historyEmpty").textContent="Aucun mot répondu pour le moment.";
+  $("historyEmpty").style.display="block";
+  $("attemptCount").textContent="0";
+  $("goodCount").textContent="0";
+  $("liveScore").textContent="—";
+  $("phraseNo").textContent="1";
+  $("phraseProgress").textContent="0 / 0";
+
+  panel.classList.add("hidden");
+  feedback.innerHTML="";
+  finalBox.classList.add("hidden");
+  finishBtn.disabled=true;
+  nextBtn.disabled=false;
+}
+
+function startNewSession(){
+  // Si l'élève a déjà répondu à au moins un mot, la session courante
+  // est enregistrée avant la remise à zéro.
+  if(!sessionFinished && history.length>0){
+    archiveCurrentSession();
+  }
+
+  resetCurrentSessionData();
+
+  // Réactivation explicite de l'interface après une fin de session.
+  sessionFinished=false;
+  nextBtn.disabled=false;
+  finishBtn.disabled=true;
+  finalBox.classList.add("hidden");
+
   currentSentence=generateSentence(difficultyMode);
+
   $("difficultyNote").textContent = difficultyMode==="mix"
     ? "Mode mélange : chaque nouvelle activité sera choisie au hasard parmi les niveaux 1, 2 et 3, avec phrases, devinettes et mini-histoires."
-    : `Niveau ${difficultyMode} sélectionné.`;
-  renderHistory();updateScore();renderSentence();
-  window.scrollTo({top:0,behavior:"smooth"});
+    : `Niveau ${difficultyMode} sélectionné. Nouvelle session commencée.`;
+
+  renderHistory();
+  updateScore();
+  renderSentence();
+  window.scrollTo(0,0);
+}
+
+$("newSessionBtn").addEventListener("click",()=>{
+  startNewSession();
 });
 
+let sessionArchiveMemory=[];
+
 function loadSessions(){
-  try{return JSON.parse(localStorage.getItem("noms3e_sessions")||"[]");}
-  catch(e){return [];}
+  try{
+    const stored=JSON.parse(localStorage.getItem("noms3e_sessions")||"[]");
+    if(Array.isArray(stored)){
+      sessionArchiveMemory=[...stored];
+      return stored;
+    }
+  }catch(e){}
+  return [...sessionArchiveMemory];
 }
-function saveSessions(arr){localStorage.setItem("noms3e_sessions",JSON.stringify(arr));}
+
+function saveSessions(arr){
+  sessionArchiveMemory=[...arr];
+  try{
+    localStorage.setItem("noms3e_sessions",JSON.stringify(arr));
+  }catch(e){
+    // Le tableau reste disponible pendant la session même si le navigateur
+    // interdit le stockage local d'un fichier HTML ouvert directement.
+  }
+}
 function renderSessions(){
   const sessions=loadSessions(),body=$("sessionsBody");body.innerHTML="";
   $("sessionsEmpty").style.display=sessions.length?"none":"block";
@@ -704,10 +1005,43 @@ function renderSessions(){
   });
 }
 $("clearSessionsBtn").addEventListener("click",()=>{
-  if(confirm("Effacer l’historique des sessions terminées ?")){
-    localStorage.removeItem("noms3e_sessions");renderSessions();
+  sessionArchiveMemory=[];
+  try{localStorage.removeItem("noms3e_sessions");}catch(e){}
+  renderSessions();
+  const status=$("archiveStatus");
+  if(status){
+    status.textContent="Historique effacé.";
+    setTimeout(()=>{ status.textContent=""; },2500);
   }
 });
+$("resetAllBtn").addEventListener("click",()=>{
+
+  // Effacer les archives persistantes et mémoire.
+  sessionArchiveMemory=[];
+  try{localStorage.removeItem("noms3e_sessions");}catch(e){}
+
+  // Remettre l'exercice courant à zéro.
+  resetCurrentSessionData();
+
+  // Remettre aussi les zones d'affichage de fin de session à leur état initial.
+  $("finalScore").textContent="—";
+  $("finalText").textContent="";
+  finalBox.classList.add("hidden");
+
+  // Rafraîchir l'archive et démarrer une nouvelle activité.
+  renderSessions();
+  currentSentence=generateSentence(difficultyMode);
+  renderHistory();
+  updateScore();
+  renderSentence();
+
+  $("difficultyNote").textContent = difficultyMode==="mix"
+    ? "Mode mélange : nouvelle session entièrement réinitialisée."
+    : `Niveau ${difficultyMode} — nouvelle session entièrement réinitialisée.`;
+
+  window.scrollTo(0,0);
+});
+
 
 
 function applyDifficultyUI(){
@@ -717,28 +1051,28 @@ function applyDifficultyUI(){
 }
 document.querySelectorAll(".difficultyBtn").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    difficultyMode=btn.dataset.mode;
+    const newMode=btn.dataset.mode;
+
+    if(newMode===difficultyMode && history.length===0){
+      applyDifficultyUI();
+      return;
+    }
+
+    if(history.length>0){
+      const ok=confirm("Changer de niveau commencera une nouvelle session et effacera l’historique des mots de la session en cours. Continuer ?");
+      if(!ok) return;
+    }
+
+    difficultyMode=newMode;
     localStorage.setItem("noms3e_difficulty",difficultyMode);
     applyDifficultyUI();
-
-    const answeredHere=targets.some(t=>t.answered);
-    if(!answeredHere && !sessionFinished){
-      currentSentence=generateSentence(difficultyMode);
-      renderSentence();
-      $("difficultyNote").textContent = difficultyMode==="mix"
-        ? "Mode mélange : chaque nouvelle activité sera choisie au hasard parmi les niveaux 1, 2 et 3, avec phrases, devinettes et mini-histoires."
-        : `Niveau ${difficultyMode} sélectionné. La phrase a été adaptée immédiatement.`;
-    }else{
-      $("difficultyNote").textContent = difficultyMode==="mix"
-        ? "Mode mélange sélectionné. Il s’appliquera à la prochaine phrase."
-        : `Niveau ${difficultyMode} sélectionné. Il s’appliquera à la prochaine phrase.`;
-    }
+    startNewSession();
   });
 });
 
 applyDifficultyUI();
-currentSentence=generateSentence(difficultyMode);
-renderSentence();renderHistory();renderSessions();updateScore();
+renderSessions();
+startNewSession();
 })();
 </script>
 </body>
