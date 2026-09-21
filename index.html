@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4767d7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Les noms">
+<title>Les noms – 3e année</title>
+<style>
+:root{
+  --bg:#f6f8fc; --card:#fff; --text:#18233f; --muted:#667085;
+  --border:#d8deea; --accent:#4767d7; --accentLight:#eef2ff;
+  --good:#197a43; --goodbg:#eaf8ef; --bad:#b42318; --badbg:#fff0ee;
+  --gold:#9a6700; --goldbg:#fff8df;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);
+  background:linear-gradient(180deg,#eef3ff 0,#f9fbff 260px,#f6f8fc 100%);
+}
+.wrap{max-width:1120px;margin:auto;padding:22px}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:22px;
+  box-shadow:0 8px 24px rgba(31,42,68,.06)
+}
+.hero{padding:24px 28px}
+h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)}
+.subtitle{font-size:17px;line-height:1.5;color:var(--muted)}
+.statusbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.difficultyBox{
+  margin-top:18px;padding:14px 16px;border:1px solid var(--border);
+  border-radius:16px;background:#fbfcff
+}
+.difficultyTitle{font-weight:850;margin-bottom:9px}
+.difficultyChoices{display:flex;gap:9px;flex-wrap:wrap}
+.difficultyBtn{
+  background:#eef2ff;color:#3049a1;border:2px solid #cfd8ff;
+  padding:9px 13px
+}
+.difficultyBtn.active{
+  background:#4767d7;color:white;border-color:#4767d7
+}
+.difficultyNote{margin-top:8px;color:var(--muted);font-size:13px}
+
+.pill{
+  padding:8px 12px;border-radius:999px;background:#f2f4f7;
+  border:1px solid var(--border);font-weight:800
+}
+.lesson{margin-top:18px;padding:24px}
+.instruction{
+  background:#fffaf0;border:1px solid #f1d789;border-radius:14px;
+  padding:12px 14px;line-height:1.5;margin-bottom:18px
+}
+.activityRow{
+  display:flex;justify-content:center;align-items:center;gap:10px;
+  flex-wrap:wrap;margin-bottom:12px
+}
+.activityBadge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 12px;border-radius:999px;font-weight:850;
+  background:#fff8df;color:#805500;border:1px solid #ead38a
+}
+.activityPrompt{
+  color:var(--muted);font-size:14px;text-align:center
+}
+.riddleAnswer{
+  margin-top:14px;padding:14px 16px;border-radius:14px;
+  background:#fff8df;border:1px solid #ead38a;text-align:center;
+  font-weight:800;line-height:1.5
+}
+.riddleAnswer .answerWord{
+  display:inline-block;margin-left:5px;font-size:20px;color:#704f00
+}
+
+.sentence{
+  min-height:145px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:6px;font-size:clamp(24px,3.7vw,38px);line-height:1.62;text-align:center;
+  padding:22px;border:2px dashed #c8d3ec;border-radius:20px;background:#fbfcff
+}
+.target{
+  position:relative;display:inline-block;cursor:pointer;font-weight:850;
+  padding:0 5px;background:#edf2ff;border-bottom:5px solid #4767d7;
+  border-radius:10px 10px 4px 4px;transition:.15s ease
+}
+.target::after{
+  content:"●";position:absolute;top:-13px;right:-8px;font-size:10px;color:#4767d7
+}
+.target:hover,.target:focus{transform:translateY(-1px);outline:3px solid #cbd7ff}
+.target.done{background:#f2f4f7;border-bottom-color:#98a2b3}
+.target.correct{background:var(--goodbg);border-bottom-color:var(--good)}
+.target.wrong{background:var(--badbg);border-bottom-color:var(--bad)}
+.completion{
+  margin-top:14px;text-align:center;padding:11px 14px;border-radius:12px;
+  background:var(--goodbg);color:var(--good);font-weight:850
+}
+.hidden{display:none!important}
+.panel{
+  margin-top:20px;padding:20px;background:#fcfdff;border:1px solid var(--border);
+  border-radius:18px
+}
+.wordTitle{font-size:25px;font-weight:850;margin-bottom:5px}
+.wordMeta{color:var(--muted);margin-bottom:14px;font-size:14px}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.group{background:white;border:1px solid var(--border);border-radius:14px;padding:14px}
+.group h3{margin:0 0 10px;font-size:16px}
+.choices{display:flex;gap:10px;flex-wrap:wrap}
+button{
+  font:inherit;border:0;border-radius:12px;padding:11px 16px;font-weight:850;cursor:pointer
+}
+.choice{background:#eef2ff;color:#3049a1;border:2px solid #cfd8ff}
+.choice:hover{background:#e2e8ff}
+.choice.selected{background:#4767d7;color:#fff;border-color:#4767d7}
+.validate{background:#243b84;color:#fff;margin-top:16px}
+button:disabled{opacity:.42;cursor:not-allowed}
+.feedback{margin-top:14px;padding:13px 15px;border-radius:12px;font-weight:750;line-height:1.5}
+.feedback.good{background:var(--goodbg);color:var(--good)}
+.feedback.bad{background:var(--badbg);color:var(--bad)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.next{background:#4767d7;color:white}
+.finish{background:#172554;color:white}
+.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
+.final{
+  margin-top:18px;padding:22px;border-radius:18px;background:#f4f7ff;
+  border:2px solid #cbd7ff;text-align:center
+}
+.score{font-size:42px;font-weight:900;margin:6px 0}
+.section{margin-top:18px;padding:22px}
+h2{margin:0 0 14px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 9px;border-bottom:1px solid #e7eaf0;text-align:left;vertical-align:top}
+th{background:#f8f9fc}
+.ok{color:var(--good);font-weight:850}.no{color:var(--bad);font-weight:850}
+.empty{color:var(--muted);padding:12px 0}
+.small{font-size:13px;color:var(--muted)}
+.footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 10px}
+@media(max-width:720px){
+  .groups{grid-template-columns:1fr}
+  .wrap{padding:12px}.hero,.lesson,.section{padding:17px}
+  .sentence{min-height:125px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero card">
+    <h1>🔎 Les noms – 3e année</h1>
+    <div class="subtitle">
+      Clique sur chaque mot coloré. Indique s’il s’agit d’un <b>nom propre ou commun</b>,
+      puis d’un nom <b>singulier ou pluriel</b>. La correction donne aussi le genre et,
+      pour les noms propres, leur catégorie.
+    </div>
+    <div class="difficultyBox">
+      <div class="difficultyTitle">Difficulté</div>
+      <div class="difficultyChoices">
+        <button class="difficultyBtn" data-mode="1">Niveau 1</button>
+        <button class="difficultyBtn" data-mode="2">Niveau 2</button>
+        <button class="difficultyBtn" data-mode="3">Niveau 3</button>
+        <button class="difficultyBtn" data-mode="mix">Mélange 1 à 3</button>
+      </div>
+      <div id="difficultyNote" class="difficultyNote">
+        Niveau 1 : textes courts et repères simples. Niveau 2 : phrases enrichies, devinettes et petites histoires. Niveau 3 : textes plus longs, davantage de noms propres et énigmes plus élaborées.
+      </div>
+    </div>
+    <div class="statusbar">
+      <div class="pill">Phrase <span id="phraseNo">1</span></div>
+      <div class="pill">Niveau de la phrase : <span id="currentLevel">1</span></div>
+      <div class="pill">Dans la phrase : <span id="phraseProgress">0 / 0</span></div>
+      <div class="pill">Mots réussis : <span id="goodCount">0</span></div>
+      <div class="pill">Mots essayés : <span id="attemptCount">0</span></div>
+      <div class="pill">Score : <span id="liveScore">—</span></div>
+    </div>
+  </section>
+
+  <section class="lesson card">
+    <div class="instruction">
+      <b>Consigne :</b> les mots à analyser sont surlignés et soulignés.
+      Un nom peut avoir deux caractéristiques en même temps :
+      <b>« cartes » = nom commun + pluriel</b>.
+    </div>
+
+    <div class="activityRow">
+      <div id="activityBadge" class="activityBadge">💬 Phrase</div>
+      <div id="activityPrompt" class="activityPrompt">Lis attentivement avant de classer les noms.</div>
+    </div>
+    <div id="sentence" class="sentence" aria-live="polite"></div>
+    <div id="riddleAnswer" class="riddleAnswer hidden"></div>
+    <div id="completionMsg" class="completion hidden">
+      ✓ Phrase terminée ! Tu peux maintenant choisir <b>Autre phrase</b> ou <b>Terminer</b>.
+    </div>
+
+    <div id="answerPanel" class="panel hidden">
+      <div class="wordTitle">Mot : <span id="activeWord"></span></div>
+      <div class="wordMeta" id="wordHint">Choisis les deux caractéristiques du nom.</div>
+
+      <div class="groups">
+        <div class="group">
+          <h3>1. Quel type de nom ?</h3>
+          <div class="choices">
+            <button class="choice typeChoice" data-value="propre">Propre</button>
+            <button class="choice typeChoice" data-value="commun">Commun</button>
+          </div>
+        </div>
+        <div class="group">
+          <h3>2. Quel nombre ?</h3>
+          <div class="choices">
+            <button class="choice numberChoice" data-value="singulier">Singulier</button>
+            <button class="choice numberChoice" data-value="pluriel">Pluriel</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="validateBtn" class="validate" disabled>Vérifier ma réponse</button>
+      <div id="feedback"></div>
+    </div>
+
+    <div class="actions">
+      <button id="nextBtn" class="next" disabled>Autre phrase</button>
+      <button id="finishBtn" class="finish" disabled>Terminer</button>
+    </div>
+
+    <div id="finalBox" class="final hidden">
+      <div class="small">Note finale de la session</div>
+      <div id="finalScore" class="score">—</div>
+      <div id="finalText"></div>
+      <div style="margin-top:14px">
+        <button id="restartBtn" class="secondary">Recommencer une session</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section card">
+    <h2>Historique des mots ciblés</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Phrase</th><th>Mot</th><th>Réponse</th><th>Bonne réponse</th>
+            <th>Genre</th><th>Catégorie</th><th>Résultat</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+    <div id="historyEmpty" class="empty">Aucun mot répondu pour le moment.</div>
+  </section>
+
+  <section class="section card">
+    <h2>Sessions terminées</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Phrases</th><th>Mots</th><th>Mots réussis</th><th>Note</th></tr>
+        </thead>
+        <tbody id="sessionsBody"></tbody>
+      </table>
+    </div>
+    <div id="sessionsEmpty" class="empty">Aucune session terminée.</div>
+    <button id="clearSessionsBtn" class="secondary">Effacer l’historique des sessions</button>
+  </section>
+
+  <div class="footer">Les données sont conservées seulement dans ce navigateur.</div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const firstF = ["Léa","Emma","Chloé","Sophie","Maya","Alice","Zoé","Camille","Clara","Juliette"];
+const firstM = ["Thomas","Louis","Émile","Noah","Hugo","Félix","Léo","Arthur","Nathan","Gabriel"];
+const surnamesF = ["Tremblay","Roy","Bouchard","Gagnon","Côté"];
+const surnamesM = ["Lavoie","Fortin","Pelletier","Morin","Girard"];
+
+const cities = ["Montréal","Québec","Sherbrooke","Gatineau","Rimouski","Laval","Lévis","Saguenay"];
+const countriesM = ["Canada","Japon","Mexique","Brésil"];
+const countriesF = ["France","Belgique","Espagne","Italie"];
+const properPlural = [
+  {text:"Laurentides", gender:"féminin", category:"région"},
+  {text:"États-Unis", gender:"masculin", category:"pays"}
+];
+
+const nouns = {
+  animalM: [["chien","chiens"],["chat","chats"],["lapin","lapins"],["écureuil","écureuils"],["oiseau","oiseaux"]],
+  animalF: [["tortue","tortues"],["grenouille","grenouilles"]],
+  objectM: [["livre","livres"],["crayon","crayons"],["ballon","ballons"],["cahier","cahiers"],["sac","sacs"],["vélo","vélos"],["télescope","télescopes"],["manteau","manteaux"]],
+  objectF: [["carte","cartes"],["chaise","chaises"],["bouteille","bouteilles"],["photo","photos"],["balle","balles"],["planche","planches"]],
+  placeM: [["parc","parcs"],["jardin","jardins"],["marché","marchés"],["musée","musées"],["terrain","terrains"],["village","villages"]],
+  placeF: [["école","écoles"],["maison","maisons"],["bibliothèque","bibliothèques"],["rivière","rivières"],["forêt","forêts"],["librairie","librairies"]],
+  foodM: [["sandwich","sandwichs"],["gâteau","gâteaux"],["fruit","fruits"]],
+  foodF: [["pomme","pommes"],["carotte","carottes"],["soupe","soupes"],["collation","collations"]],
+  peopleM: [["parent","parents"],["grand-père","grands-pères"],["frère","frères"]],
+  peopleF: [["cousine","cousines"],["sœur","sœurs"],["famille","familles"]],
+  natureM: [["arbre","arbres"],["fleuve","fleuves"],["lac","lacs"]],
+  natureF: [["fleur","fleurs"],["étoile","étoiles"],["lune","lunes"]],
+  schoolM: [["devoir","devoirs"],["pupitre","pupitres"]],
+  schoolF: [["classe","classes"],["histoire","histoires"],["leçon","leçons"],["récréation","récréations"]]
+};
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function pickDifferent(arr, notValue){
+  const filtered = arr.filter(x => x !== notValue);
+  return pick(filtered.length ? filtered : arr);
+}
+function noun(group, number="singulier"){
+  const p = pick(nouns[group]);
+  const gender = group.endsWith("F") ? "féminin" : "masculin";
+  return {text:number==="singulier"?p[0]:p[1], gender};
+}
+function N(text,type,number,gender,category){
+  return {text,target:true,type,number,gender,category:category||""};
+}
+function T(text){ return {text,target:false}; }
+function PN(text,gender,category,number="singulier"){
+  return N(text,"propre",number,gender,category);
+}
+function CN(obj,number,category="nom commun"){
+  return N(obj.text,"commun",number,obj.gender,category);
+}
+function city(){
+  return PN(pick(cities),"non évalué","ville");
+}
+function firstNameF(){ return PN(pick(firstF),"féminin","prénom"); }
+function firstNameM(){ return PN(pick(firstM),"masculin","prénom"); }
+function surnameF(){ return PN(pick(surnamesF),"féminin","nom de famille"); }
+function surnameM(){ return PN(pick(surnamesM),"masculin","nom de famille"); }
+function countryM(){ return PN(pick(countriesM),"masculin","pays"); }
+function countryF(){ return PN(pick(countriesF),"féminin","pays"); }
+
+// Banque de contenus rédigés à la main pour préserver la cohérence.
+function P(text, gender, category="prénom", number="singulier"){
+  return N(text,"propre",number,gender,category);
+}
+function C(text, gender, number="singulier", category="nom commun"){
+  return N(text,"commun",number,gender,category);
+}
+function makeActivity(level, kind, parts, answer=""){
+  return {level, kind, parts, answer};
+}
+
+const activities = [
+  // NIVEAU 1
+  makeActivity(1,"phrase",[
+    P("Léa","féminin"),T(" nourrit son "),C("chat","masculin"),T(" avant de partir pour l’"),C("école","féminin"),T(".")
+  ]),
+  makeActivity(1,"phrase",[
+    P("Hugo","masculin"),T(" range ses "),C("livres","masculin","pluriel"),T(" dans son "),C("sac","masculin"),T(".")
+  ]),
+  makeActivity(1,"phrase",[
+    T("À "),P("Montréal","non évalué","ville"),T(", "),P("Emma","féminin"),T(" joue au "),C("parc","masculin"),T(" avec son "),C("frère","masculin"),T(".")
+  ]),
+  makeActivity(1,"phrase",[
+    P("Noah","masculin"),T(" observe trois "),C("oiseaux","masculin","pluriel"),T(" dans un "),C("arbre","masculin"),T(".")
+  ]),
+  makeActivity(1,"phrase",[
+    P("Zoé","féminin"),T(" prépare des "),C("pommes","féminin","pluriel"),T(" pour la "),C("collation","féminin"),T(".")
+  ]),
+  makeActivity(1,"phrase",[
+    P("Arthur","masculin"),T(" apporte un "),C("ballon","masculin"),T(" sur le "),C("terrain","masculin"),T(".")
+  ]),
+  makeActivity(1,"devinette",[
+    P("Émile","masculin"),T(" pense à un "),C("animal","masculin"),T(" qui porte sa "),C("maison","féminin"),T(" sur son dos. Quel animal est-ce ?")
+  ],"L’escargot"),
+  makeActivity(1,"devinette",[
+    P("Maya","féminin"),T(" cherche un "),C("fruit","masculin"),T(" jaune que l’on pèle avant de le manger. Quel fruit est-ce ?")
+  ],"La banane"),
+  makeActivity(1,"devinette",[
+    T("Dans la "),C("classe","féminin"),T(", "),P("Louis","masculin"),T(" pense à un "),C("objet","masculin"),T(" qui sert à écrire et qui a souvent une gomme. Quel objet est-ce ?")
+  ],"Le crayon"),
+
+  // NIVEAU 2
+  makeActivity(2,"phrase",[
+    P("Camille","féminin"),T(" et "),P("Thomas","masculin"),T(" visitent "),P("Québec","non évalué","ville"),
+    T(" avec leurs "),C("parents","masculin","pluriel"),T(" et prennent plusieurs "),C("photos","féminin","pluriel"),T(".")
+  ]),
+  makeActivity(2,"phrase",[
+    T("Madame "),P("Tremblay","non évalué","nom de famille"),T(" distribue des "),C("cahiers","masculin","pluriel"),
+    T(" et des "),C("crayons","masculin","pluriel"),T(" aux "),C("élèves","masculin","pluriel"),T(".")
+  ]),
+  makeActivity(2,"phrase",[
+    P("Clara","féminin"),T(" lit un "),C("livre","masculin"),T(" sur le "),P("Canada","masculin","pays"),
+    T(" pendant que son "),C("chien","masculin"),T(" dort près de la "),C("fenêtre","féminin"),T(".")
+  ]),
+  makeActivity(2,"phrase",[
+    T("À "),P("Sherbrooke","non évalué","ville"),T(", "),P("Félix","masculin"),T(" observe des "),
+    C("canards","masculin","pluriel"),T(" près de la "),C("rivière","féminin"),T(" avec sa "),C("sœur","féminin"),T(".")
+  ]),
+  makeActivity(2,"phrase",[
+    P("Alice","féminin"),T(" écrit une "),C("carte","féminin"),T(" à "),P("Juliette","féminin"),
+    T(", qui passe ses "),C("vacances","féminin","pluriel"),T(" en "),P("France","féminin","pays"),T(".")
+  ]),
+  makeActivity(2,"devinette",[
+    T("À "),P("Gatineau","non évalué","ville"),T(", "),P("Nathan","masculin"),T(" cherche un "),
+    C("animal","masculin"),T(" roux qui grimpe aux "),C("arbres","masculin","pluriel"),
+    T(" et cache parfois des noix. Quel animal est-ce ?")
+  ],"L’écureuil"),
+  makeActivity(2,"devinette",[
+    P("Sophie","féminin"),T(" pense à un "),C("lieu","masculin"),T(" rempli de "),
+    C("livres","masculin","pluriel"),T(" où l’on peut lire en silence. Quel lieu est-ce ?")
+  ],"La bibliothèque"),
+  makeActivity(2,"devinette",[
+    P("Gabriel","masculin"),T(" imagine un "),C("véhicule","masculin"),T(" qui roule sur des "),
+    C("rails","masculin","pluriel"),T(" et transporte des "),C("voyageurs","masculin","pluriel"),T(". Quel véhicule est-ce ?")
+  ],"Le train"),
+  makeActivity(2,"histoire",[
+    P("Léo","masculin"),T(" trouve une "),C("clé","féminin"),T(" dans la "),C("cour","féminin"),T(". "),
+    T("Il la remet à Madame "),P("Roy","non évalué","nom de famille"),T(", qui cherche le "),C("propriétaire","masculin"),T(".")
+  ]),
+  makeActivity(2,"histoire",[
+    P("Chloé","féminin"),T(" apporte une "),C("boîte","féminin"),T(" de "),
+    C("photos","féminin","pluriel"),T(" à son "),C("grand-père","masculin"),T(". "),
+    T("Ensemble, ils racontent des "),C("histoires","féminin","pluriel"),T(" de famille.")
+  ]),
+
+  // NIVEAU 3
+  makeActivity(3,"histoire",[
+    T("Pendant une visite à "),P("Rimouski","non évalué","ville"),T(", "),P("Maya","féminin"),
+    T(" aperçoit un "),C("phare","masculin"),T(" au bord du "),C("fleuve","masculin"),T(". "),
+    T("Son "),C("père","masculin"),T(" lui explique comment les "),C("navires","masculin","pluriel"),
+    T(" utilisaient autrefois cette lumière pour se guider.")
+  ]),
+  makeActivity(3,"histoire",[
+    T("Monsieur "),P("Lavoie","non évalué","nom de famille"),T(" apporte une grande "),C("carte","féminin"),
+    T(" dans la "),C("classe","féminin"),T(". "),P("Emma","féminin"),T(" repère le "),P("Canada","masculin","pays"),
+    T(", puis "),P("Noah","masculin"),T(" cherche le "),P("Japon","masculin","pays"),T(".")
+  ]),
+  makeActivity(3,"histoire",[
+    T("Dans les "),P("Laurentides","féminin","région","pluriel"),T(", "),P("Arthur","masculin"),
+    T(" marche avec sa "),C("famille","féminin"),T(" près d’un "),C("lac","masculin"),T(". "),
+    T("Ils découvrent des "),C("traces","féminin","pluriel"),T(" dans la "),C("boue","féminin"),
+    T(" et essaient de deviner quel animal est passé par là.")
+  ]),
+  makeActivity(3,"histoire",[
+    P("Zoé","féminin"),T(" prépare un petit "),C("journal","masculin"),T(" sur son voyage en "),P("Italie","féminin","pays"),T(". "),
+    T("Elle colle des "),C("photos","féminin","pluriel"),T(", dessine des "),C("monuments","masculin","pluriel"),
+    T(" et écrit le nom des "),C("villes","féminin","pluriel"),T(" qu’elle a visitées.")
+  ]),
+  makeActivity(3,"histoire",[
+    T("À "),P("Lévis","non évalué","ville"),T(", "),P("Émile","masculin"),T(" et "),P("Clara","féminin"),
+    T(" participent à une "),C("course","féminin"),T(" dans un "),C("parc","masculin"),T(". "),
+    T("Après l’arrivée, leurs "),C("parents","masculin","pluriel"),T(" leur offrent des "),C("collations","féminin","pluriel"),T(".")
+  ]),
+  makeActivity(3,"devinette",[
+    P("Thomas","masculin"),T(" cherche un "),C("pays","masculin"),T(" d’Amérique du Nord dont le "),
+    C("drapeau","masculin"),T(" porte une feuille d’érable rouge. Quel pays est-ce ?")
+  ],"Le Canada"),
+  makeActivity(3,"devinette",[
+    P("Juliette","féminin"),T(" pense à un "),C("métier","masculin"),T(". Cette "),C("personne","féminin"),
+    T(" soigne les "),C("animaux","masculin","pluriel"),T(" malades dans une "),C("clinique","féminin"),
+    T(". Quel métier est-ce ?")
+  ],"Vétérinaire"),
+  makeActivity(3,"devinette",[
+    T("Pendant un voyage aux "),P("États-Unis","masculin","pays","pluriel"),T(", "),P("Hugo","masculin"),
+    T(" visite un "),C("musée","masculin"),T(" et observe un "),C("squelette","masculin"),
+    T(" gigantesque avec de très grandes dents. De quel animal préhistorique pourrait-il s’agir ?")
+  ],"Un tyrannosaure"),
+  makeActivity(3,"devinette",[
+    P("Alice","féminin"),T(" voit des "),C("étoiles","féminin","pluriel"),T(" dans le "),
+    C("ciel","masculin"),T(" et utilise un "),C("télescope","masculin"),
+    T(". Quel métier étudie les astres et l’Univers ?")
+  ],"Astronome"),
+  makeActivity(3,"histoire",[
+    T("Madame "),P("Bouchard","non évalué","nom de famille"),T(" lance un "),C("défi","masculin"),
+    T(" à ses "),C("élèves","masculin","pluriel"),T(" : retrouver "),P("Montréal","non évalué","ville"),
+    T(" et "),P("Mexique","masculin","pays"),T(" sur une "),C("carte","féminin"),T(". "),
+    P("Louis","masculin"),T(" trouve d’abord la "),C("ville","féminin"),T(", puis le "),C("pays","masculin"),T(".")
+  ])
+];
+
+function generateSentence(mode){
+  const actualLevel = mode==="mix" ? (1+Math.floor(Math.random()*3)) : Number(mode);
+  currentLevel=actualLevel;
+  const bank=activities.filter(a=>a.level===actualLevel);
+  const chosen=pick(bank);
+  currentActivity={...chosen};
+  return chosen.parts;
+}
+let phraseNumber=1, currentSentence=[], targets=[], activeIndex=null;
+let selectedType=null, selectedNumber=null, history=[];
+let sessionFinished=false, phrasesShown=0;
+let difficultyMode=localStorage.getItem("noms3e_difficulty") || "1";
+let currentLevel=1;
+let currentActivity={kind:"phrase",answer:""};
+
+const $=id=>document.getElementById(id);
+const sentenceEl=$("sentence"), panel=$("answerPanel"), activeWord=$("activeWord");
+const validateBtn=$("validateBtn"), feedback=$("feedback"), nextBtn=$("nextBtn");
+const finishBtn=$("finishBtn"), finalBox=$("finalBox"), completionMsg=$("completionMsg");
+const activityBadge=$("activityBadge"), activityPrompt=$("activityPrompt"), riddleAnswer=$("riddleAnswer");
+
+function cap(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : "—"; }
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function phraseCompleted(){ return targets.length>0 && targets.every(t=>t.answered); }
+function updatePhraseState(){
+  const answered=targets.filter(t=>t.answered).length;
+  $("phraseProgress").textContent=`${answered} / ${targets.length}`;
+  const complete=phraseCompleted();
+  nextBtn.disabled=sessionFinished || !complete;
+  finishBtn.disabled=sessionFinished || !complete;
+  completionMsg.classList.toggle("hidden", !complete || sessionFinished);
+
+  if(complete && !sessionFinished && currentActivity.kind==="devinette" && currentActivity.answer){
+    riddleAnswer.innerHTML=`💡 Réponse à la devinette : <span class="answerWord">${escapeHtml(currentActivity.answer)}</span>`;
+    riddleAnswer.classList.remove("hidden");
+  }else{
+    riddleAnswer.classList.add("hidden");
+    riddleAnswer.innerHTML="";
+  }
+}
+
+function renderSentence(){
+  sentenceEl.innerHTML="";
+  targets=[]; activeIndex=null; selectedType=null; selectedNumber=null;
+  panel.classList.add("hidden"); feedback.innerHTML="";
+  completionMsg.classList.add("hidden");
+  riddleAnswer.classList.add("hidden");
+  riddleAnswer.innerHTML="";
+
+  const kindInfo={
+    phrase:["💬 Phrase","Lis attentivement avant de classer les noms."],
+    devinette:["🧩 Devinette","Classe les noms, puis découvre la réponse à la devinette."],
+    histoire:["📖 Mini-histoire","Suis l’histoire et repère les caractéristiques des noms."]
+  };
+  const info=kindInfo[currentActivity.kind] || kindInfo.phrase;
+  activityBadge.textContent=info[0];
+  activityPrompt.textContent=info[1];
+
+  currentSentence.forEach(part=>{
+    if(part.target){
+      const index=targets.length;
+      targets.push({...part,answered:false});
+      const span=document.createElement("span");
+      span.className="target"; span.textContent=part.text; span.tabIndex=0;
+      span.dataset.index=index; span.setAttribute("role","button");
+      span.setAttribute("aria-label","Analyser le nom "+part.text);
+      span.addEventListener("click",()=>openTarget(index));
+      span.addEventListener("keydown",e=>{
+        if(e.key==="Enter"||e.key===" "){e.preventDefault();openTarget(index);}
+      });
+      sentenceEl.appendChild(span);
+    }else sentenceEl.appendChild(document.createTextNode(part.text));
+  });
+
+  $("phraseNo").textContent=phraseNumber;
+  $("currentLevel").textContent=currentLevel;
+  phrasesShown=Math.max(phrasesShown,phraseNumber);
+  updatePhraseState();
+}
+
+function openTarget(index){
+  if(sessionFinished || !targets[index]) return;
+  activeIndex=index; selectedType=null; selectedNumber=null;
+  document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
+  validateBtn.disabled=true; feedback.innerHTML="";
+  activeWord.textContent=targets[index].text;
+  $("wordHint").textContent=targets[index].answered
+    ? "Ce mot a déjà été corrigé."
+    : "Choisis les deux caractéristiques du nom.";
+  panel.classList.remove("hidden");
+
+  if(targets[index].answered){
+    showStoredFeedback(targets[index]);
+  }else{
+    panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+}
+
+function choose(group,value,btn){
+  if(activeIndex===null || !targets[activeIndex] || targets[activeIndex].answered) return;
+  if(group==="type"){
+    selectedType=value;
+    document.querySelectorAll(".typeChoice").forEach(b=>b.classList.remove("selected"));
+  }else{
+    selectedNumber=value;
+    document.querySelectorAll(".numberChoice").forEach(b=>b.classList.remove("selected"));
+  }
+  btn.classList.add("selected");
+  validateBtn.disabled=!(selectedType&&selectedNumber);
+}
+document.querySelectorAll(".typeChoice").forEach(btn=>btn.addEventListener("click",()=>choose("type",btn.dataset.value,btn)));
+document.querySelectorAll(".numberChoice").forEach(btn=>btn.addEventListener("click",()=>choose("number",btn.dataset.value,btn)));
+
+validateBtn.addEventListener("click",()=>{
+  if(activeIndex===null || !selectedType || !selectedNumber) return;
+  const item=targets[activeIndex];
+  if(!item || item.answered) return;
+
+  const allOK=selectedType===item.type && selectedNumber===item.number;
+  item.answered=true; item.userType=selectedType; item.userNumber=selectedNumber; item.allOK=allOK;
+
+  const spans=sentenceEl.querySelectorAll(".target");
+  if(spans[activeIndex]) spans[activeIndex].classList.add("done",allOK?"correct":"wrong");
+
+  history.push({
+    phrase:phraseNumber,word:item.text,userType:selectedType,userNumber:selectedNumber,
+    correctType:item.type,correctNumber:item.number,gender:item.gender,
+    category:item.category||"nom commun",allOK
+  });
+
+  showStoredFeedback(item);
+  renderHistory(); updateScore(); updatePhraseState();
+
+  // Sécurité additionnelle : le bouton est recalculé après le rafraîchissement du DOM.
+  requestAnimationFrame(updatePhraseState);
+});
+
+function showStoredFeedback(item){
+  const div=document.createElement("div");
+  div.className="feedback "+(item.allOK?"good":"bad");
+  const genre=item.gender==="non évalué" ? "genre non évalué pour cette ville" : `genre <b>${item.gender}</b>`;
+  const cat=item.type==="propre" && item.category ? `, catégorie <b>${item.category}</b>` : "";
+  div.innerHTML=item.allOK
+    ? `✅ Bravo ! <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}${cat}.`
+    : `❌ Correction : <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}${cat}.`;
+  feedback.innerHTML=""; feedback.appendChild(div);
+}
+
+function renderHistory(){
+  const body=$("historyBody"); body.innerHTML="";
+  $("historyEmpty").style.display=history.length?"none":"block";
+  history.forEach(h=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${h.phrase}</td>
+      <td><b>${escapeHtml(h.word)}</b></td>
+      <td>${cap(h.userType)} + ${cap(h.userNumber)}</td>
+      <td>${cap(h.correctType)} + ${cap(h.correctNumber)}</td>
+      <td>${cap(h.gender)}</td>
+      <td>${escapeHtml(h.category||"nom commun")}</td>
+      <td class="${h.allOK?"ok":"no"}">${h.allOK?"✓ Réussi":"✗ Erreur"}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function updateScore(){
+  const attempted=history.length, good=history.filter(h=>h.allOK).length;
+  $("attemptCount").textContent=attempted; $("goodCount").textContent=good;
+  $("liveScore").textContent=attempted?Math.round(good/attempted*100)+" %":"—";
+}
+
+nextBtn.addEventListener("click",()=>{
+  // On recalcule au clic pour éviter qu'un état visuel périmé bloque la suite.
+  if(sessionFinished) return;
+  if(!phraseCompleted()){ updatePhraseState(); return; }
+  phraseNumber++;
+  currentSentence=generateSentence(difficultyMode);
+  renderSentence();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+finishBtn.addEventListener("click",finishSession);
+
+function finishSession(){
+  if(sessionFinished || !phraseCompleted()){
+    updatePhraseState();
+    return;
+  }
+  sessionFinished=true;
+  panel.classList.add("hidden"); completionMsg.classList.add("hidden");
+  nextBtn.disabled=true; finishBtn.disabled=true;
+
+  const attempted=history.length, good=history.filter(h=>h.allOK).length;
+  const percent=attempted?Math.round(good/attempted*100):0;
+  $("finalScore").textContent=attempted?percent+" %":"Aucune réponse";
+  $("finalText").textContent=attempted
+    ? `${good} mot${good>1?"s":""} réussi${good>1?"s":""} sur ${attempted} mot${attempted>1?"s":""} essayé${attempted>1?"s":""}.`
+    : "Essaie quelques mots lors de la prochaine session.";
+  finalBox.classList.remove("hidden");
+
+  if(attempted){
+    const sessions=loadSessions();
+    sessions.unshift({date:new Date().toLocaleString("fr-CA"),phrases:phrasesShown,words:attempted,good,percent});
+    saveSessions(sessions.slice(0,50)); renderSessions();
+  }
+  finalBox.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+$("restartBtn").addEventListener("click",()=>{
+  phraseNumber=1;history=[];phrasesShown=0;sessionFinished=false;
+  finishBtn.disabled=true;finalBox.classList.add("hidden");
+  currentSentence=generateSentence(difficultyMode);
+  $("difficultyNote").textContent = difficultyMode==="mix"
+    ? "Mode mélange : chaque nouvelle activité sera choisie au hasard parmi les niveaux 1, 2 et 3, avec phrases, devinettes et mini-histoires."
+    : `Niveau ${difficultyMode} sélectionné.`;
+  renderHistory();updateScore();renderSentence();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+function loadSessions(){
+  try{return JSON.parse(localStorage.getItem("noms3e_sessions")||"[]");}
+  catch(e){return [];}
+}
+function saveSessions(arr){localStorage.setItem("noms3e_sessions",JSON.stringify(arr));}
+function renderSessions(){
+  const sessions=loadSessions(),body=$("sessionsBody");body.innerHTML="";
+  $("sessionsEmpty").style.display=sessions.length?"none":"block";
+  sessions.forEach(s=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${escapeHtml(s.date)}</td><td>${s.phrases}</td><td>${s.words}</td><td>${s.good}</td><td><b>${s.percent} %</b></td>`;
+    body.appendChild(tr);
+  });
+}
+$("clearSessionsBtn").addEventListener("click",()=>{
+  if(confirm("Effacer l’historique des sessions terminées ?")){
+    localStorage.removeItem("noms3e_sessions");renderSessions();
+  }
+});
+
+
+function applyDifficultyUI(){
+  document.querySelectorAll(".difficultyBtn").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.mode===difficultyMode);
+  });
+}
+document.querySelectorAll(".difficultyBtn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    difficultyMode=btn.dataset.mode;
+    localStorage.setItem("noms3e_difficulty",difficultyMode);
+    applyDifficultyUI();
+
+    const answeredHere=targets.some(t=>t.answered);
+    if(!answeredHere && !sessionFinished){
+      currentSentence=generateSentence(difficultyMode);
+      renderSentence();
+      $("difficultyNote").textContent = difficultyMode==="mix"
+        ? "Mode mélange : chaque nouvelle activité sera choisie au hasard parmi les niveaux 1, 2 et 3, avec phrases, devinettes et mini-histoires."
+        : `Niveau ${difficultyMode} sélectionné. La phrase a été adaptée immédiatement.`;
+    }else{
+      $("difficultyNote").textContent = difficultyMode==="mix"
+        ? "Mode mélange sélectionné. Il s’appliquera à la prochaine phrase."
+        : `Niveau ${difficultyMode} sélectionné. Il s’appliquera à la prochaine phrase.`;
+    }
+  });
+});
+
+applyDifficultyUI();
+currentSentence=generateSentence(difficultyMode);
+renderSentence();renderHistory();renderSessions();updateScore();
+})();
+</script>
+</body>
+</html>
