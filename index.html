@@ -20,51 +20,65 @@ body{
   margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);
   background:linear-gradient(180deg,#eef3ff 0,#f9fbff 260px,#f6f8fc 100%);
 }
-.wrap{max-width:1120px;margin:auto;padding:22px}
+.wrap{max-width:1180px;margin:auto;padding:10px 14px}
 .card{
   background:var(--card);border:1px solid var(--border);border-radius:22px;
   box-shadow:0 8px 24px rgba(31,42,68,.06)
 }
-.hero{padding:24px 28px}
-h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)}
-.subtitle{font-size:17px;line-height:1.5;color:var(--muted)}
-.statusbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.hero{padding:12px 18px}
+h1{margin:0 0 4px;font-size:clamp(22px,2.8vw,30px)}
+.subtitle{font-size:13px;line-height:1.3;color:var(--muted)}
+.statusbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .difficultyBox{
-  margin-top:18px;padding:14px 16px;border:1px solid var(--border);
-  border-radius:16px;background:#fbfcff
+  margin-top:8px;padding:8px 10px;border:1px solid var(--border);
+  border-radius:12px;background:#fbfcff
 }
-.difficultyTitle{font-weight:850;margin-bottom:9px}
-.difficultyChoices{display:flex;gap:9px;flex-wrap:wrap}
+.difficultyTitle{font-weight:850;margin-bottom:5px;font-size:13px}
+.difficultyChoices{display:flex;gap:6px;flex-wrap:wrap}
 .difficultyBtn{
   background:#eef2ff;color:#3049a1;border:2px solid #cfd8ff;
-  padding:9px 13px
+  padding:6px 10px
 }
 .difficultyBtn.active{
   background:#4767d7;color:white;border-color:#4767d7
 }
-.difficultyNote{margin-top:8px;color:var(--muted);font-size:13px}
+.difficultyNote{margin-top:5px;color:var(--muted);font-size:11px}
 
 .pill{
-  padding:8px 12px;border-radius:999px;background:#f2f4f7;
-  border:1px solid var(--border);font-weight:800
+  padding:5px 9px;border-radius:999px;background:#f2f4f7;
+  border:1px solid var(--border);font-weight:800;font-size:12px
 }
-.lesson{margin-top:18px;padding:24px}
+.lesson{margin-top:8px;padding:10px 12px}
 .instruction{
-  background:#fffaf0;border:1px solid #f1d789;border-radius:14px;
-  padding:12px 14px;line-height:1.5;margin-bottom:18px
+  background:#fffaf0;border:1px solid #f1d789;border-radius:10px;
+  padding:7px 10px;line-height:1.3;margin-bottom:8px;font-size:12px
 }
 .activityRow{
-  display:flex;justify-content:center;align-items:center;gap:10px;
-  flex-wrap:wrap;margin-bottom:12px
+  display:flex;justify-content:center;align-items:center;gap:7px;
+  flex-wrap:wrap;margin-bottom:6px
 }
 .activityBadge{
   display:inline-flex;align-items:center;gap:7px;
-  padding:7px 12px;border-radius:999px;font-weight:850;
+  padding:5px 9px;border-radius:999px;font-weight:850;font-size:12px;
   background:#fff8df;color:#805500;border:1px solid #ead38a
 }
 .activityPrompt{
-  color:var(--muted);font-size:14px;text-align:center
+  color:var(--muted);font-size:12px;text-align:center
 }
+.lessonGrid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(300px,1fr);
+  gap:12px;
+  align-items:start;
+}
+.leftPane,.rightPane{min-width:0}
+.rightPane .panel{margin-top:0;position:sticky;top:8px}
+.panelEmpty{
+  color:var(--muted);font-size:11px;margin-bottom:7px;
+  padding:6px 8px;border:1px dashed var(--border);
+  border-radius:9px;background:#fbfcff
+}
+
 .riddleAnswer{
   margin-top:14px;padding:14px 16px;border-radius:14px;
   background:#fff8df;border:1px solid #ead38a;text-align:center;
@@ -75,9 +89,9 @@ h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)}
 }
 
 .sentence{
-  min-height:145px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
-  gap:6px;font-size:clamp(20px,2.8vw,30px);line-height:1.55;text-align:center;
-  padding:22px;border:2px dashed #c8d3ec;border-radius:20px;background:#fbfcff
+  min-height:76px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:4px;font-size:clamp(17px,2vw,22px);line-height:1.3;text-align:center;
+  padding:9px 12px;border:2px dashed #c8d3ec;border-radius:14px;background:#fbfcff
 }
 .target{
   position:relative;display:inline-block;cursor:pointer;font-weight:850;
@@ -92,32 +106,58 @@ h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px)}
 .target.correct{background:var(--goodbg);border-bottom-color:var(--good)}
 .target.wrong{background:var(--badbg);border-bottom-color:var(--bad)}
 .completion{
-  margin-top:14px;text-align:center;padding:11px 14px;border-radius:12px;
-  background:var(--goodbg);color:var(--good);font-weight:850
+  margin-top:6px;text-align:center;padding:6px 9px;border-radius:9px;
+  background:var(--goodbg);color:var(--good);font-weight:850;font-size:12px
 }
 .hidden{display:none!important}
 .panel{
-  margin-top:20px;padding:20px;background:#fcfdff;border:1px solid var(--border);
-  border-radius:18px
+  margin-top:0;padding:10px 12px;background:#fcfdff;border:1px solid var(--border);
+  border-radius:12px
 }
-.wordTitle{font-size:25px;font-weight:850;margin-bottom:5px}
-.wordMeta{color:var(--muted);margin-bottom:14px;font-size:14px}
-.groups{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.group{background:white;border:1px solid var(--border);border-radius:14px;padding:14px}
-.group h3{margin:0 0 10px;font-size:16px}
-.choices{display:flex;gap:10px;flex-wrap:wrap}
+.wordTitle{font-size:18px;font-weight:850;margin-bottom:2px}
+.wordMeta{color:var(--muted);margin-bottom:7px;font-size:11px}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.group{background:white;border:1px solid var(--border);border-radius:10px;padding:8px 10px}
+.group h3{margin:0 0 5px;font-size:13px}
+.choices{display:flex;gap:6px;flex-wrap:wrap}
 button{
-  font:inherit;border:0;border-radius:12px;padding:11px 16px;font-weight:850;cursor:pointer
+  font:inherit;border:0;border-radius:10px;padding:7px 11px;font-weight:850;cursor:pointer
 }
 .choice{background:#eef2ff;color:#3049a1;border:2px solid #cfd8ff}
 .choice:hover{background:#e2e8ff}
 .choice.selected{background:#4767d7;color:#fff;border-color:#4767d7}
-.validate{background:#243b84;color:#fff;margin-top:16px}
+.validate{background:#243b84;color:#fff;margin-top:7px}
 button:disabled{opacity:.42;cursor:not-allowed}
-.feedback{margin-top:14px;padding:13px 15px;border-radius:12px;font-weight:750;line-height:1.5}
+.feedback{margin-top:7px;padding:7px 9px;border-radius:9px;font-weight:750;line-height:1.3;font-size:12px}
 .feedback.good{background:var(--goodbg);color:var(--good)}
 .feedback.bad{background:var(--badbg);color:var(--bad)}
-.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.exactCategory{
+  margin-top:6px;padding:6px 8px;border-radius:9px;
+  background:#f4f7ff;border:1px solid #cbd7ff;
+  font-size:12px;font-weight:800;color:#243b84
+}
+
+.phraseSummary{
+  margin-top:7px;padding:7px 9px;border:1px solid var(--border);
+  border-radius:10px;background:#fff
+}
+.phraseSummaryTitle{font-size:11px;font-weight:850;color:var(--muted);margin-bottom:5px}
+.resultChips{display:flex;gap:5px;flex-wrap:wrap}
+.resultChip{
+  display:inline-flex;align-items:center;gap:4px;padding:4px 7px;
+  border-radius:999px;font-size:11px;font-weight:750;
+  border:1px solid var(--border);background:#f8f9fc
+}
+.resultChip.good{background:var(--goodbg);color:var(--good);border-color:#b7dfc6}
+.resultChip.bad{background:var(--badbg);color:var(--bad);border-color:#f3c0ba}
+.resultChip.pending{background:var(--accentLight);color:#3550a5}
+.compactRiddle{
+  margin-top:6px;padding:6px 8px;border-radius:9px;
+  background:#fff8df;border:1px solid #ead38a;
+  font-size:12px;font-weight:800;text-align:center
+}
+
+.actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 .next{background:#4767d7;color:white}
 .finish{background:#172554;color:white}
 .secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
@@ -128,24 +168,33 @@ button:disabled{opacity:.42;cursor:not-allowed}
 }
 .buttonLink:hover{background:#e5e9f0}
 .final{
-  margin-top:18px;padding:22px;border-radius:18px;background:#f4f7ff;
+  margin-top:8px;padding:10px 12px;border-radius:12px;background:#f4f7ff;
   border:2px solid #cbd7ff;text-align:center
 }
-.score{font-size:42px;font-weight:900;margin:6px 0}
-.section{margin-top:18px;padding:22px}
-h2{margin:0 0 14px}
+.score{font-size:28px;font-weight:900;margin:2px 0}
+.section{margin-top:10px;padding:12px 14px}
+h2{margin:0 0 8px;font-size:20px}
 .tablewrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:10px 9px;border-bottom:1px solid #e7eaf0;text-align:left;vertical-align:top}
 th{background:#f8f9fc}
 .ok{color:var(--good);font-weight:850}.no{color:var(--bad);font-weight:850}
 .empty{color:var(--muted);padding:12px 0}
-.small{font-size:13px;color:var(--muted)}
+.small{font-size:11px;color:var(--muted)}
 .footer{text-align:center;color:var(--muted);font-size:13px;padding:22px 0 10px}
+@media(max-width:920px){
+  .lessonGrid{grid-template-columns:1fr}
+  .rightPane .panel{position:static}
+}
 @media(max-width:720px){
-  .groups{grid-template-columns:1fr}
-  .wrap{padding:12px}.hero,.lesson,.section{padding:17px}
-  .sentence{min-height:110px;font-size:clamp(19px,5vw,26px)}
+  .groups{grid-template-columns:1fr 1fr;gap:6px}
+  .wrap{padding:6px}.hero,.lesson,.section{padding:9px}
+  .sentence{min-height:70px;font-size:clamp(16px,4.2vw,21px);padding:8px}
+  .subtitle{display:none}
+  .difficultyNote{display:none}
+  .instruction{font-size:11px}
+  .group{padding:6px}
+  .choice{padding:6px 8px}
 }
 </style>
 </head>
@@ -187,45 +236,55 @@ th{background:#f8f9fc}
       <b>« cartes » = nom commun + pluriel</b>.
     </div>
 
-    <div class="activityRow">
-      <div id="activityBadge" class="activityBadge">💬 Phrase</div>
-      <div id="activityPrompt" class="activityPrompt">Lis attentivement avant de classer les noms.</div>
-    </div>
-    <div id="sentence" class="sentence" aria-live="polite"></div>
-    <div id="riddleAnswer" class="riddleAnswer hidden"></div>
-    <div id="completionMsg" class="completion hidden">
-      ✓ Phrase terminée ! Tu peux maintenant choisir <b>Autre phrase</b> ou <b>Terminer</b>.
-    </div>
-
-    <div id="answerPanel" class="panel hidden">
-      <div class="wordTitle">Mot : <span id="activeWord"></span></div>
-      <div class="wordMeta" id="wordHint">Choisis les deux caractéristiques du nom.</div>
-
-      <div class="groups">
-        <div class="group">
-          <h3>1. Quel type de nom ?</h3>
-          <div class="choices">
-            <button class="choice typeChoice" data-value="propre">Propre</button>
-            <button class="choice typeChoice" data-value="commun">Commun</button>
-          </div>
+    <div class="lessonGrid">
+      <div class="leftPane">
+        <div class="activityRow">
+          <div id="activityBadge" class="activityBadge">💬 Phrase</div>
+          <div id="activityPrompt" class="activityPrompt">Lis attentivement avant de classer les noms.</div>
         </div>
-        <div class="group">
-          <h3>2. Quel nombre ?</h3>
-          <div class="choices">
-            <button class="choice numberChoice" data-value="singulier">Singulier</button>
-            <button class="choice numberChoice" data-value="pluriel">Pluriel</button>
-          </div>
+        <div id="sentence" class="sentence" aria-live="polite"></div>
+        <div id="completionMsg" class="completion hidden">
+          ✓ Phrase terminée ! Tu peux maintenant choisir <b>Autre phrase</b> ou <b>Terminer</b>.
+        </div>
+
+        <div id="phraseSummary" class="phraseSummary">
+          <div class="phraseSummaryTitle">Résultats de la phrase</div>
+          <div id="phraseResults" class="resultChips"></div>
+          <div id="riddleAnswer" class="compactRiddle hidden"></div>
         </div>
       </div>
 
-      <button id="validateBtn" class="validate" disabled>Vérifier ma réponse</button>
-      <div id="feedback"></div>
+      <div class="rightPane">
+        <div id="answerPanel" class="panel">
+          <div id="panelEmpty" class="panelEmpty">Clique sur un mot en bleu. Le <b>type précis</b> sera affiché seulement après la vérification.</div>
+          <div class="wordTitle">Mot : <span id="activeWord"></span></div>
+          <div class="wordMeta" id="wordHint">Choisis les deux caractéristiques du nom.</div>
+
+          <div class="groups">
+            <div class="group">
+              <h3>1. Quel type de nom ?</h3>
+              <div class="choices">
+                <button class="choice typeChoice" data-value="propre">Propre</button>
+                <button class="choice typeChoice" data-value="commun">Commun</button>
+              </div>
+            </div>
+            <div class="group">
+              <h3>2. Quel nombre ?</h3>
+              <div class="choices">
+                <button class="choice numberChoice" data-value="singulier">Singulier</button>
+                <button class="choice numberChoice" data-value="pluriel">Pluriel</button>
+              </div>
+            </div>
+          </div>
+
+          <button id="validateBtn" class="validate" disabled>Vérifier ma réponse</button>
+          <div id="feedback"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="small" style="text-align:center;margin-top:14px">
-      <b>Autre phrase</b> : passe à une autre activité. 
-      <b>Nouvelle session</b> : enregistre les réponses actuelles puis repart à zéro. 
-      <b>Terminer</b> : disponible dès qu’au moins un mot a été répondu.
+    <div class="small" style="text-align:center;margin-top:6px">
+      Autre phrase = même session · Nouvelle session = archive et repart à zéro · Terminer = clôture la session
     </div>
     <div class="actions">
       <button id="nextBtn" class="next">Autre phrase</button>
@@ -234,10 +293,10 @@ th{background:#f8f9fc}
     </div>
 
     <div id="finalBox" class="final hidden">
-      <div class="small">Note finale de la session</div>
-      <div id="finalScore" class="score">—</div>
+      <div>Note finale de la session</div>
+      <div id="finalScore" class="score">0 %</div>
       <div id="finalText"></div>
-      <div style="margin-top:14px">
+      <div style="margin-top:12px">
         <a id="restartLink" class="buttonLink" href="./">Nouvelle session</a>
       </div>
     </div>
@@ -275,7 +334,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Version 12 — Astres classés comme noms propres; « Terminer » disponible après une première réponse; « Nouvelle session » archive automatiquement la session en cours.</div>
+  <div class="footer">Version 16 — Nouvelles activités sur les espions fictifs, les mystères et le camping, avec catégories précises après correction.</div>
 </div>
 
 <script>
@@ -656,7 +715,98 @@ const activities = [
   makeActivity(3,"devinette",[
     T("Je suis le "),C("satellite","masculin"),T(" naturel de la "),P("Terre","féminin","planète"),
     T(" et j’influence fortement les "),C("marées","féminin","pluriel"),T(". Qui suis-je ?")
-  ],"La Lune")
+  ],"La Lune"),
+
+  // ---------------- ESPIONS ET MYSTÈRES ----------------
+  makeActivity(1,"devinette",[
+    P("Thierry","masculin"),T(" imagine un "),C("espion","masculin"),
+    T(" qui cherche un "),C("indice","masculin"),T(" dans une pièce. Que cherche-t-il ?")
+  ],"Un indice"),
+
+  makeActivity(1,"phrase",[
+    P("Maya","féminin"),T(" trouve une "),C("enveloppe","féminin"),
+    T(" contenant un "),C("message","masculin"),T(" mystérieux.")
+  ]),
+
+  makeActivity(2,"devinette",[
+    T("Un "),C("agent","masculin"),T(" secret découvre un "),C("carnet","masculin"),
+    T(" rempli de petits "),C("symboles","masculin","pluriel"),T(". Quel objet tient-il ?")
+  ],"Un carnet"),
+
+  makeActivity(2,"histoire",[
+    P("Thierry","masculin"),T(" joue à l’"),C("espion","masculin"),
+    T(" dans le "),C("salon","masculin"),T(". Il observe une "),C("empreinte","féminin"),
+    T(" dessinée sur une feuille et invente un "),C("mystère","masculin"),T(".")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que dans les "),C("histoires","féminin","pluriel"),
+    T(" d’espions, un "),C("indice","masculin"),T(" sert souvent à faire avancer le "),C("mystère","masculin"),T(" ?")
+  ]),
+
+  makeActivity(3,"devinette",[
+    T("Je suis un "),C("objet","masculin"),T(" grossissant qu’un détective peut utiliser pour examiner un petit "),
+    C("indice","masculin"),T(". Qui suis-je ?")
+  ],"Une loupe"),
+
+  makeActivity(3,"histoire",[
+    P("Émile","masculin"),T(" reçoit une "),C("mission","féminin"),
+    T(" imaginaire : retrouver trois "),C("indices","masculin","pluriel"),
+    T(" cachés dans une "),C("histoire","féminin"),T(". À la fin, il explique le "),C("mystère","masculin"),T(" à sa sœur.")
+  ]),
+
+  makeActivity(3,"devinette",[
+    P("Clara","féminin"),T(" lit un "),C("message","masculin"),
+    T(" dans une "),C("histoire","féminin"),T(" d’"),C("espions","masculin","pluriel"),
+    T(". Le message contient plusieurs signes à comprendre. Quel nom peut-on donner à ce système de signes ?")
+  ],"Un code"),
+
+  // ---------------- CAMPING ----------------
+  makeActivity(1,"phrase",[
+    P("Thierry","masculin"),T(" installe une "),C("tente","féminin"),
+    T(" près de la "),C("forêt","féminin"),T(" avec sa "),C("famille","féminin"),T(".")
+  ]),
+
+  makeActivity(1,"devinette",[
+    T("Je suis un "),C("abri","masculin"),T(" de toile que les "),C("campeurs","masculin","pluriel"),
+    T(" montent pour dormir dehors. Qui suis-je ?")
+  ],"Une tente"),
+
+  makeActivity(2,"phrase",[
+    P("Noah","masculin"),T(" range son "),C("sac de couchage","masculin"),
+    T(" et une "),C("lampe","féminin"),T(" dans la "),C("tente","féminin"),T(".")
+  ]),
+
+  makeActivity(2,"devinette",[
+    P("Zoé","féminin"),T(" suit un "),C("sentier","masculin"),
+    T(" en "),C("forêt","féminin"),T(" et utilise une "),C("boussole","féminin"),
+    T(" pour connaître une direction. Quel instrument utilise-t-elle ?")
+  ],"Une boussole"),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que pendant une nuit de "),C("camping","masculin"),
+    T(", loin des grandes "),C("villes","féminin","pluriel"),T(", on peut souvent voir davantage d’"),
+    C("étoiles","féminin","pluriel"),T(" dans le ciel ?")
+  ]),
+
+  makeActivity(3,"histoire",[
+    P("Thierry","masculin"),T(" part en "),C("camping","masculin"),
+    T(" près d’un "),C("lac","masculin"),T(". Après une "),C("randonnée","féminin"),
+    T(", il prépare son "),C("sac de couchage","masculin"),T(" et observe les "),
+    C("étoiles","féminin","pluriel"),T(" devant la "),C("tente","féminin"),T(".")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que les "),C("campeurs","masculin","pluriel"),
+    T(" peuvent utiliser une "),C("boussole","féminin"),
+    T(" pour s’orienter même lorsqu’aucun "),C("sentier","masculin"),T(" n’est clairement visible ?")
+  ]),
+
+  makeActivity(3,"devinette",[
+    T("Pendant une nuit de "),C("camping","masculin"),
+    T(", je brille dans le "),C("ciel","masculin"),T(" et j’aide parfois à reconnaître des "),
+    C("constellations","féminin","pluriel"),T(". Que suis-je ?")
+  ],"Une étoile")
 ];
 
 activities.forEach((activity,index)=>activity.id=index);
@@ -691,17 +841,131 @@ let currentLevel=1;
 let currentActivity={kind:"phrase",answer:""};
 
 const $=id=>document.getElementById(id);
-const sentenceEl=$("sentence"), panel=$("answerPanel"), activeWord=$("activeWord");
+const sentenceEl=$("sentence"), panel=$("answerPanel"), activeWord=$("activeWord"), panelEmpty=$("panelEmpty");
 const validateBtn=$("validateBtn"), feedback=$("feedback"), nextBtn=$("nextBtn");
 const finishBtn=$("finishBtn"), finalBox=$("finalBox"), completionMsg=$("completionMsg");
 const activityBadge=$("activityBadge"), activityPrompt=$("activityPrompt"), riddleAnswer=$("riddleAnswer");
+const phraseResults=$("phraseResults");
 
 function cap(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : "—"; }
 function escapeHtml(str){
   return String(str).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 }
+
+const commonCategoryMap = {
+  // animaux
+  "chat":"animal","chats":"animal","chien":"animal","chiens":"animal","lapin":"animal","lapins":"animal",
+  "écureuil":"animal","écureuils":"animal","oiseau":"animal","oiseaux":"animal","tortue":"animal","tortues":"animal",
+  "grenouille":"animal","grenouilles":"animal","canard":"animal","canards":"animal","ours":"animal","éléphant":"animal",
+  "colibri":"animal","papillon":"animal","poulpe":"animal","dauphins":"animal","chouette":"animal","requins":"animal",
+  "manchot":"animal","baleine":"animal","animal":"animal","animaux":"animal",
+
+  // objets / matériel
+  "livre":"objet","livres":"objet","crayon":"objet","crayons":"objet","ballon":"objet","ballons":"objet",
+  "cahier":"objet","cahiers":"objet","sac":"objet","sacs":"objet","vélo":"objet","vélos":"objet",
+  "télescope":"instrument","télescopes":"instrument","manteau":"vêtement","manteaux":"vêtement",
+  "carte":"objet","cartes":"objet","chaise":"objet","chaises":"objet","bouteille":"objet","bouteilles":"objet",
+  "photo":"objet","photos":"objet","balle":"objet","balles":"objet","planche":"objet","planches":"objet",
+  "clé":"objet","boîte":"objet","journal":"objet","boussole":"instrument","coffre":"objet",
+  "maquette":"objet","drapeau":"objet","objet":"objet","squelette":"partie du corps",
+
+  // lieux
+  "parc":"lieu","parcs":"lieu","jardin":"lieu","jardins":"lieu","marché":"lieu","marchés":"lieu",
+  "musée":"lieu","musées":"lieu","terrain":"lieu","terrains":"lieu","village":"lieu","villages":"lieu",
+  "école":"lieu","écoles":"lieu","maison":"lieu","maisons":"lieu","bibliothèque":"lieu","bibliothèques":"lieu",
+  "rivière":"cours d’eau","rivières":"cours d’eau","forêt":"milieu naturel","forêts":"milieu naturel",
+  "librairie":"lieu","librairies":"lieu","classe":"lieu","cour":"lieu","clinique":"lieu",
+  "lieu":"lieu","ville":"lieu","villes":"lieu","pays":"lieu","pôles":"région terrestre",
+
+  // aliments
+  "sandwich":"aliment","sandwichs":"aliment","gâteau":"aliment","gâteaux":"aliment","fruit":"aliment","fruits":"aliment",
+  "pomme":"aliment","pommes":"aliment","carotte":"aliment","carottes":"aliment","soupe":"aliment","soupes":"aliment",
+  "collation":"aliment","collations":"aliment",
+
+  // personnes / rôles / métiers
+  "parent":"personne","parents":"personnes","grand-père":"personne","grands-pères":"personnes",
+  "frère":"personne","frères":"personnes","cousine":"personne","cousines":"personnes","sœur":"personne","sœurs":"personnes",
+  "famille":"groupe de personnes","familles":"groupes de personnes","élève":"personne","élèves":"personnes",
+  "propriétaire":"personne","reporter":"métier","capitaine":"métier","professeur":"métier","inventeur":"métier",
+  "détectives":"métier","chanteuse":"métier","métier":"métier","personne":"personne","voyageurs":"personnes",
+
+  // nature / géographie
+  "arbre":"végétal","arbres":"végétal","fleuve":"cours d’eau","fleuves":"cours d’eau","lac":"étendue d’eau","lacs":"étendue d’eau",
+  "fleur":"végétal","fleurs":"végétal","étoile":"astre","étoiles":"astres","lune":"astre","lunes":"astres",
+  "phare":"construction","navires":"véhicules","traces":"indices","boue":"matière naturelle",
+  "océans":"étendues d’eau","eau":"matière naturelle","air":"matière naturelle","ciel":"élément naturel",
+  "roches":"matière naturelle","lave":"matière naturelle","magma":"matière naturelle",
+
+  // école / langage / abstrait
+  "devoir":"travail scolaire","devoirs":"travaux scolaires","pupitre":"mobilier","pupitres":"mobilier",
+  "histoire":"texte / récit","histoires":"textes / récits","leçon":"apprentissage","leçons":"apprentissages",
+  "récréation":"moment de la journée scolaire","récréations":"moments scolaires",
+  "défi":"activité","course":"activité","vacances":"période","anniversaire":"événement",
+
+  // phénomènes / sciences
+  "lumière":"phénomène physique","son":"phénomène physique","arc-en-ciel":"phénomène naturel",
+  "gouttes":"eau","flocons":"phénomène naturel","branches":"parties d’un cristal",
+  "marée":"phénomène naturel","marées":"phénomène naturel","aurores":"phénomène naturel",
+  "particules":"matière","mirage":"phénomène naturel","tremblement":"phénomène naturel",
+  "phénomène":"phénomène naturel","volcan":"relief naturel","planète":"astre","satellite":"astre",
+  "journée":"mesure du temps","année":"mesure du temps","anneaux":"structure planétaire",
+  "lunes":"astres","vents":"phénomène météorologique","cerveau":"organe","cœurs":"organes","yeux":"organes",
+  "tête":"partie du corps","peau":"organe","ailes":"parties du corps","pattes":"parties du corps",
+  "bras":"parties du corps","trompe":"partie du corps","chant":"son animal","couleur":"propriété",
+  "rails":"infrastructure","véhicule":"moyen de transport",
+
+  // mystère / espionnage fictif
+  "espion":"personne","espions":"personnes","agente":"personne","agent":"personne",
+  "agents":"personnes","indice":"indice","indices":"indices","message":"texte","messages":"textes",
+  "code":"système de signes","codes":"systèmes de signes","loupe":"instrument","loupes":"instruments",
+  "empreinte":"trace","empreintes":"traces","mystère":"énigme","mystères":"énigmes",
+  "mission":"activité","missions":"activités","dossier":"document","dossiers":"documents",
+  "enveloppe":"objet","enveloppes":"objets","carnet":"objet","carnets":"objets",
+
+  // camping
+  "tente":"abri","tentes":"abris","camping":"activité","campements":"lieux",
+  "campeur":"personne","campeurs":"personnes","feu":"phénomène naturel","feux":"phénomènes naturels",
+  "sac de couchage":"objet","sacs de couchage":"objets","lampe":"objet","lampes":"objets",
+  "boussole":"instrument","boussoles":"instruments","sentier":"chemin","sentiers":"chemins",
+  "forêt":"milieu naturel","forêts":"milieux naturels","rivière":"cours d’eau","rivières":"cours d’eau",
+  "étoiles":"astres","étoile":"astre","bois":"matière naturelle","roche":"matière naturelle",
+  "roches":"matière naturelle","randonnée":"activité","randonnées":"activités",
+  "salon":"lieu","symboles":"signes","abri":"abri","constellations":"groupes d’astres"
+};
+
+function exactCategory(item){
+  if(!item) return "";
+  if(item.exactCategory) return item.exactCategory;
+  if(item.type==="propre"){
+    return item.category || "nom propre";
+  }
+  if(item.category && item.category!=="nom commun"){
+    return item.category;
+  }
+  return commonCategoryMap[String(item.text).toLowerCase()] || "nom commun";
+}
 function phraseCompleted(){ return targets.length>0 && targets.every(t=>t.answered); }
+
+function renderPhraseSummary(){
+  if(!phraseResults) return;
+  phraseResults.innerHTML="";
+  targets.forEach(t=>{
+    const chip=document.createElement("span");
+    chip.className="resultChip " + (t.answered ? (t.allOK ? "good" : "bad") : "pending");
+    if(t.answered){
+      const mark=t.allOK ? "✓" : "✗";
+      const precise=exactCategory(t);
+      chip.textContent=`${mark} ${t.text} · ${cap(t.type)} · ${cap(t.number)} · ${cap(precise)}`;
+      chip.title=`${t.text} : ${t.type}, ${t.number}, ${t.gender}, ${precise}`;
+    }else{
+      chip.textContent=`○ ${t.text}`;
+      chip.title="À répondre";
+    }
+    phraseResults.appendChild(chip);
+  });
+}
 function updatePhraseState(){
+  renderPhraseSummary();
   const answered=targets.filter(t=>t.answered).length;
   $("phraseProgress").textContent=`${answered} / ${targets.length}`;
   const complete=phraseCompleted();
@@ -721,7 +985,11 @@ function updatePhraseState(){
 function renderSentence(){
   sentenceEl.innerHTML="";
   targets=[]; activeIndex=null; selectedType=null; selectedNumber=null;
-  panel.classList.add("hidden"); feedback.innerHTML="";
+  feedback.innerHTML="";
+  if(panelEmpty) panelEmpty.style.display="block";
+  activeWord.textContent="";
+  $("wordHint").textContent="Choisis les deux caractéristiques du nom.";
+  panel.classList.remove("hidden");
   completionMsg.classList.add("hidden");
   riddleAnswer.classList.add("hidden");
   riddleAnswer.innerHTML="";
@@ -763,6 +1031,7 @@ function openTarget(index){
   activeIndex=index; selectedType=null; selectedNumber=null;
   document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
   validateBtn.disabled=true; feedback.innerHTML="";
+  if(panelEmpty) panelEmpty.style.display="none";
   activeWord.textContent=targets[index].text;
   $("wordHint").textContent=targets[index].answered
     ? "Ce mot a déjà été corrigé."
@@ -805,7 +1074,7 @@ validateBtn.addEventListener("click",()=>{
   history.push({
     phrase:phraseNumber,word:item.text,userType:selectedType,userNumber:selectedNumber,
     correctType:item.type,correctNumber:item.number,gender:item.gender,
-    category:item.category||"nom commun",allOK
+    category:item.category||"nom commun",exactCategory:exactCategory(item),allOK
   });
 
   showStoredFeedback(item);
@@ -819,11 +1088,18 @@ function showStoredFeedback(item){
   const div=document.createElement("div");
   div.className="feedback "+(item.allOK?"good":"bad");
   const genre=item.gender==="non évalué" ? "genre non évalué pour cette ville" : `genre <b>${item.gender}</b>`;
-  const cat=item.type==="propre" && item.category ? `, catégorie <b>${item.category}</b>` : "";
+  const precise=exactCategory(item);
   div.innerHTML=item.allOK
-    ? `✅ Bravo ! <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}${cat}.`
-    : `❌ Correction : <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}${cat}.`;
-  feedback.innerHTML=""; feedback.appendChild(div);
+    ? `✅ Bravo ! <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}.`
+    : `❌ Correction : <b>${escapeHtml(item.text)}</b> est un nom <b>${item.type}</b>, <b>${item.number}</b>, ${genre}.`;
+
+  const detail=document.createElement("div");
+  detail.className="exactCategory";
+  detail.innerHTML=`Type précis : <b>${escapeHtml(precise)}</b>`;
+
+  feedback.innerHTML="";
+  feedback.appendChild(div);
+  feedback.appendChild(detail);
 }
 
 function renderHistory(){
@@ -837,7 +1113,7 @@ function renderHistory(){
       <td>${cap(h.userType)} + ${cap(h.userNumber)}</td>
       <td>${cap(h.correctType)} + ${cap(h.correctNumber)}</td>
       <td>${cap(h.gender)}</td>
-      <td>${escapeHtml(h.category||"nom commun")}</td>
+      <td>${escapeHtml(exactCategory(h))}</td>
       <td class="${h.allOK?"ok":"no"}">${h.allOK?"✓ Réussi":"✗ Erreur"}</td>`;
     body.appendChild(tr);
   });
@@ -886,7 +1162,10 @@ function finishSession(){
     return;
   }
   sessionFinished=true;
-  panel.classList.add("hidden"); completionMsg.classList.add("hidden");
+  if(panelEmpty) panelEmpty.style.display="block";
+  activeWord.textContent="";
+  $("wordHint").textContent="Choisis les deux caractéristiques du nom.";
+  panel.classList.remove("hidden"); completionMsg.classList.add("hidden");
   nextBtn.disabled=true; finishBtn.disabled=true;
 
   const attempted=history.length, good=history.filter(h=>h.allOK).length;
