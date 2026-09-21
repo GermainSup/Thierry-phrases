@@ -334,7 +334,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Version 16 — Nouvelles activités sur les espions fictifs, les mystères et le camping, avec catégories précises après correction.</div>
+  <div class="footer">Version 17 — Banque portée à 150 activités, avec forte expansion des animaux, oiseaux, poissons et noms des femelles.</div>
 </div>
 
 <script>
@@ -806,7 +806,376 @@ const activities = [
     T("Pendant une nuit de "),C("camping","masculin"),
     T(", je brille dans le "),C("ciel","masculin"),T(" et j’aide parfois à reconnaître des "),
     C("constellations","féminin","pluriel"),T(". Que suis-je ?")
-  ],"Une étoile")
+  ],"Une étoile"),
+
+  // ============================================================
+  // V17 — ANIMAUX : NOMS DES FEMELLES
+  // Ajout : 10 niveau 1, 10 niveau 2, 10 niveau 3 au thème animaux
+  // ============================================================
+
+  // --- Niveau 1 : noms de femelles familiers ---
+  makeActivity(1,"devinette",[
+    T("Le "),C("lion","masculin","singulier","animal"),
+    T(" est le mâle. Comment appelle-t-on sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La lionne"),
+
+  makeActivity(1,"devinette",[
+    T("Le "),C("cheval","masculin","singulier","animal"),
+    T(" est un animal bien connu. Comment appelle-t-on sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La jument"),
+
+  makeActivity(1,"devinette",[
+    T("Le "),C("coq","masculin","singulier","animal"),
+    T(" vit souvent avec sa "),C("femelle","féminin","singulier","animal"),T(". Quel est le nom de cette femelle ?")
+  ],"La poule"),
+
+  makeActivity(1,"devinette",[
+    T("Le "),C("taureau","masculin","singulier","animal"),
+    T(" est le mâle. Quel nom porte sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La vache"),
+
+  makeActivity(1,"devinette",[
+    T("Le "),C("loup","masculin","singulier","animal"),
+    T(" vit parfois en groupe. Comment appelle-t-on la "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La louve"),
+
+  makeActivity(1,"devinette",[
+    T("Le "),C("chien","masculin","singulier","animal"),
+    T(" est le mâle. Comment appelle-t-on la "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La chienne"),
+
+  // --- Niveau 1 : oiseaux et poissons ---
+  makeActivity(1,"savastu",[
+    T("Savais-tu que le "),C("manchot","masculin","singulier","oiseau"),
+    T(" est un "),C("oiseau","masculin","singulier","animal"),T(" qui nage très bien mais ne vole pas ?")
+  ]),
+
+  makeActivity(1,"devinette",[
+    T("Je suis un "),C("oiseau","masculin","singulier","animal"),
+    T(" qui frappe les "),C("arbres","masculin","pluriel","végétal"),
+    T(" avec mon bec pour chercher de la nourriture. Qui suis-je ?")
+  ],"Le pic"),
+
+  makeActivity(1,"savastu",[
+    T("Savais-tu que les "),C("poissons","masculin","pluriel","animal"),
+    T(" utilisent leurs "),C("branchies","féminin","pluriel","organe"),
+    T(" pour extraire de l’oxygène présent dans l’eau ?")
+  ]),
+
+  makeActivity(1,"devinette",[
+    T("Je suis un petit "),C("poisson","masculin","singulier","animal"),
+    T(" orange et blanc qui peut vivre près d’une "),C("anémone","féminin","singulier","animal marin"),T(". Qui suis-je ?")
+  ],"Le poisson-clown"),
+
+  // --- Niveau 2 : femelles moins évidentes ---
+  makeActivity(2,"devinette",[
+    T("Le "),C("canard","masculin","singulier","oiseau"),
+    T(" est le mâle. Comment appelle-t-on sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La cane"),
+
+  makeActivity(2,"devinette",[
+    T("Le "),C("cerf","masculin","singulier","animal"),
+    T(" est le mâle. Quel nom porte sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La biche"),
+
+  makeActivity(2,"devinette",[
+    T("Le "),C("bouc","masculin","singulier","animal"),
+    T(" est le mâle. Comment appelle-t-on sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La chèvre"),
+
+  makeActivity(2,"devinette",[
+    T("Le "),C("bélier","masculin","singulier","animal"),
+    T(" est le mâle. Comment appelle-t-on sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La brebis"),
+
+  // --- Niveau 2 : oiseaux ---
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("flamant","masculin","singulier","oiseau"),
+    T(" doit en partie sa "),C("couleur","féminin","singulier","propriété"),
+    T(" rose aux pigments présents dans sa nourriture ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que la "),C("chouette","féminin","singulier","oiseau"),
+    T(" possède des "),C("plumes","féminin","pluriel","partie du corps"),
+    T(" qui contribuent à rendre son vol très discret ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que l’"),C("autruche","féminin","singulier","oiseau"),
+    T(" est le plus grand "),C("oiseau","masculin","singulier","animal"),T(" vivant ?")
+  ]),
+
+  // --- Niveau 2 : poissons ---
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("requin","masculin","singulier","poisson"),
+    T(" possède un "),C("squelette","masculin","singulier","partie du corps"),
+    T(" fait surtout de cartilage plutôt que d’os ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que certains "),C("poissons","masculin","pluriel","animal"),
+    T(" appelés poissons volants peuvent sortir de l’"),C("eau","féminin","singulier","matière naturelle"),
+    T(" et planer sur une certaine distance ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("saumon","masculin","singulier","poisson"),
+    T(" peut parcourir une longue "),C("distance","féminin","singulier","mesure"),
+    T(" pour retourner vers la rivière où il est né ?")
+  ]),
+
+  // --- Niveau 3 : noms de femelles rares ---
+  makeActivity(3,"devinette",[
+    T("Le "),C("sanglier","masculin","singulier","animal"),
+    T(" est le mâle. Connais-tu le nom de sa "),C("femelle","féminin","singulier","animal"),T(" ?")
+  ],"La laie"),
+
+  makeActivity(3,"devinette",[
+    T("Le "),C("lièvre","masculin","singulier","animal"),
+    T(" est le mâle. Le nom de sa "),C("femelle","féminin","singulier","animal"),
+    T(" est peu connu. Quel est-il ?")
+  ],"La hase"),
+
+  // --- Niveau 3 : oiseaux ---
+  makeActivity(3,"savastu",[
+    T("Savais-tu que le "),C("faucon","masculin","singulier","oiseau"),
+    T(" pèlerin peut atteindre une très grande "),C("vitesse","féminin","singulier","mesure"),
+    T(" lorsqu’il plonge vers une proie ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que l’"),C("albatros","masculin","singulier","oiseau"),
+    T(" possède de très longues "),C("ailes","féminin","pluriel","partie du corps"),
+    T(" qui lui permettent de planer longtemps au-dessus de l’océan ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que chez le "),C("manchot","masculin","singulier","oiseau"),
+    T(" empereur, le "),C("mâle","masculin","singulier","animal"),
+    T(" garde l’œuf au chaud pendant une longue période ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que certains "),C("corbeaux","masculin","pluriel","oiseau"),
+    T(" peuvent résoudre des "),C("problèmes","masculin","pluriel","énigme"),
+    T(" et utiliser des objets pour atteindre de la nourriture ?")
+  ]),
+
+  // --- Niveau 3 : poissons et vie aquatique ---
+  makeActivity(3,"savastu",[
+    T("Savais-tu que chez l’"),C("hippocampe","masculin","singulier","poisson"),
+    T(", c’est le "),C("mâle","masculin","singulier","animal"),
+    T(" qui porte les petits avant leur naissance ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que le "),C("poisson-globe","masculin","singulier","poisson"),
+    T(" peut gonfler son "),C("corps","masculin","singulier","partie du corps"),
+    T(" lorsqu’il se sent menacé ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que certains "),C("poissons","masculin","pluriel","animal"),
+    T(" des grandes profondeurs produisent leur propre "),C("lumière","féminin","singulier","phénomène physique"),
+    T(" grâce à la bioluminescence ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que le "),C("saumon","masculin","singulier","poisson"),
+    T(" peut reconnaître des "),C("odeurs","féminin","pluriel","perception"),
+    T(" qui l’aident à retrouver sa rivière d’origine ?")
+  ]),
+
+  // ============================================================
+  // PHÉNOMÈNES NATURELS — +8
+  // ============================================================
+  makeActivity(1,"savastu",[
+    T("Savais-tu que le "),C("brouillard","masculin","singulier","phénomène naturel"),
+    T(" est formé de minuscules "),C("gouttes","féminin","pluriel","eau"),
+    T(" d’eau suspendues près du sol ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("tonnerre","masculin","singulier","phénomène naturel"),
+    T(" est produit lorsque l’"),C("air","masculin","singulier","matière naturelle"),
+    T(" chauffé très rapidement par un éclair se dilate brusquement ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que la "),C("rosée","féminin","singulier","phénomène naturel"),
+    T(" se forme lorsque la vapeur d’eau devient de petites "),C("gouttes","féminin","pluriel","eau"),
+    T(" sur des surfaces fraîches ?")
+  ]),
+
+  makeActivity(2,"devinette",[
+    T("Je suis une "),C("source","féminin","singulier","phénomène naturel"),
+    T(" chaude qui peut projeter de l’"),C("eau","féminin","singulier","matière naturelle"),
+    T(" et de la vapeur vers le ciel. Qui suis-je ?")
+  ],"Un geyser"),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’une "),C("tornade","féminin","singulier","phénomène météorologique"),
+    T(" est une colonne d’"),C("air","masculin","singulier","matière naturelle"),
+    T(" en rotation qui relie un nuage d’orage au sol ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’un "),C("nuage","masculin","singulier","phénomène météorologique"),
+    T(" est composé d’une immense quantité de minuscules "),C("gouttes","féminin","pluriel","eau"),
+    T(" d’eau ou de cristaux de glace ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que le "),C("cycle","masculin","singulier","phénomène naturel"),
+    T(" de l’eau fait circuler continuellement l’"),C("eau","féminin","singulier","matière naturelle"),
+    T(" entre les océans, l’atmosphère et les continents ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’un "),C("tsunami","masculin","singulier","phénomène naturel"),
+    T(" peut être provoqué par un "),C("séisme","masculin","singulier","phénomène naturel"),
+    T(" important sous l’océan ?")
+  ]),
+
+  // ============================================================
+  // ESPACE — +6
+  // ============================================================
+  makeActivity(1,"savastu",[
+    T("Savais-tu que la "),P("Lune","féminin","satellite naturel"),
+    T(" ne produit pas sa propre "),C("lumière","féminin","singulier","phénomène physique"),
+    T(" ? Elle réfléchit celle du Soleil.")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que "),P("Mercure","masculin","planète"),
+    T(" fait le tour du "),P("Soleil","masculin","astre"),
+    T(" en seulement environ 88 jours terrestres ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que "),P("Vénus","féminin","planète"),
+    T(" est la "),C("planète","féminin","singulier","astre"),
+    T(" la plus chaude du système solaire ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’"),P("Uranus","masculin","planète"),
+    T(" tourne presque couchée sur le côté par rapport aux autres "),C("planètes","féminin","pluriel","astre"),T(" ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que la Grande Tache rouge de "),P("Jupiter","masculin","planète"),
+    T(" est une gigantesque "),C("tempête","féminin","singulier","phénomène météorologique"),
+    T(" observée depuis très longtemps ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu que "),P("Neptune","masculin","planète"),
+    T(" met environ 165 "),C("années","féminin","pluriel","mesure du temps"),
+    T(" terrestres pour faire un tour complet du Soleil ?")
+  ]),
+
+  // ============================================================
+  // CAMPING — +5
+  // ============================================================
+  makeActivity(1,"devinette",[
+    T("En "),C("camping","masculin","singulier","activité"),
+    T(", je produis de la "),C("lumière","féminin","singulier","phénomène physique"),
+    T(" quand il fait noir et je fonctionne souvent avec des piles. Qui suis-je ?")
+  ],"Une lampe de poche"),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu qu’une "),C("tente","féminin","singulier","abri"),
+    T(" offre un "),C("abri","masculin","singulier","abri"),
+    T(" contre le vent et la pluie pendant le camping ?")
+  ]),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu que le "),C("raton laveur","masculin","singulier","animal"),
+    T(" est surtout actif la "),C("nuit","féminin","singulier","moment de la journée"),
+    T(" et qu’on peut parfois l’apercevoir près des campings ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’en "),C("camping","masculin","singulier","activité"),
+    T(" loin des lumières des villes, certaines "),C("constellations","féminin","pluriel","groupes d’astres"),
+    T(" peuvent être plus faciles à observer ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’une "),C("boussole","féminin","singulier","instrument"),
+    T(" contient une "),C("aiguille","féminin","singulier","instrument"),
+    T(" aimantée qui s’oriente approximativement vers le nord magnétique ?")
+  ]),
+
+  // ============================================================
+  // ESPIONS ET MYSTÈRES — +4
+  // ============================================================
+  makeActivity(1,"devinette",[
+    T("Dans une "),C("histoire","féminin","singulier","texte / récit"),
+    T(" de mystère, un "),C("espion","masculin","singulier","personne"),
+    T(" rassemble plusieurs indices. Que doit-il résoudre ?")
+  ],"Un mystère"),
+
+  makeActivity(2,"histoire",[
+    P("Thierry","masculin"),T(" invente une "),C("mission","féminin","singulier","activité"),
+    T(" fictive : un "),C("dossier","masculin","singulier","document"),
+    T(" contient trois indices qui mènent à une devinette.")
+  ]),
+
+  makeActivity(3,"devinette",[
+    T("Dans un jeu de "),C("mystère","masculin","singulier","énigme"),
+    T(", trois "),C("indices","masculin","pluriel","indices"),
+    T(" semblent différents mais conduisent tous à la même réponse. Que faut-il faire ?")
+  ],"Relier les indices"),
+
+  makeActivity(3,"histoire",[
+    P("Clara","féminin"),T(" joue à l’"),C("agente","féminin","singulier","personne"),
+    T(" secrète. Elle classe des "),C("messages","masculin","pluriel","textes"),
+    T(" fictifs selon les symboles dessinés sur chaque enveloppe.")
+  ]),
+
+  // ============================================================
+  // TINTIN — +2
+  // ============================================================
+  makeActivity(2,"devinette",[
+    T("Je suis le "),C("majordome","masculin","singulier","métier"),
+    T(" du château de "),P("Moulinsart","masculin","lieu fictif"),
+    T(" dans les aventures de Tintin. Qui suis-je ?")
+  ],"Nestor"),
+
+  makeActivity(3,"devinette",[
+    T("Je suis un jeune "),C("ami","masculin","singulier","personne"),
+    T(" chinois de "),P("Tintin","masculin","personnage"),
+    T(" qui occupe une place importante dans certaines de ses aventures. Qui suis-je ?")
+  ],"Tchang"),
+
+  // ============================================================
+  // VIE QUOTIDIENNE ET CURIOSITÉ — +4
+  // ============================================================
+  makeActivity(1,"phrase",[
+    P("Emma","féminin"),T(" entre dans une "),C("boulangerie","féminin","singulier","lieu"),
+    T(" avec son "),C("père","masculin","singulier","personne"),T(" pour choisir du pain.")
+  ]),
+
+  makeActivity(1,"devinette",[
+    T("Je suis un "),C("lieu","masculin","singulier","lieu"),
+    T(" où l’on peut observer des "),C("œuvres","féminin","pluriel","objet culturel"),
+    T(" et apprendre des choses sur l’art ou l’histoire. Qui suis-je ?")
+  ],"Un musée"),
+
+  makeActivity(2,"savastu",[
+    T("Savais-tu qu’un "),C("astronaute","masculin","singulier","métier"),
+    T(" doit apprendre à travailler dans un "),C("environnement","masculin","singulier","milieu"),
+    T(" très différent de celui de la Terre ?")
+  ]),
+
+  makeActivity(3,"savastu",[
+    T("Savais-tu qu’un "),C("archéologue","masculin","singulier","métier"),
+    T(" étudie les "),C("objets","masculin","pluriel","objet"),
+    T(" et les traces laissés par les sociétés du passé ?")
+  ])
 ];
 
 activities.forEach((activity,index)=>activity.id=index);
