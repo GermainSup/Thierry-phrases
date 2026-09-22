@@ -35,6 +35,15 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
 .timer{text-align:center;color:var(--muted);font-size:.82rem;font-weight:900;margin:8px 0 12px}
 @media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
+
+.versionGitHub{
+  position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
+  z-index:1000;background:rgba(17,24,39,.92);color:#fff;
+  border:1px solid rgba(255,255,255,.25);border-radius:999px;
+  padding:5px 10px;font-size:11px;font-weight:800;line-height:1;
+  white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)
+}
+@media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 </style>
 </head>
 <body>
@@ -108,7 +117,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.1</div>
+<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.2</div>
 </div>
 <script>
 (function(){
@@ -192,5 +201,6 @@ document.getElementById('refresh').onclick=renderHistory;document.getElementById
 renderHistory();
 })();
 </script>
+<div class="versionGitHub">GitHub · Tables de calcul V3.2</div>
 </body>
 </html>
