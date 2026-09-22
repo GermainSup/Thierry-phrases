@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Calcul mental — Les exercices de Thierry</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -584,6 +587,27 @@
 }
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 </style>
+
+<script>
+(function(){
+  var PAGE="calcul.html", BUILD="20260922-01";
+  function checkVersion(){
+    fetch('version.json?t=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(v){
+        if(!v || !v.pages || !v.pages[PAGE]) return;
+        var latest=v.pages[PAGE].build;
+        if(latest && latest!==BUILD){
+          var u=new URL(window.location.href);
+          u.searchParams.set('build', latest);
+          window.location.replace(u.toString());
+        }
+      })
+      .catch(function(){ /* hors ligne : conserver la copie disponible */ });
+  }
+  checkVersion();
+})();
+</script>
 </head>
 <body>
 <div class="conteneur">
@@ -749,7 +773,7 @@
     </div>
   </div>
 
-  <div style="text-align:center;color:var(--gris);font-size:.78rem;padding:10px 0 18px;">Calcul mental V4.3</div>
+  <div style="text-align:center;color:var(--gris);font-size:.78rem;padding:10px 0 18px;">Calcul mental V4.4</div>
 </div>
 
 <script>
@@ -1158,6 +1182,6 @@ window.addEventListener('load', function() {
   afficherHistoriqueDans('zone-historique');
 });
 </script>
-<div class="versionGitHub">GitHub · Calcul mental V4.3</div>
+<div class="versionGitHub">GitHub · Calcul mental V4.4</div>
 </body>
 </html>
