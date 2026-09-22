@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="theme-color" content="#4767d7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -208,6 +211,27 @@ th{background:#f8f9fc}
 }
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 </style>
+
+<script>
+(function(){
+  var PAGE="noms.html", BUILD="20260922-01";
+  function checkVersion(){
+    fetch('version.json?t=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(v){
+        if(!v || !v.pages || !v.pages[PAGE]) return;
+        var latest=v.pages[PAGE].build;
+        if(latest && latest!==BUILD){
+          var u=new URL(window.location.href);
+          u.searchParams.set('build', latest);
+          window.location.replace(u.toString());
+        }
+      })
+      .catch(function(){ /* hors ligne : conserver la copie disponible */ });
+  }
+  checkVersion();
+})();
+</script>
 </head>
 <body>
 <a class="portalHome" href="index.html">🏠 Portail des exercices</a>
@@ -354,7 +378,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Noms V18.2 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
+  <div class="footer">Noms V18.3 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
 </div>
 
 <script>
@@ -1751,6 +1775,6 @@ renderSessions();
 startNewSession();
 })();
 </script>
-<div class="versionGitHub">GitHub · Noms V18.2</div>
+<div class="versionGitHub">GitHub · Noms V18.3</div>
 </body>
 </html>
