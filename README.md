@@ -39,6 +39,8 @@ https://germainsup.github.io/Thierry-phrases/
 - `noms.html` — français : les noms
 - `calcul.html` — calcul mental
 - `tables.html` — tables de calcul
+- `version.json` — contrôle technique des versions et du cache
+- `HELP-ME.md` — guide de sauvegarde, reprise et restauration
 
 ## Versions et retour arrière
 
