@@ -815,7 +815,10 @@ function arreterChrono() {
     clearInterval(etatApp.timerChrono);
     etatApp.timerChrono = null;
   }
-  if (etatApp.debutSession) etatApp.dureeSessionMs = Date.now() - etatApp.debutSession;
+  if (etatApp.debutSession) {
+    etatApp.dureeSessionMs = Date.now() - etatApp.debutSession;
+    etatApp.debutSession = 0;
+  }
 }
 
 // ---- GÉNÉRATION QUESTIONS ----
@@ -956,6 +959,7 @@ function validerReponse() {
 
   majStatsTempsReel();
   etatApp.enAttente = true;
+  if (etatApp.questionActuelle === etatApp.totalQuestions) arreterChrono();
 
   etatApp.timerQuestion = setTimeout(function() {
     etatApp.timerQuestion = null;
