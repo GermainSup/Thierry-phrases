@@ -58,3 +58,16 @@ Le portail utilise un contrôle de version léger, sans service worker.
 
 Ce mécanisme vise à rendre les mises à jour transparentes sur les principaux navigateurs tout en gardant le projet simple à maintenir. Lors d’une publication, le fichier `version.json` doit être mis à jour avec le ou les modules modifiés.
 
+## Règle de publication
+
+Lors de toute évolution du portail ou d’un module :
+
+1. Préparer et tester les changements avant publication pour toute modification non triviale.
+2. Incrémenter le numéro de version fonctionnelle lorsque la modification le justifie.
+3. Conserver l’affichage de la version fonctionnelle au bas de chaque page.
+4. Mettre à jour `version.json` avec la version fonctionnelle concernée et un nouvel identifiant technique de publication.
+5. Ne publier sur `main` qu’après validation explicite.
+6. Vérifier après publication que GitHub Pages a été redéployé et que les fichiers publics correspondent bien à la version attendue.
+
+Cette règle fait partie intégrante du projet et doit être respectée même lorsque les modifications sont effectuées dans une autre conversation ou par un autre intervenant.
+
