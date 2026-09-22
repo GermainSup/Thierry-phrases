@@ -4,7 +4,7 @@ Portail d’exercices éducatifs interactifs destiné à l’apprentissage du fr
 
 ## Modules actuels
 
-- **Français — Les noms — V18.2**
+- **Français — Les noms**
   - 150 activités
   - 3 niveaux de difficulté
   - identification des noms propres et communs
@@ -12,20 +12,22 @@ Portail d’exercices éducatifs interactifs destiné à l’apprentissage du fr
   - masculin et féminin
   - correction immédiate, historique et statistiques
 
-- **Calcul mental — V4.3**
+- **Calcul mental**
   - addition, soustraction, multiplication et division
   - nombre maximal et nombre de questions paramétrables
   - points, séries de bonnes réponses, historique et statistiques
   - chronométrage des sessions
 
-- **Tables de calcul — V3.2**
+- **Tables de calcul**
   - tables de 1 à 10
   - addition, soustraction, multiplication et division
   - mode séquentiel ou aléatoire
   - résultats, points, historique et temps requis
 
-- **Portail — V3.1**
+- **Portail**
   - accès centralisé aux trois exercices
+
+> La version courante de chaque module est affichée au bas de sa page.
 
 ## Accès à l’application
 
