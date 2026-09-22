@@ -116,10 +116,11 @@ h1{margin:0 0 4px;font-size:clamp(22px,2.8vw,30px)}
 }
 .wordTitle{font-size:18px;font-weight:850;margin-bottom:2px}
 .wordMeta{color:var(--muted);margin-bottom:7px;font-size:11px}
-.groups{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.group{background:white;border:1px solid var(--border);border-radius:10px;padding:8px 10px}
-.group h3{margin:0 0 5px;font-size:13px}
-.choices{display:flex;gap:6px;flex-wrap:wrap}
+.groups{display:grid;grid-template-columns:1fr;gap:6px}
+.group{background:white;border:1px solid var(--border);border-radius:10px;padding:7px 8px;display:grid;grid-template-columns:105px 1fr;gap:6px;align-items:center}
+.group h3{margin:0;font-size:12px}
+.choices{display:flex;gap:5px;flex-wrap:wrap}
+.genderChoice{font-size:11px;padding:6px 8px}
 button{
   font:inherit;border:0;border-radius:10px;padding:7px 11px;font-weight:850;cursor:pointer
 }
@@ -193,7 +194,7 @@ th{background:#f8f9fc}
   .subtitle{display:none}
   .difficultyNote{display:none}
   .instruction{font-size:11px}
-  .group{padding:6px}
+  .group{padding:6px;grid-template-columns:1fr}
   .choice{padding:6px 8px}
 }
 .portalHome{position:fixed;z-index:999;top:8px;left:8px;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:850;box-shadow:0 4px 12px rgba(0,0,0,.12)}
@@ -205,9 +206,9 @@ th{background:#f8f9fc}
   <section class="hero card">
     <h1>🔎 Les noms – 3e année</h1>
     <div class="subtitle">
-      Clique sur chaque mot coloré. Indique s’il s’agit d’un <b>nom propre ou commun</b>,
-      puis d’un nom <b>singulier ou pluriel</b>. La correction donne aussi le genre et,
-      pour les noms propres, leur catégorie.
+      Clique sur chaque mot coloré. Donne <b>trois réponses</b> :
+      <b>nom propre ou commun</b>, <b>singulier ou pluriel</b>, puis <b>masculin ou féminin</b>.
+      La correction indique aussi le type précis du nom.
     </div>
     <div class="difficultyBox">
       <div class="difficultyTitle">Difficulté</div>
@@ -234,8 +235,8 @@ th{background:#f8f9fc}
   <section class="lesson card">
     <div class="instruction">
       <b>Consigne :</b> les mots à analyser sont surlignés et soulignés.
-      Un nom peut avoir deux caractéristiques en même temps :
-      <b>« cartes » = nom commun + pluriel</b>.
+      Un nom a ici trois caractéristiques à identifier :
+      <b>« cartes » = nom commun + pluriel + féminin</b>.
     </div>
 
     <div class="lessonGrid">
@@ -258,9 +259,9 @@ th{background:#f8f9fc}
 
       <div class="rightPane">
         <div id="answerPanel" class="panel">
-          <div id="panelEmpty" class="panelEmpty">Clique sur un mot en bleu. Le <b>type précis</b> sera affiché seulement après la vérification.</div>
+          <div id="panelEmpty" class="panelEmpty">Clique sur un mot en bleu, puis donne ses <b>3 caractéristiques</b>.</div>
           <div class="wordTitle">Mot : <span id="activeWord"></span></div>
-          <div class="wordMeta" id="wordHint">Choisis les deux caractéristiques du nom.</div>
+          <div class="wordMeta" id="wordHint">Choisis le type, le nombre et le genre.</div>
 
           <div class="groups">
             <div class="group">
@@ -275,6 +276,14 @@ th{background:#f8f9fc}
               <div class="choices">
                 <button class="choice numberChoice" data-value="singulier">Singulier</button>
                 <button class="choice numberChoice" data-value="pluriel">Pluriel</button>
+              </div>
+            </div>
+            <div class="group">
+              <h3>3. Quel genre ?</h3>
+              <div class="choices">
+                <button class="choice genderChoice" data-value="masculin">Masculin</button>
+                <button class="choice genderChoice" data-value="féminin">Féminin</button>
+                <button class="choice genderChoice" data-value="non évalué">Non évalué ici</button>
               </div>
             </div>
           </div>
@@ -311,7 +320,7 @@ th{background:#f8f9fc}
         <thead>
           <tr>
             <th>Phrase</th><th>Mot</th><th>Réponse</th><th>Bonne réponse</th>
-            <th>Genre</th><th>Catégorie</th><th>Résultat</th>
+            <th>Catégorie</th><th>Résultat</th>
           </tr>
         </thead>
         <tbody id="historyBody"></tbody>
@@ -336,7 +345,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Version 17 — Banque portée à 150 activités, avec forte expansion des animaux, oiseaux, poissons et noms des femelles.</div>
+  <div class="footer">Version 18 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
 </div>
 
 <script>
@@ -1205,7 +1214,7 @@ function generateSentence(mode){
   return chosen.parts;
 }
 let phraseNumber=1, currentSentence=[], targets=[], activeIndex=null;
-let selectedType=null, selectedNumber=null, history=[];
+let selectedType=null, selectedNumber=null, selectedGender=null, history=[];
 let sessionFinished=false, phrasesShown=0;
 let difficultyMode=localStorage.getItem("noms3e_difficulty") || "1";
 let currentLevel=1;
@@ -1326,7 +1335,7 @@ function renderPhraseSummary(){
     if(t.answered){
       const mark=t.allOK ? "✓" : "✗";
       const precise=exactCategory(t);
-      chip.textContent=`${mark} ${t.text} · ${cap(t.type)} · ${cap(t.number)} · ${cap(precise)}`;
+      chip.textContent=`${mark} ${t.text} · ${cap(t.type)} · ${cap(t.number)} · ${cap(t.gender)} · ${cap(precise)}`;
       chip.title=`${t.text} : ${t.type}, ${t.number}, ${t.gender}, ${precise}`;
     }else{
       chip.textContent=`○ ${t.text}`;
@@ -1355,11 +1364,11 @@ function updatePhraseState(){
 
 function renderSentence(){
   sentenceEl.innerHTML="";
-  targets=[]; activeIndex=null; selectedType=null; selectedNumber=null;
+  targets=[]; activeIndex=null; selectedType=null; selectedNumber=null; selectedGender=null;
   feedback.innerHTML="";
   if(panelEmpty) panelEmpty.style.display="block";
   activeWord.textContent="";
-  $("wordHint").textContent="Choisis les deux caractéristiques du nom.";
+  $("wordHint").textContent="Choisis le type, le nombre et le genre.";
   panel.classList.remove("hidden");
   completionMsg.classList.add("hidden");
   riddleAnswer.classList.add("hidden");
@@ -1399,14 +1408,14 @@ function renderSentence(){
 
 function openTarget(index){
   if(sessionFinished || !targets[index]) return;
-  activeIndex=index; selectedType=null; selectedNumber=null;
+  activeIndex=index; selectedType=null; selectedNumber=null; selectedGender=null;
   document.querySelectorAll(".choice").forEach(b=>b.classList.remove("selected"));
   validateBtn.disabled=true; feedback.innerHTML="";
   if(panelEmpty) panelEmpty.style.display="none";
   activeWord.textContent=targets[index].text;
   $("wordHint").textContent=targets[index].answered
     ? "Ce mot a déjà été corrigé."
-    : "Choisis les deux caractéristiques du nom.";
+    : "Choisis le type, le nombre et le genre.";
   panel.classList.remove("hidden");
 
   if(targets[index].answered){
@@ -1421,30 +1430,38 @@ function choose(group,value,btn){
   if(group==="type"){
     selectedType=value;
     document.querySelectorAll(".typeChoice").forEach(b=>b.classList.remove("selected"));
-  }else{
+  }else if(group==="number"){
     selectedNumber=value;
     document.querySelectorAll(".numberChoice").forEach(b=>b.classList.remove("selected"));
+  }else{
+    selectedGender=value;
+    document.querySelectorAll(".genderChoice").forEach(b=>b.classList.remove("selected"));
   }
   btn.classList.add("selected");
-  validateBtn.disabled=!(selectedType&&selectedNumber);
+  validateBtn.disabled=!(selectedType&&selectedNumber&&selectedGender);
 }
 document.querySelectorAll(".typeChoice").forEach(btn=>btn.addEventListener("click",()=>choose("type",btn.dataset.value,btn)));
 document.querySelectorAll(".numberChoice").forEach(btn=>btn.addEventListener("click",()=>choose("number",btn.dataset.value,btn)));
+document.querySelectorAll(".genderChoice").forEach(btn=>btn.addEventListener("click",()=>choose("gender",btn.dataset.value,btn)));
 
 validateBtn.addEventListener("click",()=>{
-  if(activeIndex===null || !selectedType || !selectedNumber) return;
+  if(activeIndex===null || !selectedType || !selectedNumber || !selectedGender) return;
   const item=targets[activeIndex];
   if(!item || item.answered) return;
 
-  const allOK=selectedType===item.type && selectedNumber===item.number;
-  item.answered=true; item.userType=selectedType; item.userNumber=selectedNumber; item.allOK=allOK;
+  const allOK=selectedType===item.type && selectedNumber===item.number && selectedGender===item.gender;
+  item.answered=true;
+  item.userType=selectedType;
+  item.userNumber=selectedNumber;
+  item.userGender=selectedGender;
+  item.allOK=allOK;
 
   const spans=sentenceEl.querySelectorAll(".target");
   if(spans[activeIndex]) spans[activeIndex].classList.add("done",allOK?"correct":"wrong");
 
   history.push({
-    phrase:phraseNumber,word:item.text,userType:selectedType,userNumber:selectedNumber,
-    correctType:item.type,correctNumber:item.number,gender:item.gender,
+    phrase:phraseNumber,word:item.text,userType:selectedType,userNumber:selectedNumber,userGender:selectedGender,
+    correctType:item.type,correctNumber:item.number,correctGender:item.gender,gender:item.gender,
     category:item.category||"nom commun",exactCategory:exactCategory(item),allOK
   });
 
@@ -1481,9 +1498,8 @@ function renderHistory(){
     tr.innerHTML=`
       <td>${h.phrase}</td>
       <td><b>${escapeHtml(h.word)}</b></td>
-      <td>${cap(h.userType)} + ${cap(h.userNumber)}</td>
-      <td>${cap(h.correctType)} + ${cap(h.correctNumber)}</td>
-      <td>${cap(h.gender)}</td>
+      <td>${cap(h.userType)} + ${cap(h.userNumber)} + ${cap(h.userGender||"—")}</td>
+      <td>${cap(h.correctType)} + ${cap(h.correctNumber)} + ${cap(h.correctGender||h.gender)}</td>
       <td>${escapeHtml(exactCategory(h))}</td>
       <td class="${h.allOK?"ok":"no"}">${h.allOK?"✓ Réussi":"✗ Erreur"}</td>`;
     body.appendChild(tr);
@@ -1535,7 +1551,7 @@ function finishSession(){
   sessionFinished=true;
   if(panelEmpty) panelEmpty.style.display="block";
   activeWord.textContent="";
-  $("wordHint").textContent="Choisis les deux caractéristiques du nom.";
+  $("wordHint").textContent="Choisis le type, le nombre et le genre.";
   panel.classList.remove("hidden"); completionMsg.classList.add("hidden");
   nextBtn.disabled=true; finishBtn.disabled=true;
 
@@ -1573,6 +1589,7 @@ function resetCurrentSessionData(){
   activeIndex=null;
   selectedType=null;
   selectedNumber=null;
+  selectedGender=null;
   resetActivityRotation();
 
   // Remise à zéro explicite de l'interface.
