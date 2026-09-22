@@ -198,6 +198,15 @@ th{background:#f8f9fc}
   .choice{padding:6px 8px}
 }
 .portalHome{position:fixed;z-index:999;top:8px;left:8px;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:850;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+
+.versionGitHub{
+  position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
+  z-index:1000;background:rgba(17,24,39,.92);color:#fff;
+  border:1px solid rgba(255,255,255,.25);border-radius:999px;
+  padding:5px 10px;font-size:11px;font-weight:800;line-height:1;
+  white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)
+}
+@media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 </style>
 </head>
 <body>
@@ -345,7 +354,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Noms V18.1 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
+  <div class="footer">Noms V18.2 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
 </div>
 
 <script>
@@ -1742,5 +1751,6 @@ renderSessions();
 startNewSession();
 })();
 </script>
+<div class="versionGitHub">GitHub · Noms V18.2</div>
 </body>
 </html>
