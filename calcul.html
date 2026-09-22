@@ -1,1 +1,1102 @@
-The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Calcul mental — Les exercices de Thierry</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bleu: #2563EB;
+    --bleu-clair: #DBEAFE;
+    --vert: #16A34A;
+    --vert-clair: #DCFCE7;
+    --rouge: #DC2626;
+    --rouge-clair: #FEE2E2;
+    --jaune: #F59E0B;
+    --jaune-clair: #FEF3C7;
+    --violet: #7C3AED;
+    --gris-clair: #F3F4F6;
+    --gris: #6B7280;
+    --texte: #111827;
+    --blanc: #ffffff;
+    --rayon: 16px;
+    --ombre: 0 4px 20px rgba(0,0,0,0.10);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #EFF6FF 0%, #F5F3FF 100%);
+    min-height: 100vh;
+    color: var(--texte);
+    padding: 16px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .conteneur {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .entete {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .titre-app {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--bleu), var(--violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .sous-titre {
+    color: var(--gris);
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  .carte {
+    background: var(--blanc);
+    border-radius: var(--rayon);
+    padding: 24px;
+    box-shadow: var(--ombre);
+    margin-bottom: 16px;
+  }
+
+  .section-titre {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  /* Sélection opération */
+  .grille-ops {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .btn-op {
+    border: 3px solid var(--gris-clair);
+    border-radius: 14px;
+    background: var(--gris-clair);
+    padding: 18px 12px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .btn-op .label-op {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gris);
+    margin-top: 4px;
+  }
+
+  .btn-op.actif {
+    border-color: var(--bleu);
+    background: var(--bleu-clair);
+  }
+  .btn-op.actif .label-op { color: var(--bleu); }
+
+  .btn-op:active { transform: scale(0.96); }
+
+  /* Curseur */
+  .groupe-curseur { margin-bottom: 20px; }
+
+  .label-curseur {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .label-curseur span:first-child {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .instruction-curseur {
+    font-weight: 500;
+    color: var(--gris);
+  }
+
+  .valeur-curseur {
+    background: var(--bleu);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  input[type=range] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    accent-color: var(--bleu);
+    cursor: pointer;
+  }
+
+  /* Bouton principal */
+  .btn-principal {
+    width: 100%;
+    background: linear-gradient(135deg, var(--bleu), var(--violet));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-principal:active { transform: scale(0.98); opacity: 0.9; }
+
+  /* Barre de progression */
+  .barre-prog-conteneur {
+    background: var(--gris-clair);
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .barre-prog-remplie {
+    height: 100%;
+    background: linear-gradient(90deg, var(--bleu), var(--violet));
+    border-radius: 8px;
+    transition: width 0.4s ease;
+  }
+
+  /* Stats en temps réel */
+  .stats-temps-reel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-bulle {
+    background: var(--gris-clair);
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+  }
+
+  .stat-bulle .valeur {
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-bulle .etiquette {
+    font-size: 0.7rem;
+    color: var(--gris);
+    font-weight: 600;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-bulle.vert .valeur { color: var(--vert); }
+  .stat-bulle.orange .valeur { color: var(--jaune); }
+  .stat-bulle.violet .valeur { color: var(--violet); }
+
+  /* Équation */
+  .zone-equation {
+    text-align: center;
+    padding: 28px 16px;
+    background: linear-gradient(135deg, var(--bleu-clair), #F5F3FF);
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  .numero-question {
+    font-size: 0.8rem;
+    color: var(--bleu);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .equation-texte {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--texte);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  /* Input réponse */
+  .zone-reponse {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .input-reponse {
+    flex: 1;
+    border: 3px solid var(--bleu-clair);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--texte);
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+  }
+
+  .input-reponse:focus { border-color: var(--bleu); }
+
+  .btn-ok {
+    background: var(--bleu);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+    min-width: 72px;
+  }
+
+  .btn-ok:active { transform: scale(0.95); }
+
+  /* Feedback */
+  .feedback {
+    text-align: center;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: none;
+    animation: apparition 0.3s ease;
+  }
+
+  @keyframes apparition {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .feedback.correct {
+    background: var(--vert-clair);
+    color: var(--vert);
+    display: block;
+  }
+
+  .feedback.incorrect {
+    background: var(--rouge-clair);
+    color: var(--rouge);
+    display: block;
+  }
+
+  /* Série */
+  .serie-badge {
+    display: none;
+    text-align: center;
+    background: var(--jaune-clair);
+    color: #92400E;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    animation: apparition 0.3s ease;
+  }
+
+  /* Résultats finaux */
+  .etoiles {
+    text-align: center;
+    font-size: 3.5rem;
+    margin-bottom: 8px;
+    animation: apparition 0.5s ease;
+  }
+
+  .resultat-titre {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .resultat-sous {
+    text-align: center;
+    color: var(--gris);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .grille-resultats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .case-resultat {
+    background: var(--gris-clair);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .case-resultat .valeur {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .case-resultat .etiquette {
+    font-size: 0.72rem;
+    color: var(--gris);
+    font-weight: 600;
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Historique */
+  .ligne-historique {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gris-clair);
+  }
+
+  .ligne-historique:last-child { border-bottom: none; }
+
+  .op-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .op-plus { background: var(--bleu-clair); color: var(--bleu); }
+  .op-moins { background: var(--rouge-clair); color: var(--rouge); }
+  .op-fois { background: var(--vert-clair); color: var(--vert); }
+  .op-div { background: var(--jaune-clair); color: #92400E; }
+
+  .hist-infos { flex: 1; padding: 0 12px; }
+  .hist-nom { font-weight: 700; font-size: 0.9rem; }
+  .hist-detail { font-size: 0.75rem; color: var(--gris); margin-top: 1px; }
+
+  .hist-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-champion { background: var(--vert-clair); color: var(--vert); }
+  .badge-progressif { background: var(--bleu-clair); color: var(--bleu); }
+  .badge-apprenti { background: var(--jaune-clair); color: #92400E; }
+
+  .btn-secondaire {
+    width: 100%;
+    background: var(--gris-clair);
+    color: var(--texte);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 10px;
+  }
+
+  .btn-secondaire:active { transform: scale(0.98); }
+
+  /* Vide */
+  .vide-hist {
+    text-align: center;
+    color: var(--gris);
+    font-size: 0.9rem;
+    padding: 20px 0;
+  }
+
+  /* Cache */
+  .cache { display: none !important; }
+
+  /* Points totaux */
+  .points-totaux {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--jaune-clair), #FDE68A);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .points-totaux .pts-valeur {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #92400E;
+  }
+
+  .points-totaux .pts-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #92400E;
+    line-height: 1.2;
+  }
+
+
+  /* Aides et actions supplémentaires */
+  .aide-curseur {
+    font-size: 0.82rem;
+    color: var(--gris);
+    margin: -4px 0 10px;
+    line-height: 1.35;
+  }
+
+  .actions-session {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .btn-danger {
+    width: 100%;
+    background: var(--rouge-clair);
+    color: var(--rouge);
+    border: 2px solid #FCA5A5;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-danger:active { transform: scale(0.98); }
+
+  .btn-selection {
+    width: 100%;
+    background: var(--gris-clair);
+    color: var(--texte);
+    border: 2px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-selection:active { transform: scale(0.98); }
+
+  .historique-session {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gris-clair);
+  }
+
+  .historique-session:last-child { border-bottom: none; }
+
+  .hist-ligne-haut {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hist-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .btn-effacer-hist {
+    border: none;
+    background: var(--rouge-clair);
+    color: var(--rouge);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn-effacer-hist:active { transform: scale(0.96); }
+
+  .hist-parametres {
+    margin-top: 7px;
+    padding-left: 48px;
+    font-size: 0.78rem;
+    color: var(--gris);
+    line-height: 1.45;
+  }
+
+  .hist-score {
+    font-weight: 800;
+    color: var(--texte);
+  }
+
+  @media (max-width: 420px) {
+    .actions-session { grid-template-columns: 1fr; }
+    .hist-ligne-haut { align-items: flex-start; }
+    .hist-actions { flex-direction: column; align-items: flex-end; }
+    .hist-parametres { padding-left: 0; margin-top: 9px; }
+  }
+
+.retour-portail{display:inline-flex;align-items:center;text-decoration:none;background:#111827;color:#fff;border-radius:999px;padding:8px 12px;font-size:.8rem;font-weight:800;margin-bottom:12px}.zone-effacer-tout{margin-top:14px;text-align:center}.btn-effacer-tout{border:2px solid #FCA5A5;background:var(--rouge-clair);color:var(--rouge);border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}.msg-effacement{margin-top:7px;color:var(--gris);font-size:.78rem;min-height:18px}
+</style>
+</head>
+<body>
+<div class="conteneur">\n  <a class="retour-portail" href="index.html">🏠 Les exercices de Thierry</a>
+
+  <div class="entete">
+    <div class="titre-app">🧮 Calcul Mental</div>
+    <div class="sous-titre">Pratique et progresse !</div>
+  </div>
+
+  <!-- ÉCRAN 1 : CONFIGURATION -->
+  <div id="ecran-config">
+    <div class="carte">
+      <div class="section-titre">Quelle opération ?</div>
+      <div class="grille-ops">
+        <button class="btn-op actif" data-op="+" onclick="choisirOp(this, '+')">
+          +
+          <span class="label-op">Addition</span>
+        </button>
+        <button class="btn-op" data-op="-" onclick="choisirOp(this, '-')">
+          −
+          <span class="label-op">Soustraction</span>
+        </button>
+        <button class="btn-op" data-op="*" onclick="choisirOp(this, '*')">
+          ×
+          <span class="label-op">Multiplication</span>
+        </button>
+        <button class="btn-op" data-op="/" onclick="choisirOp(this, '/')">
+          ÷
+          <span class="label-op">Division</span>
+        </button>
+      </div>
+
+      <div class="groupe-curseur">
+        <div class="label-curseur">
+          <span>Nombre maximum : <span class="instruction-curseur">Déplacer le curseur</span></span>
+          <span class="valeur-curseur" id="val-max">20</span>
+        </div>
+        <input type="range" min="5" max="100" value="20" step="5"
+          oninput="document.getElementById('val-max').textContent = this.value; etatApp.maxNombre = parseInt(this.value)">
+      </div>
+
+      <div class="groupe-curseur">
+        <div class="label-curseur">
+          <span>Nombre de questions : <span class="instruction-curseur">Déplacer le curseur</span></span>
+          <span class="valeur-curseur" id="val-questions">10</span>
+        </div>
+        <input type="range" min="5" max="30" value="10" step="5"
+          oninput="document.getElementById('val-questions').textContent = this.value; etatApp.totalQuestions = parseInt(this.value)">
+      </div>
+
+      <button class="btn-principal" onclick="demarrerSession()">
+        🚀 Commencer !
+      </button>
+    </div>
+
+    <!-- Historique -->
+    <div class="carte">
+      <div class="section-titre">Mon historique</div>
+      <div id="zone-historique"><div class="vide-hist">Aucune session encore — à toi de jouer !</div></div>
+    <div class="zone-effacer-tout"><button type="button" class="btn-effacer-tout" onclick="effacerToutHistorique()">🗑️ Effacer tout l'historique</button><div class="msg-effacement" id="msg-effacement"></div></div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 2 : SESSION -->
+  <div id="ecran-session" class="cache">
+    <div class="carte">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-weight:700; font-size:0.9rem; color:var(--gris)">Question <span id="num-question">1</span> / <span id="total-questions">10</span></span>
+        <span style="font-weight:800; color:var(--violet); font-size:1rem;">⭐ <span id="pts-session">0</span> pts</span>
+      </div>
+
+      <div class="barre-prog-conteneur">
+        <div class="barre-prog-remplie" id="barre-prog" style="width:0%"></div>
+      </div>
+
+      <div class="stats-temps-reel">
+        <div class="stat-bulle vert">
+          <div class="valeur" id="nb-correct">0</div>
+          <div class="etiquette">✓ Bonnes</div>
+        </div>
+        <div class="stat-bulle orange">
+          <div class="valeur" id="nb-incorrect">0</div>
+          <div class="etiquette">✗ Erreurs</div>
+        </div>
+        <div class="stat-bulle violet">
+          <div class="valeur" id="serie-courante">0</div>
+          <div class="etiquette">🔥 Série</div>
+        </div>
+      </div>
+
+      <div id="badge-serie" class="serie-badge"></div>
+
+      <div class="zone-equation">
+        <div class="numero-question">Combien font :</div>
+        <div class="equation-texte" id="texte-equation">3 + 5 = ?</div>
+      </div>
+
+      <div class="zone-reponse">
+        <input type="number" inputmode="numeric" pattern="[0-9]*"
+          class="input-reponse" id="input-reponse"
+          placeholder="?"
+          onkeydown="if(event.key==='Enter') validerReponse()">
+        <button class="btn-ok" onclick="validerReponse()">OK</button>
+      </div>
+
+      <div class="feedback" id="zone-feedback"></div>
+
+      <div class="actions-session">
+        <button class="btn-danger" onclick="terminerSessionManuellement()">⏹ Terminer la session</button>
+        <button class="btn-selection" onclick="recommencerAutreSelection()">↩ Autre sélection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÉCRAN 3 : RÉSULTATS -->
+  <div id="ecran-resultats" class="cache">
+    <div class="carte">
+      <div class="etoiles" id="etoiles-finales">⭐⭐⭐</div>
+      <div class="resultat-titre" id="titre-final">Excellent !</div>
+      <div class="resultat-sous" id="sous-titre-final">Tu as réussi 9/10 questions</div>
+
+      <div class="points-totaux">
+        <div class="pts-valeur" id="pts-gagnes">+120</div>
+        <div class="pts-label">points<br>gagnés</div>
+      </div>
+
+      <div class="grille-resultats">
+        <div class="case-resultat">
+          <div class="valeur" id="res-correct" style="color:var(--vert)">0</div>
+          <div class="etiquette">Bonnes réponses</div>
+        </div>
+        <div class="case-resultat">
+          <div class="valeur" id="res-precision" style="color:var(--bleu)">0%</div>
+          <div class="etiquette">Précision</div>
+        </div>
+        <div class="case-resultat">
+          <div class="valeur" id="res-serie" style="color:var(--violet)">0</div>
+          <div class="etiquette">Meilleure série</div>
+        </div>
+        <div class="case-resultat">
+          <div class="valeur" id="res-pts" style="color:var(--jaune)">0</div>
+          <div class="etiquette">Points session</div>
+        </div>
+      </div>
+
+      <button class="btn-principal" onclick="nouvelleSession()">🎯 Rejouer la même sélection</button>
+      <button class="btn-secondaire" onclick="retourAccueil()">↩ Recommencer avec une autre sélection</button>
+    </div>
+
+    <div class="carte">
+      <div class="section-titre">Tout mon historique</div>
+      <div id="zone-historique-fin"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---- ÉTAT APPLICATION ----
+var etatApp = {
+  operation: '+',
+  maxNombre: 20,
+  totalQuestions: 10,
+  questionActuelle: 0,
+  bonnesReponses: 0,
+  mauvaisesReponses: 0,
+  serieCourante: 0,
+  meilleureSerieSession: 0,
+  pointsSession: 0,
+  a: 0, b: 0,
+  enAttente: false,
+  sessionTerminee: false,
+  timerQuestion: null
+};
+
+// ---- STOCKAGE LOCAL ----
+var CLE_HISTORIQUE = 'calcul_mental_historique_v2';
+var CLE_POINTS_TOTAUX = 'calcul_mental_points_totaux';
+
+function chargerHistorique() {
+  try {
+    var d = localStorage.getItem(CLE_HISTORIQUE);
+    return d ? JSON.parse(d) : [];
+  } catch(e) { return []; }
+}
+
+function sauvegarderHistorique(hist) {
+  try {
+    if (hist.length > 50) hist = hist.slice(-50);
+    localStorage.setItem(CLE_HISTORIQUE, JSON.stringify(hist));
+  } catch(e) {}
+}
+
+function chargerPointsTotaux() {
+  try {
+    var d = localStorage.getItem(CLE_POINTS_TOTAUX);
+    return d ? parseInt(d) : 0;
+  } catch(e) { return 0; }
+}
+
+function sauvegarderPointsTotaux(pts) {
+  try { localStorage.setItem(CLE_POINTS_TOTAUX, pts.toString()); } catch(e) {}
+}
+
+// ---- GÉNÉRATION QUESTIONS ----
+function genererQuestion() {
+  var op = etatApp.operation;
+  var max = etatApp.maxNombre;
+  var a, b;
+
+  if (op === '+') {
+    a = rand(1, max); b = rand(1, max);
+  } else if (op === '-') {
+    a = rand(1, max); b = rand(1, a); // résultat toujours >= 0
+  } else if (op === '*') {
+    a = rand(1, Math.min(max, 12)); b = rand(1, Math.min(max, 12));
+  } else { // division
+    b = rand(1, Math.min(max, 12));
+    var quotient = rand(1, Math.floor(max / b));
+    a = b * quotient;
+  }
+
+  etatApp.a = a; etatApp.b = b;
+
+  var symboles = {'+': '+', '-': '−', '*': '×', '/': '÷'};
+  document.getElementById('texte-equation').textContent = a + ' ' + symboles[op] + ' ' + b + ' = ?';
+}
+
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function calculerReponse() {
+  var a = etatApp.a, b = etatApp.b;
+  if (etatApp.operation === '+') return a + b;
+  if (etatApp.operation === '-') return a - b;
+  if (etatApp.operation === '*') return a * b;
+  if (etatApp.operation === '/') return a / b;
+}
+
+// ---- UI ----
+function choisirOp(btn, op) {
+  document.querySelectorAll('.btn-op').forEach(function(b) { b.classList.remove('actif'); });
+  btn.classList.add('actif');
+  etatApp.operation = op;
+}
+
+function afficherEcran(id) {
+  ['ecran-config','ecran-session','ecran-resultats'].forEach(function(e) {
+    document.getElementById(e).classList.add('cache');
+  });
+  document.getElementById(id).classList.remove('cache');
+}
+
+// ---- SESSION ----
+function demarrerSession() {
+  etatApp.questionActuelle = 0;
+  etatApp.bonnesReponses = 0;
+  etatApp.mauvaisesReponses = 0;
+  etatApp.serieCourante = 0;
+  etatApp.meilleureSerieSession = 0;
+  etatApp.pointsSession = 0;
+  etatApp.enAttente = false;
+  etatApp.sessionTerminee = false;
+  if (etatApp.timerQuestion) { clearTimeout(etatApp.timerQuestion); etatApp.timerQuestion = null; }
+
+  document.getElementById('total-questions').textContent = etatApp.totalQuestions;
+  majStatsTempsReel();
+  afficherEcran('ecran-session');
+  prochaineProchaineQuestion();
+}
+
+function prochaineProchaineQuestion() {
+  if (etatApp.sessionTerminee) return;
+  etatApp.enAttente = false;
+  etatApp.questionActuelle++;
+
+  if (etatApp.questionActuelle > etatApp.totalQuestions) {
+    terminerSession(); return;
+  }
+
+  document.getElementById('num-question').textContent = etatApp.questionActuelle;
+  var pct = ((etatApp.questionActuelle - 1) / etatApp.totalQuestions * 100);
+  document.getElementById('barre-prog').style.width = pct + '%';
+
+  document.getElementById('zone-feedback').className = 'feedback';
+  document.getElementById('zone-feedback').textContent = '';
+  document.getElementById('badge-serie').style.display = 'none';
+  document.getElementById('input-reponse').value = '';
+
+  genererQuestion();
+  setTimeout(function() { document.getElementById('input-reponse').focus(); }, 100);
+}
+
+function majStatsTempsReel() {
+  document.getElementById('nb-correct').textContent = etatApp.bonnesReponses;
+  document.getElementById('nb-incorrect').textContent = etatApp.mauvaisesReponses;
+  document.getElementById('serie-courante').textContent = etatApp.serieCourante;
+  document.getElementById('pts-session').textContent = etatApp.pointsSession;
+}
+
+function validerReponse() {
+  if (etatApp.enAttente) { prochaineProchaineQuestion(); return; }
+
+  var inputEl = document.getElementById('input-reponse');
+  var valStr = inputEl.value.trim();
+  if (valStr === '' || isNaN(valStr)) {
+    inputEl.focus(); return;
+  }
+
+  var reponseUtilisateur = parseInt(valStr);
+  var bonneReponse = calculerReponse();
+  var fb = document.getElementById('zone-feedback');
+
+  if (reponseUtilisateur === bonneReponse) {
+    etatApp.bonnesReponses++;
+    etatApp.serieCourante++;
+    if (etatApp.serieCourante > etatApp.meilleureSerieSession)
+      etatApp.meilleureSerieSession = etatApp.serieCourante;
+
+    var bonus = etatApp.serieCourante >= 3 ? 20 : 10;
+    etatApp.pointsSession += bonus;
+
+    fb.className = 'feedback correct';
+    var messages = ['✅ Bravo !', '✅ Excellent !', '✅ Super !', '✅ Parfait !', '✅ Génial !'];
+    fb.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+    if (etatApp.serieCourante >= 3) {
+      var badge = document.getElementById('badge-serie');
+      badge.textContent = '🔥 Série de ' + etatApp.serieCourante + ' ! +20 points bonus !';
+      badge.style.display = 'block';
+    }
+  } else {
+    etatApp.mauvaisesReponses++;
+    etatApp.serieCourante = 0;
+    fb.className = 'feedback incorrect';
+    fb.textContent = '❌ Non — la bonne réponse était ' + bonneReponse;
+  }
+
+  majStatsTempsReel();
+  etatApp.enAttente = true;
+
+  etatApp.timerQuestion = setTimeout(function() {
+    etatApp.timerQuestion = null;
+    prochaineProchaineQuestion();
+  }, 1800);
+}
+
+// ---- FIN SESSION ----
+function terminerSession(options) {
+  options = options || {};
+  if (etatApp.sessionTerminee) return;
+  etatApp.sessionTerminee = true;
+  if (etatApp.timerQuestion) { clearTimeout(etatApp.timerQuestion); etatApp.timerQuestion = null; }
+
+  var repondues = etatApp.bonnesReponses + etatApp.mauvaisesReponses;
+  var basePrecision = repondues > 0 ? repondues : etatApp.totalQuestions;
+  var precision = basePrecision > 0 ? Math.round(etatApp.bonnesReponses / basePrecision * 100) : 0;
+  var etoiles = precision >= 90 ? 3 : precision >= 70 ? 2 : 1;
+
+  // Sauvegarde de la session (même si elle a été arrêtée avant la fin)
+  var hist = chargerHistorique();
+  hist.push({
+    date: new Date().toLocaleDateString('fr-CA'),
+    heure: new Date().toLocaleTimeString('fr-CA', {hour:'2-digit', minute:'2-digit'}),
+    op: etatApp.operation,
+    max: etatApp.maxNombre,
+    total: etatApp.totalQuestions,
+    repondues: repondues,
+    bonnes: etatApp.bonnesReponses,
+    precision: precision,
+    pts: etatApp.pointsSession,
+    serie: etatApp.meilleureSerieSession,
+    interrompue: !!options.interrompue
+  });
+  sauvegarderHistorique(hist);
+
+  var ptsTotaux = chargerPointsTotaux() + etatApp.pointsSession;
+  sauvegarderPointsTotaux(ptsTotaux);
+
+  // Affichage résultats
+  var nbEtoiles = ['⭐', '⭐⭐', '⭐⭐⭐'][etoiles - 1];
+  var titres = options.interrompue
+    ? ['Session terminée', 'Session terminée', 'Session terminée']
+    : ['Continue à pratiquer !', 'Très bien !', 'Excellent !'];
+  var nomOp = {'+':'Addition', '-':'Soustraction', '*':'Multiplication', '/':'Division'};
+
+  document.getElementById('etoiles-finales').textContent = nbEtoiles;
+  document.getElementById('titre-final').textContent = titres[etoiles - 1];
+  document.getElementById('sous-titre-final').textContent = options.interrompue
+    ? (repondues + ' question' + (repondues > 1 ? 's' : '') + ' répondue' + (repondues > 1 ? 's' : '') +
+       ' sur ' + etatApp.totalQuestions + ' en ' + nomOp[etatApp.operation])
+    : (etatApp.bonnesReponses + ' / ' + etatApp.totalQuestions + ' en ' + nomOp[etatApp.operation]);
+  document.getElementById('res-correct').textContent = etatApp.bonnesReponses + '/' + repondues;
+  document.getElementById('res-precision').textContent = precision + '%';
+  document.getElementById('res-serie').textContent = etatApp.meilleureSerieSession;
+  document.getElementById('res-pts').textContent = etatApp.pointsSession;
+  document.getElementById('pts-gagnes').textContent = '+' + etatApp.pointsSession;
+
+  afficherEcran('ecran-resultats');
+  afficherHistoriqueDans('zone-historique-fin');
+  if (!options.interrompue) document.getElementById('barre-prog').style.width = '100%';
+}
+
+function terminerSessionManuellement() {
+  terminerSession({interrompue: true});
+}
+
+function recommencerAutreSelection() {
+  if (etatApp.timerQuestion) { clearTimeout(etatApp.timerQuestion); etatApp.timerQuestion = null; }
+  etatApp.sessionTerminee = true;
+  afficherEcran('ecran-config');
+  afficherHistoriqueDans('zone-historique');
+}
+
+// ---- HISTORIQUE ----
+function badgeOp(op) {
+  var classes = {'+':'op-plus', '-':'op-moins', '*':'op-fois', '/':'op-div'};
+  var symboles = {'+':'+', '-':'−', '*':'×', '/':'÷'};
+  return '<div class="op-badge ' + classes[op] + '">' + symboles[op] + '</div>';
+}
+
+function badgeNiveau(precision) {
+  if (precision >= 90) return '<span class="hist-badge badge-champion">🏆 Champion</span>';
+  if (precision >= 70) return '<span class="hist-badge badge-progressif">📈 Progressif</span>';  return '<span class="hist-badge badge-apprenti">📚 En apprentissage</span>';
+}
+
+function afficherHistoriqueDans(idZone) {
+  var zone = document.getElementById(idZone);
+  var hist = chargerHistorique();
+  var ptsTotaux = chargerPointsTotaux();
+
+  if (hist.length === 0) {
+    zone.innerHTML = '<div class="vide-hist">Aucune session encore !</div>'; return;
+  }
+
+  var html = '<div style="text-align:center; margin-bottom:12px; font-size:0.85rem; color:var(--gris);">Total accumulé : <strong style="color:var(--violet);">' + ptsTotaux + ' points</strong></div>';
+  var noms = {'+':'Addition', '-':'Soustraction', '*':'Multiplication', '/':'Division'};
+
+  // Sessions les plus récentes en premier
+  for (var i = hist.length - 1; i >= 0; i--) {
+    var s = hist[i];
+    var maxTexte = (s.max !== undefined && s.max !== null) ? s.max : '—';
+    var repondues = (s.repondues !== undefined && s.repondues !== null) ? s.repondues : s.total;
+    var statut = s.interrompue ? ' · arrêtée après ' + repondues : '';
+
+    html += '<div class="historique-session">' +
+      '<div class="hist-ligne-haut">' +
+        badgeOp(s.op) +
+        '<div class="hist-infos">' +
+          '<div class="hist-nom">' + noms[s.op] + '</div>' +
+          '<div class="hist-detail">' + (s.date || '') + (s.heure ? ' · ' + s.heure : '') + statut + '</div>' +
+        '</div>' +
+        '<div class="hist-actions">' +
+          '<span class="hist-badge ' + (s.precision >= 90 ? 'badge-champion' : s.precision >= 70 ? 'badge-progressif' : 'badge-apprenti') + '">' + s.precision + '%</span>' +
+          '<button type="button" class="btn-effacer-hist" data-index="' + i + '">🗑️ Effacer</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hist-parametres">' +
+        'Nombre max : <strong>' + maxTexte + '</strong> · Questions choisies : <strong>' + s.total + '</strong>' +
+        ' · Score : <span class="hist-score">' + s.bonnes + '/' + repondues + '</span>' +
+        ' · ' + (s.pts || 0) + ' pts' +
+      '</div>' +
+    '</div>';
+  }
+
+  zone.innerHTML = html;
+
+  // Liaison explicite des boutons Effacer : plus fiable que du JavaScript inline.
+  zone.querySelectorAll('.btn-effacer-hist').forEach(function(btn) {
+    btn.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var index = parseInt(btn.getAttribute('data-index'), 10);
+      effacerSessionHistorique(index);
+    });
+  });
+}
+
+function effacerSessionHistorique(index) {
+  var hist = chargerHistorique();
+  if (!Number.isInteger(index) || index < 0 || index >= hist.length) return;
+
+  // Suppression immédiate de la session choisie.
+  hist.splice(index, 1);
+  sauvegarderHistorique(hist);
+
+  // Recalcule le total à partir de l'historique restant pour éviter tout décalage.
+  var nouveauTotal = hist.reduce(function(total, session) {
+    return total + (parseInt(session.pts, 10) || 0);
+  }, 0);
+  sauvegarderPointsTotaux(nouveauTotal);
+
+  // Rafraîchit les deux zones si elles existent; seule la zone visible sera affichée.
+  var zoneAccueil = document.getElementById('zone-historique');
+  var zoneFin = document.getElementById('zone-historique-fin');
+  if (zoneAccueil) afficherHistoriqueDans('zone-historique');
+  if (zoneFin) afficherHistoriqueDans('zone-historique-fin');
+}
+
+function effacerToutHistorique(){
+  sauvegarderHistorique([]);
+  sauvegarderPointsTotaux(0);
+  var z=document.getElementById('zone-historique'); if(z) afficherHistoriqueDans('zone-historique');
+  var zf=document.getElementById('zone-historique-fin'); if(zf) afficherHistoriqueDans('zone-historique-fin');
+  var m=document.getElementById('msg-effacement'); if(m) m.textContent='Historique et points effacés.';
+}
+
+// ---- NAVIGATION ----
+function nouvelleSession() {
+  demarrerSession();
+}
+
+function retourAccueil() {
+  afficherEcran('ecran-config');
+  afficherHistoriqueDans('zone-historique');
+}
+
+// ---- INIT ----
+window.addEventListener('load', function() {
+  afficherHistoriqueDans('zone-historique');
+});
+</script>
+</body>
+</html>
