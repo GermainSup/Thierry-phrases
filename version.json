@@ -1,0 +1,21 @@
+{
+  "updated": "2026-09-22",
+  "pages": {
+    "index.html": {
+      "version": "V3.2",
+      "build": "20260922-01"
+    },
+    "noms.html": {
+      "version": "V18.3",
+      "build": "20260922-01"
+    },
+    "calcul.html": {
+      "version": "V4.4",
+      "build": "20260922-01"
+    },
+    "tables.html": {
+      "version": "V3.3",
+      "build": "20260922-01"
+    }
+  }
+}
