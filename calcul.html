@@ -187,7 +187,7 @@
   /* Stats en temps réel */
   .stats-temps-reel {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 10px;
     margin-bottom: 20px;
   }
@@ -577,7 +577,8 @@
 </style>
 </head>
 <body>
-<div class="conteneur">\n  <a class="retour-portail" href="index.html">🏠 Les exercices de Thierry</a>
+<div class="conteneur">
+  <a class="retour-portail" href="index.html">🏠 Les exercices de Thierry</a>
 
   <div class="entete">
     <div class="titre-app">🧮 Calcul Mental</div>
@@ -663,6 +664,10 @@
           <div class="valeur" id="serie-courante">0</div>
           <div class="etiquette">🔥 Série</div>
         </div>
+        <div class="stat-bulle">
+          <div class="valeur" id="temps-session">00:00</div>
+          <div class="etiquette">⏱ Temps</div>
+        </div>
       </div>
 
       <div id="badge-serie" class="serie-badge"></div>
@@ -718,6 +723,10 @@
           <div class="valeur" id="res-pts" style="color:var(--jaune)">0</div>
           <div class="etiquette">Points session</div>
         </div>
+        <div class="case-resultat">
+          <div class="valeur" id="res-temps" style="color:var(--violet)">00:00</div>
+          <div class="etiquette">Temps session</div>
+        </div>
       </div>
 
       <button class="btn-principal" onclick="nouvelleSession()">🎯 Rejouer la même sélection</button>
@@ -747,7 +756,10 @@ var etatApp = {
   a: 0, b: 0,
   enAttente: false,
   sessionTerminee: false,
-  timerQuestion: null
+  timerQuestion: null,
+  debutSession: 0,
+  dureeSessionMs: 0,
+  timerChrono: null
 };
 
 // ---- STOCKAGE LOCAL ----
@@ -777,6 +789,33 @@ function chargerPointsTotaux() {
 
 function sauvegarderPointsTotaux(pts) {
   try { localStorage.setItem(CLE_POINTS_TOTAUX, pts.toString()); } catch(e) {}
+}
+
+function formatTemps(ms) {
+  var sec = Math.max(0, Math.round((ms || 0) / 1000));
+  var min = Math.floor(sec / 60);
+  var reste = sec % 60;
+  return String(min).padStart(2,'0') + ':' + String(reste).padStart(2,'0');
+}
+
+function demarrerChrono() {
+  if (etatApp.timerChrono) clearInterval(etatApp.timerChrono);
+  etatApp.debutSession = Date.now();
+  etatApp.dureeSessionMs = 0;
+  var el = document.getElementById('temps-session');
+  if (el) el.textContent = '00:00';
+  etatApp.timerChrono = setInterval(function() {
+    etatApp.dureeSessionMs = Date.now() - etatApp.debutSession;
+    if (el) el.textContent = formatTemps(etatApp.dureeSessionMs);
+  }, 500);
+}
+
+function arreterChrono() {
+  if (etatApp.timerChrono) {
+    clearInterval(etatApp.timerChrono);
+    etatApp.timerChrono = null;
+  }
+  if (etatApp.debutSession) etatApp.dureeSessionMs = Date.now() - etatApp.debutSession;
 }
 
 // ---- GÉNÉRATION QUESTIONS ----
@@ -844,6 +883,7 @@ function demarrerSession() {
   document.getElementById('total-questions').textContent = etatApp.totalQuestions;
   majStatsTempsReel();
   afficherEcran('ecran-session');
+  demarrerChrono();
   prochaineProchaineQuestion();
 }
 
@@ -929,6 +969,7 @@ function terminerSession(options) {
   if (etatApp.sessionTerminee) return;
   etatApp.sessionTerminee = true;
   if (etatApp.timerQuestion) { clearTimeout(etatApp.timerQuestion); etatApp.timerQuestion = null; }
+  arreterChrono();
 
   var repondues = etatApp.bonnesReponses + etatApp.mauvaisesReponses;
   var basePrecision = repondues > 0 ? repondues : etatApp.totalQuestions;
@@ -948,6 +989,7 @@ function terminerSession(options) {
     precision: precision,
     pts: etatApp.pointsSession,
     serie: etatApp.meilleureSerieSession,
+    dureeMs: etatApp.dureeSessionMs,
     interrompue: !!options.interrompue
   });
   sauvegarderHistorique(hist);
@@ -972,6 +1014,7 @@ function terminerSession(options) {
   document.getElementById('res-precision').textContent = precision + '%';
   document.getElementById('res-serie').textContent = etatApp.meilleureSerieSession;
   document.getElementById('res-pts').textContent = etatApp.pointsSession;
+  document.getElementById('res-temps').textContent = formatTemps(etatApp.dureeSessionMs);
   document.getElementById('pts-gagnes').textContent = '+' + etatApp.pointsSession;
 
   afficherEcran('ecran-resultats');
@@ -985,6 +1028,7 @@ function terminerSessionManuellement() {
 
 function recommencerAutreSelection() {
   if (etatApp.timerQuestion) { clearTimeout(etatApp.timerQuestion); etatApp.timerQuestion = null; }
+  arreterChrono();
   etatApp.sessionTerminee = true;
   afficherEcran('ecran-config');
   afficherHistoriqueDans('zone-historique');
@@ -1036,6 +1080,7 @@ function afficherHistoriqueDans(idZone) {
       '<div class="hist-parametres">' +
         'Nombre max : <strong>' + maxTexte + '</strong> · Questions choisies : <strong>' + s.total + '</strong>' +
         ' · Score : <span class="hist-score">' + s.bonnes + '/' + repondues + '</span>' +
+        ' · Temps : <strong>' + (s.dureeMs !== undefined ? formatTemps(s.dureeMs) : '—') + '</strong>' +
         ' · ' + (s.pts || 0) + ' pts' +
       '</div>' +
     '</div>';
