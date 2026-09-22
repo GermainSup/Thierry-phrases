@@ -18,6 +18,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .op,.num{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:11px 6px;font:inherit;font-weight:900;cursor:pointer}
 .op{font-size:1.4rem}.op span{display:block;font-size:.55rem;margin-top:3px}.op.active{border-color:var(--gold);color:var(--gold);background:rgba(245,158,11,.1)}
 .nums{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:16px}.num.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.mode{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}.mode.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
 .primary{width:100%;background:var(--gold);color:var(--bg);border:0;border-radius:12px;padding:14px;font:inherit;font-size:.95rem;font-weight:900;cursor:pointer}
 .secondary{width:100%;background:transparent;color:var(--text);border:2px solid var(--gold);border-radius:12px;padding:13px;font:inherit;font-weight:900;cursor:pointer}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
@@ -27,11 +28,12 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .eq{font-size:1.05rem;font-weight:800}.ans{width:62px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:8px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;text-align:center;padding:7px}.ans:focus{outline:0;border-color:var(--gold)}.ans.good{border-color:var(--green);color:var(--green)}.ans.bad{border-color:var(--red);color:#FCA5A5}
 .result{padding:18px;border-radius:12px;text-align:center;margin-bottom:12px}.perfect{background:rgba(34,197,94,.13)}.ok{background:rgba(59,130,246,.13)}.practice{background:rgba(245,158,11,.12)}
 .result h2{font-size:1.25rem}.result p{color:var(--muted);font-size:.82rem;margin-top:5px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center}.stat .v{font-size:1.25rem;font-weight:900}.stat .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.stat{background:rgba(255,255,255,.05);border-radius:10px;padding:10px;text-align:center}.stat .v{font-size:1.25rem;font-weight:900}.stat .l{font-size:.6rem;color:var(--muted);text-transform:uppercase;margin-top:2px}
 .recap{margin:10px 0}.recap-row{display:flex;justify-content:space-between;gap:8px;padding:7px 8px;border-radius:7px;margin-bottom:3px;font-size:.82rem}.recap-row.good{background:rgba(34,197,94,.08)}.recap-row.bad{background:rgba(239,68,68,.08)}.recap-row.none{background:rgba(255,255,255,.04);color:var(--muted)}
 .history-item{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:8px;align-items:flex-start}.history-main{flex:1}.history-title{font-size:.82rem;font-weight:900}.history-detail{font-size:.7rem;color:var(--muted);margin-top:2px;line-height:1.4}.del{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:6px 7px;font:inherit;font-size:.68rem;font-weight:800;cursor:pointer}
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
+.timer{text-align:center;color:var(--muted);font-size:.82rem;font-weight:900;margin:8px 0 12px}
 @media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -51,6 +53,11 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     </div>
     <div class="label">Table du nombre…</div>
     <div id="nums" class="nums"></div>
+    <div class="label">Ordre des calculs</div>
+    <div class="modes" id="modes">
+      <button class="mode active" data-mode="sequentiel">1 → 10 · Séquentiel</button>
+      <button class="mode" data-mode="aleatoire">🔀 Aléatoire</button>
+    </div>
     <button id="start" class="primary">▶ Commencer la table</button>
   </div>
 
@@ -60,6 +67,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
       <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
       <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
       <div class="stat"><div class="v" id="gBest">—</div><div class="l">Meilleur</div></div>
+      <div class="stat"><div class="v" id="gTime">—</div><div class="l">Temps moyen</div></div>
     </div>
     <div id="points" class="points">0 point accumulé</div>
     <div id="history"></div>
@@ -73,6 +81,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 <section id="exercise" class="hidden">
   <div class="panel">
     <div class="table-head"><div id="opBadge" class="badge">Table</div><div id="tableTitle" class="table-title">du 7</div></div>
+    <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
     <div id="rows"></div>
     <div class="actions">
       <button id="correctBtn" class="secondary">✓ Corriger ma table</button>
@@ -88,7 +97,9 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
       <div class="stat"><div class="v" id="rGood">0</div><div class="l">Bonnes</div></div>
       <div class="stat"><div class="v" id="rErr">0</div><div class="l">Erreurs</div></div>
       <div class="stat"><div class="v" id="rPct">0%</div><div class="l">Précision</div></div>
+      <div class="stat"><div class="v" id="rTime">00:00</div><div class="l">Temps</div></div>
     </div>
+    <div class="points">Cette table : <span id="rSessionPoints">0</span> points</div>
     <div class="points">Total accumulé : <span id="rPoints">0</span> points</div>
     <div class="label">Détail ligne par ligne</div>
     <div id="recap" class="recap"></div>
@@ -100,7 +111,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 <script>
 (function(){
 'use strict';
-var state={op:'+',n:7,rows:[],done:false};
+var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',startAt:0,timerId:null,elapsedMs:0};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -110,22 +121,29 @@ function saveH(h){try{localStorage.setItem(K_H,JSON.stringify(h.slice(-100)))}ca
 function loadP(){try{return parseInt(localStorage.getItem(K_P)||'0',10)||0}catch(e){return 0}}
 function saveP(p){try{localStorage.setItem(K_P,String(p))}catch(e){}}
 function show(id){['config','exercise','results'].forEach(function(x){document.getElementById(x).classList.add('hidden')});document.getElementById(id).classList.remove('hidden')}
+function fmtTime(ms){var sec=Math.max(0,Math.round((ms||0)/1000)),m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function stopTimer(){if(state.timerId){clearInterval(state.timerId);state.timerId=null}state.elapsedMs=state.startAt?Date.now()-state.startAt:state.elapsedMs}
+function startTimer(){if(state.timerId)clearInterval(state.timerId);state.startAt=Date.now();state.elapsedMs=0;var el=document.getElementById('liveTime');if(el)el.textContent='00:00';state.timerId=setInterval(function(){state.elapsedMs=Date.now()-state.startAt;if(el)el.textContent=fmtTime(state.elapsedMs)},500)}
+function shuffled(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 
 var nums=document.getElementById('nums');
 for(var i=1;i<=10;i++){var b=document.createElement('button');b.className='num'+(i===7?' active':'');b.textContent=i;b.dataset.n=i;nums.appendChild(b)}
 nums.addEventListener('click',function(e){if(!e.target.classList.contains('num'))return;document.querySelectorAll('.num').forEach(function(x){x.classList.remove('active')});e.target.classList.add('active');state.n=parseInt(e.target.dataset.n,10)});
 document.querySelector('.ops').addEventListener('click',function(e){var b=e.target.closest('.op');if(!b)return;document.querySelectorAll('.op').forEach(function(x){x.classList.remove('active')});b.classList.add('active');state.op=b.dataset.op});
+document.getElementById('modes').addEventListener('click',function(e){var b=e.target.closest('.mode');if(!b)return;document.querySelectorAll('.mode').forEach(function(x){x.classList.remove('active')});b.classList.add('active');state.mode=b.dataset.mode});
 
 function build(){
   state.rows=[];state.done=false;
-  for(var i=1;i<=10;i++){
+  var facteurs=[1,2,3,4,5,6,7,8,9,10];
+  if(state.mode==='aleatoire')facteurs=shuffled(facteurs);
+  facteurs.forEach(function(i){
     var a,b,r;
     if(state.op==='+'){a=i;b=state.n;r=a+b}
     else if(state.op==='-'){a=state.n+i;b=state.n;r=i}
     else if(state.op==='*'){a=state.n;b=i;r=a*b}
     else{a=state.n*i;b=state.n;r=i}
-    state.rows.push({a:a,b:b,r:r});
-  }
+    state.rows.push({a:a,b:b,r:r,facteur:i});
+  });
   document.getElementById('opBadge').textContent='Table des '+names[state.op];
   document.getElementById('tableTitle').textContent='du '+state.n;
   var rows=document.getElementById('rows');rows.innerHTML='';
@@ -134,11 +152,11 @@ function build(){
     d.innerHTML='<div class="eq">'+x.a+' '+symbols[state.op]+' '+x.b+'</div><div>=</div><input class="ans" id="a'+idx+'" type="number" inputmode="numeric" placeholder="?">';
     rows.appendChild(d);
   });
-  show('exercise');setTimeout(function(){document.getElementById('a0').focus()},100);
+  show('exercise');startTimer();setTimeout(function(){document.getElementById('a0').focus()},100);
 }
 
 function grade(interrupted){
-  if(state.done)return;state.done=true;
+  if(state.done)return;state.done=true;stopTimer();
   var good=0,err=0,answered=0,missing=0,rec='';
   state.rows.forEach(function(x,idx){
     var inp=document.getElementById('a'+idx),v=inp.value.trim(),u=v===''?null:parseInt(v,10),ok=v!==''&&u===x.r;inp.disabled=true;
@@ -148,22 +166,22 @@ function grade(interrupted){
   });
   var pct=answered?Math.round(good/answered*100):0,complete=answered===10;
   var pts=good*10+(complete&&pct===100?50:0);
-  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted});saveH(h);saveP(loadP()+pts);
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
   document.getElementById('resultEmoji').textContent=complete&&pct===100?'🏆':pct>=90?'🌟':pct>=70?'👍':'💪';
   document.getElementById('resultTitle').textContent=interrupted?'Table terminée':(complete&&pct===100?'Table parfaite !':pct>=70?'Très bien !':'Continue à pratiquer !');
   document.getElementById('resultDetail').textContent='Table des '+names[state.op]+' du '+state.n+' · '+answered+'/10 réponses'+(interrupted?' · terminée avant la fin':'');
-  document.getElementById('rGood').textContent=good;document.getElementById('rErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('rPct').textContent=pct+'%';document.getElementById('rPoints').textContent=loadP();document.getElementById('recap').innerHTML=rec;
+  document.getElementById('rGood').textContent=good;document.getElementById('rErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('rPct').textContent=pct+'%';document.getElementById('rTime').textContent=fmtTime(state.elapsedMs);document.getElementById('rSessionPoints').textContent=pts;document.getElementById('rPoints').textContent=loadP();document.getElementById('recap').innerHTML=rec;
   renderHistory();show('results');
 }
 
 function renderHistory(){
   var h=loadH(),hist=document.getElementById('history'),pts=loadP();
   document.getElementById('gSessions').textContent=h.length;document.getElementById('points').textContent=pts+' point'+(pts!==1?'s':'')+' accumulé'+(pts!==1?'s':'');
-  if(!h.length){document.getElementById('gAvg').textContent='—';document.getElementById('gBest').textContent='—';hist.innerHTML='<div style="color:var(--muted);text-align:center;font-size:.8rem;padding:10px">Aucune table enregistrée.</div>';return}
-  var sum=0,best=0;h.forEach(function(s){sum+=s.pct;best=Math.max(best,s.pct)});document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';
-  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i];out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+'<br>'+s.good+' bonnes sur '+s.answered+' répondues · '+s.pts+' pts</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
+  if(!h.length){document.getElementById('gAvg').textContent='—';document.getElementById('gBest').textContent='—';document.getElementById('gTime').textContent='—';hist.innerHTML='<div style="color:var(--muted);text-align:center;font-size:.8rem;padding:10px">Aucune table enregistrée.</div>';return}
+  var sum=0,best=0,timeSum=0,timeCount=0;h.forEach(function(s){sum+=s.pct;best=Math.max(best,s.pct);if(s.durationMs!==undefined){timeSum+=s.durationMs;timeCount++}});document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';document.getElementById('gTime').textContent=timeCount?fmtTime(timeSum/timeCount):'—';
+  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
   hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}})
 }
 document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
