@@ -34,9 +34,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;pa
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:8px}.hero,.exercise{padding:13px}.sentence{min-height:110px;padding:12px;font-size:clamp(20px,5.8vw,29px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20260929-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20260929-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20260929-01"></script>
+<script src="grammaire-data.js?build=20260929-02"></script>
 </head>
 <body>
 <div class="wrap">
@@ -45,14 +45,14 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;pa
 <h1>🧠 Grammaire</h1>
 <div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
 <div class="controls">
-<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
 <div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
 </div>
 <label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
 <div id="reminder" class="reminder" hidden></div>
 </section>
 <section class="exercise card">
-<div class="instruction">Clique sur tous les <span>déterminants</span> que tu trouves, puis vérifie ta réponse.</div>
+<div id="instruction" class="instruction">Clique sur tous les <span>déterminants</span> que tu trouves, puis vérifie ta réponse.</div>
 <div id="sentence" class="sentence" aria-live="polite"></div>
 <div class="actions"><button id="checkBtn" class="main">✓ Vérifier ma réponse</button><button id="nextBtn" class="secondary">Autre phrase</button><button id="newSessionBtn" class="secondary">Nouvelle session</button></div>
 <div id="feedback"></div><div id="detail" class="detail" hidden></div>
@@ -63,30 +63,197 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;pa
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.0</div>
+<div class="versionGitHub">GitHub · Grammaire V1.1</div>
 <script>
 (function(){
 "use strict";
-const bank=window.GRAMMAR_BANK||[];let level="1",current=null,answered=false,selected=new Set();let used={1:new Set(),2:new Set(),3:new Set()};let stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
-const sentenceEl=document.getElementById("sentence"),feedbackEl=document.getElementById("feedback"),detailEl=document.getElementById("detail"),reminderEl=document.getElementById("reminder");
+const bank=window.GRAMMAR_BANK||[];
+let level="1",topic="determinants",current=null,answered=false,selected=new Set();
+let used={1:new Set(),2:new Set(),3:new Set()};
+let stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
+
+const sentenceEl=document.getElementById("sentence");
+const feedbackEl=document.getElementById("feedback");
+const detailEl=document.getElementById("detail");
+const reminderEl=document.getElementById("reminder");
+const instructionEl=document.getElementById("instruction");
+const topicEl=document.getElementById("topic");
+
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
 function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
-function tokenizePlain(text){const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;let out=[],last=0,m;while((m=re.exec(text))){if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});out.push({type:"word",text:m[0],det:null});last=re.lastIndex}if(last<text.length)out.push({type:"text",text:text.slice(last)});return out}
-function flatten(parts){let out=[];parts.forEach(p=>{if(p.det)out.push({type:"word",text:p.text,det:p.det});else out=out.concat(tokenizePlain(p.text))});return out}
+function topicLabel(){return topic==="noms"?"noms":"déterminants"}
+function annotation(t){return topic==="noms"?t.noun:t.det}
+function tokenizePlain(text){
+  const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
+  let out=[],last=0,m;
+  while((m=re.exec(text))){
+    if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});
+    out.push({type:"word",text:m[0],det:null,noun:null});
+    last=re.lastIndex;
+  }
+  if(last<text.length)out.push({type:"text",text:text.slice(last)});
+  return out;
+}
+function flatten(parts){
+  let out=[];
+  parts.forEach(p=>{
+    if(p.det||p.noun) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null});
+    else out=out.concat(tokenizePlain(p.text));
+  });
+  return out;
+}
 function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
-function choosePhrase(){const lv=pickLevel(),choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv);let avail=choices.filter(x=>!used[lv].has(x.i));if(!avail.length){used[lv].clear();avail=choices.slice()}const chosen=avail[Math.floor(Math.random()*avail.length)];used[lv].add(chosen.i);return chosen.p}
-function newPhrase(){current=choosePhrase();answered=false;selected.clear();feedbackEl.innerHTML="";detailEl.hidden=true;detailEl.innerHTML="";renderSentence()}
-function renderSentence(){sentenceEl.innerHTML="";const tokens=flatten(current.parts);current._tokens=tokens;tokens.forEach((t,i)=>{if(t.type==="text"){sentenceEl.appendChild(document.createTextNode(t.text));return}const sp=document.createElement("span");sp.className="word";sp.textContent=t.text;sp.dataset.i=i;sp.tabIndex=0;sp.addEventListener("click",()=>wordClick(i,sp));sp.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();wordClick(i,sp)}});sentenceEl.appendChild(sp)})}
-function wordClick(i,el){const t=current._tokens[i];if(answered){if(t&&t.det)showDetail(t);return}if(selected.has(i)){selected.delete(i);el.classList.remove("selected")}else{selected.add(i);el.classList.add("selected")}}
-function check(){if(answered)return;answered=true;stats.phrases++;let found=0,missed=0,wrong=0,total=0;sentenceEl.querySelectorAll(".word").forEach(el=>{const i=Number(el.dataset.i),t=current._tokens[i],isDet=!!t.det,isSel=selected.has(i);el.classList.remove("selected");if(isDet){total++;if(isSel){found++;el.classList.add("correct","afterCorrect")}else{missed++;el.classList.add("missed","afterCorrect")}}else if(isSel){wrong++;el.classList.add("wrong")}});stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;const perfect=found===total&&wrong===0;feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+(perfect?'✅ Bravo ! Tous les déterminants ont été trouvés.':'👍 Correction terminée.')+' <strong>'+found+'/'+total+'</strong> déterminant'+(total>1?'s':'')+' trouvé'+(found>1?'s':'')+(wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+(missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>';stats.history.unshift({level:current.level,found,total,wrong,missed});stats.history=stats.history.slice(0,8);updateStats()}
-function showDetail(t){const d=t.det;detailEl.hidden=false;detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips"><span class="chip">Déterminant '+esc(d.type)+'</span><span class="chip">'+esc(cap(d.gender))+'</span><span class="chip">'+esc(cap(d.number))+'</span>'+(d.note?'<span class="chip">'+esc(cap(d.note))+'</span>':'')+'</div><div class="note">Cette information apparaît seulement après la correction.</div>'}
-function updateStats(){document.getElementById("sPhrases").textContent=stats.phrases;document.getElementById("sFound").textContent=stats.found;document.getElementById("sMissed").textContent=stats.missed;document.getElementById("sWrong").textContent=stats.wrong;const h=document.getElementById("history");h.innerHTML=stats.history.length?stats.history.map(x=>'<div class="hist">Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+(x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+(x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+'</div>').join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>'}
-function reminderHtml(){let rows=[["Définis","le, la, les"],["Indéfinis","un, une, des"]];if(level==="2"||level==="3"||level==="mix"){rows.push(["Possessifs","mon, ma, mes, son, sa, ses, notre, nos, leur, leurs"]);rows.push(["Démonstratifs","ce, cet, cette, ces"])}if(level==="3"||level==="mix"){rows.push(["Interrogatifs","quel, quelle, quels, quelles"]);rows.push(["Numéraux","deux, trois, quatre…"]);rows.push(["Autres","plusieurs, quelques, chaque, aucun, aucune…"])}return '<h3>Rappel — les déterminants</h3><p>Un déterminant est placé devant un nom. Il reçoit généralement le genre et le nombre du nom qu’il accompagne.</p><table><thead><tr><th>Catégorie</th><th>Exemples</th></tr></thead><tbody>'+rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+'</tbody></table><p class="note">Les exemples du rappel sont volontairement différents de la phrase en cours.</p>'}
-function updateReminder(){reminderEl.innerHTML=reminderHtml()}
-document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{level=b.dataset.level;document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));updateReminder();newPhrase()}));
-document.getElementById("showReminder").addEventListener("change",e=>{reminderEl.hidden=!e.target.checked;if(e.target.checked)updateReminder()});
-document.getElementById("checkBtn").addEventListener("click",check);document.getElementById("nextBtn").addEventListener("click",newPhrase);document.getElementById("newSessionBtn").addEventListener("click",()=>{stats={phrases:0,found:0,missed:0,wrong:0,history:[]};used={1:new Set(),2:new Set(),3:new Set()};updateStats();newPhrase()});
-updateReminder();updateStats();newPhrase();
+function choosePhrase(){
+  const lv=pickLevel();
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv);
+  let avail=choices.filter(x=>!used[lv].has(x.i));
+  if(!avail.length){used[lv].clear();avail=choices.slice()}
+  const chosen=avail[Math.floor(Math.random()*avail.length)];
+  used[lv].add(chosen.i);
+  return chosen.p;
+}
+function newPhrase(){
+  current=choosePhrase();answered=false;selected.clear();
+  feedbackEl.innerHTML="";detailEl.hidden=true;detailEl.innerHTML="";
+  renderSentence();
+}
+function renderSentence(){
+  sentenceEl.innerHTML="";
+  const tokens=flatten(current.parts);
+  current._tokens=tokens;
+  tokens.forEach((t,i)=>{
+    if(t.type==="text"){sentenceEl.appendChild(document.createTextNode(t.text));return}
+    const sp=document.createElement("span");
+    sp.className="word";sp.textContent=t.text;sp.dataset.i=i;sp.tabIndex=0;
+    sp.addEventListener("click",()=>wordClick(i,sp));
+    sp.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();wordClick(i,sp)}});
+    sentenceEl.appendChild(sp);
+  });
+}
+function wordClick(i,el){
+  const t=current._tokens[i];
+  if(answered){
+    if(t&&annotation(t))showDetail(t);
+    return;
+  }
+  if(selected.has(i)){selected.delete(i);el.classList.remove("selected")}
+  else{selected.add(i);el.classList.add("selected")}
+}
+function check(){
+  if(answered)return;
+  answered=true;stats.phrases++;
+  let found=0,missed=0,wrong=0,total=0;
+  sentenceEl.querySelectorAll(".word").forEach(el=>{
+    const i=Number(el.dataset.i),t=current._tokens[i],isTarget=!!annotation(t),isSel=selected.has(i);
+    el.classList.remove("selected");
+    if(isTarget){
+      total++;
+      if(isSel){found++;el.classList.add("correct","afterCorrect")}
+      else{missed++;el.classList.add("missed","afterCorrect")}
+    }else if(isSel){wrong++;el.classList.add("wrong")}
+  });
+  stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;
+  const perfect=found===total&&wrong===0;
+  const label=topicLabel();
+  feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
+    (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
+    ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
+    (wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+
+    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>';
+  stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed});
+  stats.history=stats.history.slice(0,8);
+  updateStats();
+}
+function showDetail(t){
+  const a=annotation(t); if(!a)return;
+  detailEl.hidden=false;
+  if(topic==="noms"){
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }else{
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }
+}
+function updateStats(){
+  document.getElementById("sPhrases").textContent=stats.phrases;
+  document.getElementById("sFound").textContent=stats.found;
+  document.getElementById("sMissed").textContent=stats.missed;
+  document.getElementById("sWrong").textContent=stats.wrong;
+  const h=document.getElementById("history");
+  h.innerHTML=stats.history.length?stats.history.map(x=>
+    '<div class="hist">'+(x.topic==="noms"?"Noms":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
+    (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+'</div>'
+  ).join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>';
+}
+function reminderDet(){
+  let rows=[["Définis","le, la, les"],["Indéfinis","un, une, des"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Possessifs","mon, ma, mes, son, sa, ses, notre, nos, leur, leurs"]);
+    rows.push(["Démonstratifs","ce, cet, cette, ces"]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Interrogatifs","quel, quelle, quels, quelles"]);
+    rows.push(["Numéraux","deux, trois, quatre…"]);
+    rows.push(["Autres","plusieurs, quelques, chaque, aucun, aucune…"]);
+  }
+  return '<h3>Rappel — les déterminants</h3>'+
+    '<p>Un déterminant est placé devant un nom. Il reçoit généralement le genre et le nombre du nom qu’il accompagne.</p>'+
+    '<table><thead><tr><th>Catégorie</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Les exemples du rappel sont volontairement différents de la phrase en cours.</p>';
+}
+function reminderNoun(){
+  let rows=[["Nom commun","chat, école, planète"],["Nom propre","Léa, Montréal, Canada"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"]];
+  if(level==="2"||level==="3"||level==="mix")rows.push(["Catégories","personne, animal, lieu, objet, aliment, astre…"]);
+  if(level==="3"||level==="mix")rows.push(["Autres catégories","phénomène naturel, activité, matière, période, groupe…"]);
+  return '<h3>Rappel — les noms</h3>'+
+    '<p>Un nom sert à nommer une personne, un animal, un lieu, un objet, une idée ou une réalité. Un nom peut être commun ou propre.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un nom pour voir son type, son genre, son nombre et sa catégorie.</p>';
+}
+function updateReminder(){
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():reminderDet();
+}
+function updateInstruction(){
+  const lab=topic==="noms"?"noms":"déterminants";
+  instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
+}
+function resetSession(){
+  stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
+  used={1:new Set(),2:new Set(),3:new Set()};
+  updateStats();
+  newPhrase();
+}
+document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
+  level=b.dataset.level;
+  document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));
+  updateReminder();newPhrase();
+}));
+topicEl.addEventListener("change",()=>{
+  topic=topicEl.value;
+  updateInstruction();updateReminder();resetSession();
+});
+document.getElementById("showReminder").addEventListener("change",e=>{
+  reminderEl.hidden=!e.target.checked;
+  if(e.target.checked)updateReminder();
+});
+document.getElementById("checkBtn").addEventListener("click",check);
+document.getElementById("nextBtn").addEventListener("click",newPhrase);
+document.getElementById("newSessionBtn").addEventListener("click",resetSession);
+
+updateInstruction();updateReminder();updateStats();newPhrase();
 })();
 </script>
 </body>
