@@ -10,6 +10,8 @@ Le projet doit au minimum conserver ensemble :
 - `noms.html` — module Français — Les noms
 - `calcul.html` — module Calcul mental
 - `tables.html` — module Tables de calcul
+- `grammaire.html` — module polyvalent de grammaire
+- `grammaire-data.js` — banque de phrases et annotations du module Grammaire
 - `version.json` — contrôle technique des publications et du cache
 - `README.md` — description du projet et règles de publication
 - `HELP-ME.md` — présent guide de sauvegarde et de reprise
@@ -86,3 +88,18 @@ En cas de problème :
 ## 9. Principe directeur
 
 Le projet doit rester exploitable par une personne non experte : la gestion technique des versions, du cache et des publications doit être documentée et intégrée aux fichiers du projet, et non dépendre uniquement de la mémoire d'une conversation.
+
+
+## 10. Module Grammaire et banque grammaticale
+
+Le module `grammaire.html` est conçu comme un moteur réutilisable. Les phrases et leurs annotations sont séparées dans `grammaire-data.js`.
+
+Principe à conserver :
+- ne pas signaler les réponses avant la tentative de l’élève;
+- permettre le choix de la notion grammaticale;
+- conserver les niveaux 1, 2, 3 et Mélange;
+- garder le panneau facultatif « Rappel »;
+- après correction, permettre de cliquer sur un mot correct pour afficher ses caractéristiques;
+- enrichir progressivement la banque de données au lieu de dupliquer les mêmes phrases dans plusieurs modules.
+
+La première notion implantée est « Déterminants ». Les notions futures pourront inclure noms, adjectifs, verbes et adverbes.
