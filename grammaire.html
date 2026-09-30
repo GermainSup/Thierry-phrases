@@ -34,9 +34,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;pa
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:8px}.hero,.exercise{padding:13px}.sentence{min-height:110px;padding:12px;font-size:clamp(20px,5.8vw,29px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20260929-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20260929-04";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20260929-03"></script>
+<script src="grammaire-data.js?build=20260929-04"></script>
 </head>
 <body>
 <div class="wrap">
@@ -63,7 +63,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;pa
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.2</div>
+<div class="versionGitHub">GitHub · Grammaire V1.3</div>
 <script>
 (function(){
 "use strict";
@@ -159,7 +159,7 @@ function check(){
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
     ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
     (wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+
-    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>';
+    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.<div class="note" style="margin-top:7px">Clique maintenant une 2e fois sur un mot correct (en vert) pour voir ses détails.</div></div>';
   stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed});
   stats.history=stats.history.slice(0,8);
   updateStats();
