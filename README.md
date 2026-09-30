@@ -24,6 +24,13 @@ Portail d’exercices éducatifs interactifs destiné à l’apprentissage du fr
   - mode séquentiel ou aléatoire
   - résultats, points, historique et temps requis
 
+- **Grammaire**
+  - premier exercice : repérer les déterminants sans indices visuels préalables
+  - niveaux 1, 2, 3 et mélange
+  - rappel facultatif des catégories et exemples
+  - correction des choix, des omissions et des faux clics
+  - architecture prévue pour accueillir plus tard d’autres notions grammaticales
+
 - **Portail**
   - accès centralisé aux trois exercices
 
@@ -39,6 +46,8 @@ https://germainsup.github.io/Thierry-phrases/
 - `noms.html` — français : les noms
 - `calcul.html` — calcul mental
 - `tables.html` — tables de calcul
+- `grammaire.html` — moteur d’exercices de grammaire
+- `grammaire-data.js` — banque structurée de phrases et annotations grammaticales
 - `version.json` — contrôle technique des versions et du cache
 - `HELP-ME.md` — guide de sauvegarde, reprise et restauration
 
