@@ -11,18 +11,18 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#eef3ff,#f8faff);color:#18233f;min-height:100vh}
-.wrap{max-width:980px;margin:auto;padding:12px 14px 30px}
-.hero{text-align:center;background:#fff;border:1px solid #d8deea;border-radius:18px;padding:14px 18px;box-shadow:0 6px 18px rgba(31,42,68,.05)}
-h1{margin:0;font-size:clamp(25px,3.8vw,36px)}
-.hero p{color:#667085;margin:5px 0 0;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
-.card{display:flex;flex-direction:column;min-height:170px;text-decoration:none;color:inherit;background:#fff;border:1px solid #d8deea;border-radius:16px;padding:14px 16px;box-shadow:0 5px 16px rgba(31,42,68,.05)}
+.wrap{max-width:1180px;margin:auto;padding:8px 10px 28px}
+.hero{text-align:center;background:#fff;border:1px solid #d8deea;border-radius:14px;padding:8px 14px;box-shadow:0 4px 12px rgba(31,42,68,.04)}
+h1{margin:0;font-size:clamp(22px,3vw,31px);line-height:1.15}
+.hero p{color:#667085;margin:3px 0 0;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.card{display:flex;flex-direction:column;min-height:138px;text-decoration:none;color:inherit;background:#fff;border:1px solid #d8deea;border-radius:14px;padding:10px 12px;box-shadow:0 4px 12px rgba(31,42,68,.045)}
 .card:hover,.card:focus{outline:3px solid #cbd7ff;transform:translateY(-2px)}
-.icon{font-size:34px}.card h2{margin:7px 0 4px;font-size:20px}.card p{margin:0;color:#667085;line-height:1.3;font-size:13px}
-.tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.tag{font-size:10px;font-weight:800;padding:4px 7px;border-radius:999px;background:#eef2ff;color:#3049a1}
-.go{margin-top:auto;padding-top:9px;font-weight:900;color:#4767d7;font-size:14px}
-.note{margin-top:8px;text-align:center;color:#667085;font-size:11px;background:#fff;border:1px dashed #d8deea;border-radius:12px;padding:7px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:8px 8px 30px}.card{min-height:145px;padding:12px 14px}.hero{padding:12px}.icon{font-size:30px}.card h2{font-size:19px}}
+.icon{font-size:22px;line-height:1}.card h2{margin:0;font-size:18px;line-height:1.15}.titleRow{display:flex;align-items:center;gap:7px;margin-bottom:4px}.card p{margin:0;color:#667085;line-height:1.25;font-size:12px}
+.tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:6px}.tag{font-size:9px;font-weight:800;padding:3px 6px;border-radius:999px;background:#eef2ff;color:#3049a1}
+.go{margin-top:auto;padding-top:6px;font-weight:900;color:#4767d7;font-size:12px}
+.note{margin-top:6px;text-align:center;color:#667085;font-size:10px;background:#fff;border:1px dashed #d8deea;border-radius:10px;padding:5px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.grid{grid-template-columns:1fr}.wrap{padding:6px 7px 28px}.card{min-height:118px;padding:9px 10px}.hero{padding:8px 10px}.icon{font-size:20px}.card h2{font-size:17px}.card p{font-size:11px}}
 
 .versionGitHub{
   position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
@@ -36,7 +36,7 @@ h1{margin:0;font-size:clamp(25px,3.8vw,36px)}
 
 <script>
 (function(){
-  var PAGE="index.html", BUILD="20260929-07";
+  var PAGE="index.html", BUILD="20260929-08";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -59,16 +59,16 @@ h1{margin:0;font-size:clamp(25px,3.8vw,36px)}
 <div class="wrap">
 <section class="hero"><h1>🎒 Exercices éducatifs interactifs</h1><p>Français et mathématiques · Choisis une activité.</p></section>
 <main class="grid">
-<a class="card" href="noms.html"><div class="icon">🔎</div><h2>Français — Les noms</h2><p>Nom propre ou commun, singulier ou pluriel, avec correction, genre et type précis.</p><div class="tags"><span class="tag">150 activités</span><span class="tag">3 niveaux</span><span class="tag">Devinettes</span><span class="tag">Savais-tu que…</span></div><div class="go">Ouvrir l'exercice →</div></a>
-<a class="card" href="calcul.html"><div class="icon">🧮</div><h2>Calcul mental</h2><p>Addition, soustraction, multiplication et division avec résultats et historique.</p><div class="tags"><span class="tag">+ − × ÷</span><span class="tag">Historique</span><span class="tag">Résultats</span><span class="tag">Points</span></div><div class="go">Ouvrir l'exercice →</div></a>
+<a class="card" href="noms.html"><div class="titleRow"><div class="icon">🔎</div><h2>Français — Les noms</h2></div><p>Nom propre ou commun, singulier ou pluriel, avec correction, genre et type précis.</p><div class="tags"><span class="tag">150 activités</span><span class="tag">3 niveaux</span><span class="tag">Devinettes</span><span class="tag">Savais-tu que…</span></div><div class="go">Ouvrir l'exercice →</div></a>
+<a class="card" href="calcul.html"><div class="titleRow"><div class="icon">🧮</div><h2>Calcul mental</h2></div><p>Addition, soustraction, multiplication et division avec résultats et historique.</p><div class="tags"><span class="tag">+ − × ÷</span><span class="tag">Historique</span><span class="tag">Résultats</span><span class="tag">Points</span></div><div class="go">Ouvrir l'exercice →</div></a>
 <a class="card" href="tables.html">
-<div class="icon">📐</div><h2>Tables de calcul</h2>
+<div class="titleRow"><div class="icon">📐</div><h2>Tables de calcul</h2></div>
 <p>Tables de 1 à 10 pour l’addition, la soustraction, la multiplication et la division.</p>
 <div class="tags"><span class="tag">1 à 10</span><span class="tag">+ − × ÷</span><span class="tag">Historique</span><span class="tag">Statistiques</span></div>
-<div class="go">Ouvrir l'exercice →</div></a><a class="card" href="grammaire.html"><div class="icon">🧠</div><h2>Grammaire</h2><p>Repère toi-même les mots demandés dans la phrase. Déterminants et noms sont disponibles.</p><div class="tags"><span class="tag">Déterminants</span><span class="tag">Noms</span><span class="tag">3 niveaux</span><span class="tag">Rappel</span></div><div class="go">Ouvrir l'exercice →</div></a></main>
-<div class="note">Ce portail pourra accueillir d'autres exercices plus tard.</div>
-<div style="text-align:center;color:#667085;font-size:13px;padding:16px 0 4px;">Portail V3.4</div>
+<div class="go">Ouvrir l'exercice →</div></a><a class="card" href="grammaire.html"><div class="titleRow"><div class="icon">🧠</div><h2>Grammaire</h2></div><p>Repère toi-même les mots demandés dans la phrase. Déterminants et noms sont disponibles.</p><div class="tags"><span class="tag">Déterminants</span><span class="tag">Noms</span><span class="tag">3 niveaux</span><span class="tag">Rappel</span></div><div class="go">Ouvrir l'exercice →</div></a></main>
+<div class="note">Portail conçu pour accueillir jusqu’à 9 modules.</div>
+<div style="text-align:center;color:#667085;font-size:13px;padding:16px 0 4px;">Portail V3.5</div>
 </div>
-<div class="versionGitHub">GitHub · Portail V3.4</div>
+<div class="versionGitHub">GitHub · Portail V3.5</div>
 </body>
 </html>
