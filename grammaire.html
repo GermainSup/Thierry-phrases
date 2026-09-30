@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#4f46e5">
+<title>Grammaire — Exercices interactifs</title>
+<style>
+:root{--bg:#f5f7ff;--card:#fff;--text:#18233f;--muted:#667085;--border:#d9deea;--accent:#4f46e5;--accent2:#6d5ce7;--good:#157347;--goodbg:#eaf8ef;--bad:#b42318;--badbg:#fff0ee;--miss:#9a6700;--missbg:#fff8df}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef2ff,#f9fbff);min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:14px}
+.home{display:inline-block;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:850;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 8px 24px rgba(31,42,68,.06)}
+.hero{padding:18px 20px}h1{margin:0;font-size:clamp(28px,4vw,40px)}.sub{margin-top:6px;color:var(--muted);line-height:1.4}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.control{background:#fbfcff;border:1px solid var(--border);border-radius:14px;padding:12px}
+.control label.title{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:850;margin-bottom:8px}
+select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:10px;padding:9px 10px;font:inherit;font-weight:800;color:var(--text)}
+.levels{display:flex;gap:7px;flex-wrap:wrap}.level{border:2px solid #cfd8ff;background:#eef2ff;color:#3049a1;border-radius:10px;padding:8px 11px;font-weight:850;cursor:pointer}.level.active{background:var(--accent);border-color:var(--accent);color:white}
+.reminderLine{display:flex;align-items:center;gap:9px;margin-top:12px;font-weight:800}.reminderLine input{width:19px;height:19px;accent-color:var(--accent)}
+.reminder{margin-top:10px;padding:12px;border-radius:12px;background:#f8f7ff;border:1px solid #d9d3ff}.reminder h3{margin:0 0 7px;font-size:15px}.reminder p{margin:6px 0;color:#4b5563;line-height:1.45}.reminder table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}.reminder td,.reminder th{padding:7px;border-bottom:1px solid #e5e7eb;text-align:left}
+.exercise{margin-top:12px;padding:18px}.instruction{font-weight:850;text-align:center;margin-bottom:12px}.instruction span{color:var(--accent)}
+.sentence{min-height:130px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;font-size:clamp(22px,3.3vw,33px);line-height:1.65;text-align:center;padding:18px;border:2px dashed #cbd5e1;border-radius:16px;background:#fbfdff}
+.word{display:inline-block;padding:0 3px;border-radius:7px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}
+.actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}button.main,button.secondary{border:0;border-radius:12px;padding:11px 16px;font:inherit;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
+.feedback{margin-top:14px;padding:12px;border-radius:12px;font-weight:750;line-height:1.45}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}
+.detail{margin-top:10px;padding:12px;border-radius:12px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 6px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:5px 9px;font-size:13px;font-weight:800}
+.stats{margin-top:12px;padding:14px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#f8f9fc;border-radius:12px;padding:10px;text-align:center}.v{font-size:22px;font-weight:900}.l{font-size:11px;color:var(--muted);text-transform:uppercase}.history{margin-top:10px;font-size:13px}.hist{padding:8px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:12px;line-height:1.4;margin-top:8px}
+.versionGitHub{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,.92);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+@media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:8px}.hero,.exercise{padding:13px}.sentence{min-height:110px;padding:12px;font-size:clamp(20px,5.8vw,29px)}}
+</style>
+<script>
+(function(){var PAGE="grammaire.html",BUILD="20260929-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+</script>
+<script src="grammaire-data.js?build=20260929-01"></script>
+</head>
+<body>
+<div class="wrap">
+<a class="home" href="index.html">🏠 Portail des exercices</a>
+<section class="hero card">
+<h1>🧠 Grammaire</h1>
+<div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
+<div class="controls">
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
+</div>
+<label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
+<div id="reminder" class="reminder" hidden></div>
+</section>
+<section class="exercise card">
+<div class="instruction">Clique sur tous les <span>déterminants</span> que tu trouves, puis vérifie ta réponse.</div>
+<div id="sentence" class="sentence" aria-live="polite"></div>
+<div class="actions"><button id="checkBtn" class="main">✓ Vérifier ma réponse</button><button id="nextBtn" class="secondary">Autre phrase</button><button id="newSessionBtn" class="secondary">Nouvelle session</button></div>
+<div id="feedback"></div><div id="detail" class="detail" hidden></div>
+</section>
+<section class="stats card">
+<strong>Session en cours</strong>
+<div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div></div>
+<div id="history" class="history"></div>
+</section>
+</div>
+<div class="versionGitHub">GitHub · Grammaire V1.0</div>
+<script>
+(function(){
+"use strict";
+const bank=window.GRAMMAR_BANK||[];let level="1",current=null,answered=false,selected=new Set();let used={1:new Set(),2:new Set(),3:new Set()};let stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
+const sentenceEl=document.getElementById("sentence"),feedbackEl=document.getElementById("feedback"),detailEl=document.getElementById("detail"),reminderEl=document.getElementById("reminder");
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
+function tokenizePlain(text){const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;let out=[],last=0,m;while((m=re.exec(text))){if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});out.push({type:"word",text:m[0],det:null});last=re.lastIndex}if(last<text.length)out.push({type:"text",text:text.slice(last)});return out}
+function flatten(parts){let out=[];parts.forEach(p=>{if(p.det)out.push({type:"word",text:p.text,det:p.det});else out=out.concat(tokenizePlain(p.text))});return out}
+function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
+function choosePhrase(){const lv=pickLevel(),choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv);let avail=choices.filter(x=>!used[lv].has(x.i));if(!avail.length){used[lv].clear();avail=choices.slice()}const chosen=avail[Math.floor(Math.random()*avail.length)];used[lv].add(chosen.i);return chosen.p}
+function newPhrase(){current=choosePhrase();answered=false;selected.clear();feedbackEl.innerHTML="";detailEl.hidden=true;detailEl.innerHTML="";renderSentence()}
+function renderSentence(){sentenceEl.innerHTML="";const tokens=flatten(current.parts);current._tokens=tokens;tokens.forEach((t,i)=>{if(t.type==="text"){sentenceEl.appendChild(document.createTextNode(t.text));return}const sp=document.createElement("span");sp.className="word";sp.textContent=t.text;sp.dataset.i=i;sp.tabIndex=0;sp.addEventListener("click",()=>wordClick(i,sp));sp.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();wordClick(i,sp)}});sentenceEl.appendChild(sp)})}
+function wordClick(i,el){const t=current._tokens[i];if(answered){if(t&&t.det)showDetail(t);return}if(selected.has(i)){selected.delete(i);el.classList.remove("selected")}else{selected.add(i);el.classList.add("selected")}}
+function check(){if(answered)return;answered=true;stats.phrases++;let found=0,missed=0,wrong=0,total=0;sentenceEl.querySelectorAll(".word").forEach(el=>{const i=Number(el.dataset.i),t=current._tokens[i],isDet=!!t.det,isSel=selected.has(i);el.classList.remove("selected");if(isDet){total++;if(isSel){found++;el.classList.add("correct","afterCorrect")}else{missed++;el.classList.add("missed","afterCorrect")}}else if(isSel){wrong++;el.classList.add("wrong")}});stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;const perfect=found===total&&wrong===0;feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+(perfect?'✅ Bravo ! Tous les déterminants ont été trouvés.':'👍 Correction terminée.')+' <strong>'+found+'/'+total+'</strong> déterminant'+(total>1?'s':'')+' trouvé'+(found>1?'s':'')+(wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+(missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>';stats.history.unshift({level:current.level,found,total,wrong,missed});stats.history=stats.history.slice(0,8);updateStats()}
+function showDetail(t){const d=t.det;detailEl.hidden=false;detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips"><span class="chip">Déterminant '+esc(d.type)+'</span><span class="chip">'+esc(cap(d.gender))+'</span><span class="chip">'+esc(cap(d.number))+'</span>'+(d.note?'<span class="chip">'+esc(cap(d.note))+'</span>':'')+'</div><div class="note">Cette information apparaît seulement après la correction.</div>'}
+function updateStats(){document.getElementById("sPhrases").textContent=stats.phrases;document.getElementById("sFound").textContent=stats.found;document.getElementById("sMissed").textContent=stats.missed;document.getElementById("sWrong").textContent=stats.wrong;const h=document.getElementById("history");h.innerHTML=stats.history.length?stats.history.map(x=>'<div class="hist">Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+(x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+(x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+'</div>').join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>'}
+function reminderHtml(){let rows=[["Définis","le, la, les"],["Indéfinis","un, une, des"]];if(level==="2"||level==="3"||level==="mix"){rows.push(["Possessifs","mon, ma, mes, son, sa, ses, notre, nos, leur, leurs"]);rows.push(["Démonstratifs","ce, cet, cette, ces"])}if(level==="3"||level==="mix"){rows.push(["Interrogatifs","quel, quelle, quels, quelles"]);rows.push(["Numéraux","deux, trois, quatre…"]);rows.push(["Autres","plusieurs, quelques, chaque, aucun, aucune…"])}return '<h3>Rappel — les déterminants</h3><p>Un déterminant est placé devant un nom. Il reçoit généralement le genre et le nombre du nom qu’il accompagne.</p><table><thead><tr><th>Catégorie</th><th>Exemples</th></tr></thead><tbody>'+rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+'</tbody></table><p class="note">Les exemples du rappel sont volontairement différents de la phrase en cours.</p>'}
+function updateReminder(){reminderEl.innerHTML=reminderHtml()}
+document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{level=b.dataset.level;document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));updateReminder();newPhrase()}));
+document.getElementById("showReminder").addEventListener("change",e=>{reminderEl.hidden=!e.target.checked;if(e.target.checked)updateReminder()});
+document.getElementById("checkBtn").addEventListener("click",check);document.getElementById("nextBtn").addEventListener("click",newPhrase);document.getElementById("newSessionBtn").addEventListener("click",()=>{stats={phrases:0,found:0,missed:0,wrong:0,history:[]};used={1:new Set(),2:new Set(),3:new Set()};updateStats();newPhrase()});
+updateReminder();updateStats();newPhrase();
+})();
+</script>
+</body>
+</html>
