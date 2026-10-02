@@ -34,9 +34,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20260929-05";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261002-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20260929-05"></script>
+<script src="grammaire-data.js?build=20261002-02"></script>
 </head>
 <body>
 <div class="wrap">
@@ -45,7 +45,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <h1>🧠 Grammaire</h1>
 <div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
 <div class="controls">
-<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
 <div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
 </div>
 <label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
@@ -63,7 +63,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.4</div>
+<div class="versionGitHub">GitHub · Grammaire V1.5</div>
 <script>
 (function(){
 "use strict";
@@ -81,14 +81,14 @@ const topicEl=document.getElementById("topic");
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
 function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
-function topicLabel(){return topic==="noms"?"noms":"déterminants"}
-function annotation(t){return topic==="noms"?t.noun:t.det}
+function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants"}
+function annotation(t){return topic==="noms"?t.noun:topic==="adjectifs"?t.adj:t.det}
 function tokenizePlain(text){
   const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
   let out=[],last=0,m;
   while((m=re.exec(text))){
     if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});
-    out.push({type:"word",text:m[0],det:null,noun:null});
+    out.push({type:"word",text:m[0],det:null,noun:null,adj:null});
     last=re.lastIndex;
   }
   if(last<text.length)out.push({type:"text",text:text.slice(last)});
@@ -97,15 +97,22 @@ function tokenizePlain(text){
 function flatten(parts){
   let out=[];
   parts.forEach(p=>{
-    if(p.det||p.noun) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null});
+    if(p.det||p.noun||p.adj) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null,adj:p.adj||null});
     else out=out.concat(tokenizePlain(p.text));
   });
   return out;
 }
 function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
+function phraseHasTopic(p){
+  return (p.parts||[]).some(part=>{
+    if(topic==="noms") return !!part.noun;
+    if(topic==="adjectifs") return !!part.adj;
+    return !!part.det;
+  });
+}
 function choosePhrase(){
   const lv=pickLevel();
-  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv);
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv && phraseHasTopic(x.p));
   let avail=choices.filter(x=>!used[lv].has(x.i));
   if(!avail.length){used[lv].clear();avail=choices.slice()}
   const chosen=avail[Math.floor(Math.random()*avail.length)];
@@ -175,6 +182,15 @@ function showDetail(t){
       '<span class="chip">'+esc(cap(a.number))+'</span>'+
       '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
       '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }else if(topic==="adjectifs"){
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
   }else{
     detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
       '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
@@ -191,7 +207,7 @@ function updateStats(){
   document.getElementById("sWrong").textContent=stats.wrong;
   const h=document.getElementById("history");
   h.innerHTML=stats.history.length?stats.history.map(x=>
-    '<div class="hist">'+(x.topic==="noms"?"Noms":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
     (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
     (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+'</div>'
   ).join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>';
@@ -223,11 +239,27 @@ function reminderNoun(){
     rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
     '</tbody></table><p class="note">Après la correction, clique sur un nom pour voir son type, son genre, son nombre et sa catégorie.</p>';
 }
+function reminderAdj(){
+  let rows=[["Adjectif qualificatif","petit chat, fleur rouge"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"],["Position","avant ou après le nom"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Ce qu’il peut exprimer","taille, couleur, forme, état, âge, température…"]);
+    rows.push(["Après un verbe","Mars semble rouge."]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Plusieurs adjectifs","une vieille porte fermée"]);
+    rows.push(["Phrase interrogative","Quels anciens ponts sont solides ?"]);
+  }
+  return '<h3>Rappel — les adjectifs</h3>'+
+    '<p>Un adjectif donne une caractéristique à un nom. Il s’accorde généralement en genre et en nombre avec ce nom.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
+}
 function updateReminder(){
-  reminderEl.innerHTML=topic==="noms"?reminderNoun():reminderDet();
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():reminderDet();
 }
 function updateInstruction(){
-  const lab=topic==="noms"?"noms":"déterminants";
+  const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
   instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
 }
 function resetSession(){
