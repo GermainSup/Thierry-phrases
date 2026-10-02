@@ -214,7 +214,7 @@ th{background:#f8f9fc}
 
 <script>
 (function(){
-  var PAGE="noms.html", BUILD="20260923-01";
+  var PAGE="noms.html", BUILD="20261002-01";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -378,7 +378,7 @@ th{background:#f8f9fc}
     <button id="resetAllBtn" class="secondary" style="margin-left:8px">Réinitialiser tout</button>
   </section>
 
-  <div class="footer">Noms V18.4 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
+  <div class="footer">Noms V18.5 — 150 activités · 3 réponses à valider pour chaque nom : type, nombre et genre.</div>
 </div>
 
 <script>
@@ -1753,20 +1753,25 @@ document.querySelectorAll(".difficultyBtn").forEach(btn=>{
   btn.addEventListener("click",()=>{
     const newMode=btn.dataset.mode;
 
-    if(newMode===difficultyMode && history.length===0){
+    if(newMode===difficultyMode){
       applyDifficultyUI();
       return;
     }
 
-    if(history.length>0){
-      const ok=confirm("Changer de niveau commencera une nouvelle session et effacera l’historique des mots de la session en cours. Continuer ?");
-      if(!ok) return;
-    }
-
+    // Le changement de niveau conserve la session, l'historique et les statistiques.
     difficultyMode=newMode;
     localStorage.setItem("noms3e_difficulty",difficultyMode);
     applyDifficultyUI();
-    startNewSession();
+
+    phraseNumber++;
+    currentSentence=generateSentence(difficultyMode);
+    renderSentence();
+
+    $("difficultyNote").textContent = difficultyMode==="mix"
+      ? "Mode mélange sélectionné. La session et les statistiques sont conservées."
+      : `Niveau ${difficultyMode} sélectionné. La session et les statistiques sont conservées.`;
+
+    window.scrollTo(0,0);
   });
 });
 
@@ -1775,6 +1780,6 @@ renderSessions();
 startNewSession();
 })();
 </script>
-<div class="versionGitHub">GitHub · Noms V18.4</div>
+<div class="versionGitHub">GitHub · Noms V18.5</div>
 </body>
 </html>
