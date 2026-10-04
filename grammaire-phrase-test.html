@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261004-01"></script>
+<script src="grammaire-data.js?build=20261004-02"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire TEST V1.7</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.8</div>
 <script>
 (function(){
 "use strict";
@@ -188,6 +188,39 @@ function check(){
   stats.history=stats.history.slice(0,8);
   updateStats();
 }
+function phraseWordDetails(t){
+  if(t.noun){
+    const a=t.noun;
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div>';
+  }
+  if(t.det){
+    const a=t.det;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div>';
+  }
+  if(t.adj){
+    const a=t.adj;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div>';
+  }
+  return "";
+}
 function showClassifier(t,i){
   const correct=wordType(t);
   if(!correct)return;
@@ -199,12 +232,15 @@ function showClassifier(t,i){
     '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
     '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
     '</div><div id="classifyResult" class="classifyResult"></div>'+
-    '<div class="note">Choisis le type de mot. Tu peux ensuite cliquer sur un autre mot vert.</div>';
+    '<div id="phraseWordDetails"></div>'+
+    '<div class="note">Après avoir choisi le type, les caractéristiques déjà apprises apparaissent ici.</div>';
   const result=document.getElementById("classifyResult");
+  const details=document.getElementById("phraseWordDetails");
   if(previous){
     const ok=previous===correct;
     result.className="classifyResult "+(ok?"good":"bad");
     result.textContent=ok?"✓ Bonne réponse : "+cap(correct):"✗ Correction : "+cap(correct);
+    details.innerHTML=phraseWordDetails(t);
   }
   detailEl.querySelectorAll(".classifyBtn").forEach(btn=>btn.addEventListener("click",()=>{
     if(t._classChoice) return;
@@ -219,6 +255,7 @@ function showClassifier(t,i){
     }
     result.className="classifyResult "+(ok?"good":"bad");
     result.textContent=ok?"✓ Bonne réponse ! "+cap(correct):"✗ C’est un "+correct+".";
+    details.innerHTML=phraseWordDetails(t);
     updateStats();
   }));
 }
