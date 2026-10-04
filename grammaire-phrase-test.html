@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261004-02"></script>
+<script src="grammaire-data.js?build=20261004-03"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire TEST V1.8</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.9</div>
 <script>
 (function(){
 "use strict";
@@ -114,13 +114,20 @@ function phraseHasTopic(p){
   return (p.parts||[]).some(part=>{
     if(topic==="noms") return !!part.noun;
     if(topic==="adjectifs") return !!part.adj;
-    if(topic==="phrases") return !!(part.noun||part.det||part.adj);
+    if(topic==="phrases") return true;
     return !!part.det;
   });
 }
 function choosePhrase(){
   const lv=pickLevel();
-  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv && phraseHasTopic(x.p));
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>{
+    if(String(x.p.level)!==lv) return false;
+    if(topic==="phrases"){
+      const parts=x.p.parts||[];
+      return parts.some(p=>p.noun) && parts.some(p=>p.det) && parts.some(p=>p.adj);
+    }
+    return phraseHasTopic(x.p);
+  });
   let avail=choices.filter(x=>!used[lv].has(x.i));
   if(!avail.length){used[lv].clear();avail=choices.slice()}
   const chosen=avail[Math.floor(Math.random()*avail.length)];
@@ -349,7 +356,7 @@ function reminderAdj(){
 }
 function reminderPhrase(){
   return '<h3>Rappel — reconnaître les types de mots</h3>'+
-    '<p>Commence par chercher les mots dont tu connais déjà le type. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
+    '<p>Commence par chercher les <strong>noms, déterminants et adjectifs</strong>. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
     '<table><thead><tr><th>Type</th><th>Comment le reconnaître</th><th>Exemples</th></tr></thead><tbody>'+
     '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
     '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
@@ -361,7 +368,7 @@ function updateReminder(){
 }
 function updateInstruction(){
   if(topic==="phrases"){
-    instructionEl.innerHTML='Clique sur tous les <span>mots dont tu connais le type</span>, puis vérifie ta sélection.';
+    instructionEl.innerHTML='Clique sur tous les <span>noms, déterminants et adjectifs</span> que tu reconnais, puis vérifie ta sélection.';
   }else{
     const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
     instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
