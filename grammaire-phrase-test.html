@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-04";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261004-03"></script>
+<script src="grammaire-data.js?build=20261004-04"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire TEST V1.9</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.10</div>
 <script>
 (function(){
 "use strict";
@@ -238,7 +238,8 @@ function showClassifier(t,i){
     '<button class="classifyBtn" data-type="nom">Nom</button>'+
     '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
     '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
-    '</div><div id="classifyResult" class="classifyResult"></div>'+
+    '</div><div class="note" style="margin-top:6px"><strong>Plus tard :</strong> Verbe · Pronom · Mot invariable…</div>'+
+    '<div id="classifyResult" class="classifyResult"></div>'+
     '<div id="phraseWordDetails"></div>'+
     '<div class="note">Après avoir choisi le type, les caractéristiques déjà apprises apparaissent ici.</div>';
   const result=document.getElementById("classifyResult");
@@ -361,7 +362,7 @@ function reminderPhrase(){
     '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
     '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
     '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
-    '</tbody></table><p class="note">Après Vérifier ma réponse, clique sur chaque mot vert et choisis son type.</p>';
+    '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, clique sur chaque mot vert et choisis son type.</p>';
 }
 function updateReminder(){
   reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="phrases"?reminderPhrase():reminderDet();
