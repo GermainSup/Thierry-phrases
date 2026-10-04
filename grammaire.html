@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261004-05";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261004-06";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261004-05"></script>
+<script src="grammaire-data.js?build=20261004-06"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.11</div>
+<div class="versionGitHub">GitHub · Grammaire V1.12</div>
 <script>
 (function(){
 "use strict";
@@ -155,7 +155,7 @@ function renderSentence(){
 function wordClick(i,el){
   const t=current._tokens[i];
   if(answered){
-    if(t&&annotation(t)&&selected.has(i)){
+    if(t&&annotation(t)){
       sentenceEl.querySelectorAll(".word").forEach(w=>w.classList.remove("inspecting"));
       el.classList.add("inspecting");
       if(topic==="phrases") showClassifier(t,i);
@@ -184,8 +184,8 @@ function check(){
   const perfect=found===total&&wrong===0;
   const label=topicLabel();
   const secondStep=topic==="phrases"
-    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur chaque mot vert que tu avais choisi, puis indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>.</div>'
-    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot vert pour voir ses caractéristiques.</div>';
+    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés.</div>'
+    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés.</div>';
   feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
     ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
@@ -362,7 +362,7 @@ function reminderPhrase(){
     '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
     '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
     '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
-    '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, passe à la <strong>2e étape</strong> : clique sur chaque mot vert et choisis son type.</p>';
+    '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, passe à la <strong>2e étape</strong> : clique sur chaque mot vert ou jaune et choisis son type.</p>';
 }
 function updateReminder(){
   reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="phrases"?reminderPhrase():reminderDet();
