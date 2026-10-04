@@ -27,16 +27,17 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 .sentence{min-height:92px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;font-size:clamp(20px,2.8vw,28px);line-height:1.45;text-align:center;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
 .word{display:inline-block;padding:0 2px;border-radius:6px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}.word.inspecting{outline:3px solid #4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)}
 .actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:9px}button.main,button.secondary{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
-.feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}
+.feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}.secondStep{margin-top:8px;padding:9px 11px;border:2px solid #4f46e5;border-radius:10px;background:#f4f3ff;color:#273568;font-size:15px;font-weight:900;line-height:1.35}.secondStep strong{color:#312e81}
 .detail{margin-top:7px;padding:8px 10px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 4px;font-size:15px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800}
+.classifyChoices{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.classifyBtn{border:2px solid #cbd7ff;background:#fff;color:#273568;border-radius:10px;padding:7px 10px;font-weight:850;cursor:pointer}.classifyBtn:hover{background:#eef2ff}.classifyResult{margin-top:7px;font-weight:800}.classifyResult.good{color:var(--good)}.classifyResult.bad{color:var(--bad)}
 .stats{margin-top:8px;padding:10px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8f9fc;border-radius:10px;padding:6px;text-align:center}.v{font-size:18px;font-weight:900}.l{font-size:10px;color:var(--muted);text-transform:uppercase}.history{margin-top:6px;font-size:12px}.hist{padding:5px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}
 .versionGitHub{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,.92);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261002-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261004-06";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261002-03"></script>
+<script src="grammaire-data.js?build=20261004-06"></script>
 </head>
 <body>
 <div class="wrap">
@@ -45,7 +46,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <h1>🧠 Grammaire</h1>
 <div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
 <div class="controls">
-<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
 <div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
 </div>
 <label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
@@ -59,18 +60,18 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 </section>
 <section class="stats card">
 <strong>Session en cours</strong>
-<div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div></div>
+<div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div><div class="stat" id="classStat" hidden><div class="v" id="sClassified">0/0</div><div class="l">Types réussis</div></div></div>
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.6</div>
+<div class="versionGitHub">GitHub · Grammaire V1.12</div>
 <script>
 (function(){
 "use strict";
 const bank=window.GRAMMAR_BANK||[];
 let level="1",topic="determinants",current=null,answered=false,selected=new Set();
 let used={1:new Set(),2:new Set(),3:new Set()};
-let stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
+let stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
 
 const sentenceEl=document.getElementById("sentence");
 const feedbackEl=document.getElementById("feedback");
@@ -81,8 +82,14 @@ const topicEl=document.getElementById("topic");
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
 function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
-function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants"}
-function annotation(t){return topic==="noms"?t.noun:topic==="adjectifs"?t.adj:t.det}
+function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="phrases"?"mots connus":"déterminants"}
+function annotation(t){
+  if(topic==="noms") return t.noun;
+  if(topic==="adjectifs") return t.adj;
+  if(topic==="phrases") return t.noun||t.det||t.adj;
+  return t.det;
+}
+function wordType(t){if(t.noun)return "nom";if(t.det)return "déterminant";if(t.adj)return "adjectif";return ""}
 function tokenizePlain(text){
   const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
   let out=[],last=0,m;
@@ -107,12 +114,20 @@ function phraseHasTopic(p){
   return (p.parts||[]).some(part=>{
     if(topic==="noms") return !!part.noun;
     if(topic==="adjectifs") return !!part.adj;
+    if(topic==="phrases") return true;
     return !!part.det;
   });
 }
 function choosePhrase(){
   const lv=pickLevel();
-  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv && phraseHasTopic(x.p));
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>{
+    if(String(x.p.level)!==lv) return false;
+    if(topic==="phrases"){
+      const parts=x.p.parts||[];
+      return parts.some(p=>p.noun) && parts.some(p=>p.det) && parts.some(p=>p.adj);
+    }
+    return phraseHasTopic(x.p);
+  });
   let avail=choices.filter(x=>!used[lv].has(x.i));
   if(!avail.length){used[lv].clear();avail=choices.slice()}
   const chosen=avail[Math.floor(Math.random()*avail.length)];
@@ -143,7 +158,8 @@ function wordClick(i,el){
     if(t&&annotation(t)){
       sentenceEl.querySelectorAll(".word").forEach(w=>w.classList.remove("inspecting"));
       el.classList.add("inspecting");
-      showDetail(t);
+      if(topic==="phrases") showClassifier(t,i);
+      else showDetail(t);
       detailEl.scrollIntoView({block:"nearest",behavior:"smooth"});
     }
     return;
@@ -167,14 +183,89 @@ function check(){
   stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;
   const perfect=found===total&&wrong===0;
   const label=topicLabel();
+  const secondStep=topic==="phrases"
+    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés.</div>'
+    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés.</div>';
   feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
     ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
     (wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+
-    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.<div class="note" style="margin-top:7px">Clique maintenant sur chaque mot correct (en vert) pour voir ses détails.</div></div>';
-  stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed});
+    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>'+secondStep;
+  stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed,classCorrect:0,classAsked:0});
   stats.history=stats.history.slice(0,8);
   updateStats();
+}
+function phraseWordDetails(t){
+  if(t.noun){
+    const a=t.noun;
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div>';
+  }
+  if(t.det){
+    const a=t.det;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div>';
+  }
+  if(t.adj){
+    const a=t.adj;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div>';
+  }
+  return "";
+}
+function showClassifier(t,i){
+  const correct=wordType(t);
+  if(!correct)return;
+  detailEl.hidden=false;
+  const previous=t._classChoice||"";
+  detailEl.innerHTML='<h3>Quel type de mot est « '+esc(t.text)+' » ?</h3>'+
+    '<div class="classifyChoices">'+
+    '<button class="classifyBtn" data-type="nom">Nom</button>'+
+    '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
+    '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
+    '</div><div class="note" style="margin-top:6px"><strong>Plus tard :</strong> Verbe · Pronom · Mot invariable…</div>'+
+    '<div id="classifyResult" class="classifyResult"></div>'+
+    '<div id="phraseWordDetails"></div>'+
+    '<div class="note">Après avoir choisi le type, les caractéristiques déjà apprises apparaissent ici.</div>';
+  const result=document.getElementById("classifyResult");
+  const details=document.getElementById("phraseWordDetails");
+  if(previous){
+    const ok=previous===correct;
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse : "+cap(correct):"✗ Correction : "+cap(correct);
+    details.innerHTML=phraseWordDetails(t);
+  }
+  detailEl.querySelectorAll(".classifyBtn").forEach(btn=>btn.addEventListener("click",()=>{
+    if(t._classChoice) return;
+    const choice=btn.dataset.type;
+    t._classChoice=choice;
+    const ok=choice===correct;
+    stats.classAsked++;
+    if(ok)stats.classCorrect++;
+    if(stats.history[0]&&stats.history[0].topic==="phrases"){
+      stats.history[0].classAsked++;
+      if(ok)stats.history[0].classCorrect++;
+    }
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse ! "+cap(correct):"✗ C’est un "+correct+".";
+    details.innerHTML=phraseWordDetails(t);
+    updateStats();
+  }));
 }
 function showDetail(t){
   const a=annotation(t); if(!a)return;
@@ -210,11 +301,15 @@ function updateStats(){
   document.getElementById("sFound").textContent=stats.found;
   document.getElementById("sMissed").textContent=stats.missed;
   document.getElementById("sWrong").textContent=stats.wrong;
+  const cs=document.getElementById("classStat");
+  cs.hidden=topic!=="phrases";
+  document.getElementById("sClassified").textContent=stats.classCorrect+"/"+stats.classAsked;
   const h=document.getElementById("history");
   h.innerHTML=stats.history.length?stats.history.map(x=>
-    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="phrases"?"Phrase":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
     (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
-    (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+'</div>'
+    (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+
+    (x.topic==="phrases"&&x.classAsked?' · Types : '+x.classCorrect+'/'+x.classAsked:'')+'</div>'
   ).join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>';
 }
 function reminderDet(){
@@ -260,15 +355,28 @@ function reminderAdj(){
     rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
     '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
 }
+function reminderPhrase(){
+  return '<h3>Rappel — reconnaître les types de mots</h3>'+
+    '<p>Commence par chercher les <strong>noms, déterminants et adjectifs</strong>. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
+    '<table><thead><tr><th>Type</th><th>Comment le reconnaître</th><th>Exemples</th></tr></thead><tbody>'+
+    '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
+    '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
+    '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
+    '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, passe à la <strong>2e étape</strong> : clique sur chaque mot vert ou jaune et choisis son type.</p>';
+}
 function updateReminder(){
-  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():reminderDet();
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="phrases"?reminderPhrase():reminderDet();
 }
 function updateInstruction(){
-  const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
-  instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
+  if(topic==="phrases"){
+    instructionEl.innerHTML='Clique sur tous les <span>noms, déterminants et adjectifs</span> que tu reconnais, puis vérifie ta sélection.';
+  }else{
+    const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
+    instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
+  }
 }
 function resetSession(){
-  stats={phrases:0,found:0,missed:0,wrong:0,history:[]};
+  stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
   used={1:new Set(),2:new Set(),3:new Set()};
   updateStats();
   newPhrase();
