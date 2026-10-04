@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#4f46e5">
+<title>Grammaire — Exercices interactifs</title>
+<style>
+:root{--bg:#f5f7ff;--card:#fff;--text:#18233f;--muted:#667085;--border:#d9deea;--accent:#4f46e5;--accent2:#6d5ce7;--good:#157347;--goodbg:#eaf8ef;--bad:#b42318;--badbg:#fff0ee;--miss:#9a6700;--missbg:#fff8df}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef2ff,#f9fbff);min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:8px 12px 34px}
+.home{display:inline-block;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 8px 24px rgba(31,42,68,.06)}
+.hero{padding:12px 14px}h1{margin:0;font-size:clamp(24px,3.2vw,34px)}.sub{margin-top:3px;color:var(--muted);line-height:1.3;font-size:14px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.control{background:#fbfcff;border:1px solid var(--border);border-radius:12px;padding:8px 10px}
+.control label.title{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:850;margin-bottom:5px}
+select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;padding:6px 8px;font:inherit;font-size:14px;font-weight:800;color:var(--text)}
+.levels{display:flex;gap:5px;flex-wrap:wrap}.level{border:2px solid #cfd8ff;background:#eef2ff;color:#3049a1;border-radius:9px;padding:6px 9px;font-size:13px;font-weight:850;cursor:pointer}.level.active{background:var(--accent);border-color:var(--accent);color:white}
+.reminderLine{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:14px;font-weight:800}.reminderLine input{width:17px;height:17px;accent-color:var(--accent)}
+.reminder{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f8f7ff;border:1px solid #d9d3ff}.reminder h3{margin:0 0 4px;font-size:14px}.reminder p{margin:4px 0;color:#4b5563;line-height:1.35;font-size:13px}.reminder table{width:100%;border-collapse:collapse;font-size:12px;margin-top:5px}.reminder td,.reminder th{padding:4px 6px;border-bottom:1px solid #e5e7eb;text-align:left}
+.exercise{margin-top:8px;padding:12px}.instruction{font-size:14px;font-weight:850;text-align:center;margin-bottom:7px}.instruction span{color:var(--accent)}
+.sentence{min-height:92px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;font-size:clamp(20px,2.8vw,28px);line-height:1.45;text-align:center;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
+.word{display:inline-block;padding:0 2px;border-radius:6px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}.word.inspecting{outline:3px solid #4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+.actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:9px}button.main,button.secondary{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
+.feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}
+.detail{margin-top:7px;padding:8px 10px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 4px;font-size:15px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800}
+.classifyChoices{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.classifyBtn{border:2px solid #cbd7ff;background:#fff;color:#273568;border-radius:10px;padding:7px 10px;font-weight:850;cursor:pointer}.classifyBtn:hover{background:#eef2ff}.classifyResult{margin-top:7px;font-weight:800}.classifyResult.good{color:var(--good)}.classifyResult.bad{color:var(--bad)}
+.stats{margin-top:8px;padding:10px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8f9fc;border-radius:10px;padding:6px;text-align:center}.v{font-size:18px;font-weight:900}.l{font-size:10px;color:var(--muted);text-transform:uppercase}.history{margin-top:6px;font-size:12px}.hist{padding:5px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}
+.versionGitHub{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,.92);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+@media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
+</style>
+<script>
+(function(){var PAGE="grammaire-phrase-test.html",BUILD="20261004-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+</script>
+<script src="grammaire-data.js?build=20261004-01"></script>
+</head>
+<body>
+<div class="wrap">
+<a class="home" href="index.html">🏠 Portail des exercices</a>
+<section class="hero card">
+<h1>🧠 Grammaire</h1>
+<div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
+<div class="controls">
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
+</div>
+<label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
+<div id="reminder" class="reminder" hidden></div>
+</section>
+<section class="exercise card">
+<div id="instruction" class="instruction">Clique sur tous les <span>déterminants</span> que tu trouves, puis vérifie ta réponse.</div>
+<div id="sentence" class="sentence" aria-live="polite"></div>
+<div class="actions"><button id="checkBtn" class="main">✓ Vérifier ma réponse</button><button id="nextBtn" class="secondary">Autre phrase</button><button id="newSessionBtn" class="secondary">Nouvelle session</button></div>
+<div id="feedback"></div><div id="detail" class="detail" hidden></div>
+</section>
+<section class="stats card">
+<strong>Session en cours</strong>
+<div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div><div class="stat" id="classStat" hidden><div class="v" id="sClassified">0/0</div><div class="l">Types réussis</div></div></div>
+<div id="history" class="history"></div>
+</section>
+</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.7</div>
+<script>
+(function(){
+"use strict";
+const bank=window.GRAMMAR_BANK||[];
+let level="1",topic="determinants",current=null,answered=false,selected=new Set();
+let used={1:new Set(),2:new Set(),3:new Set()};
+let stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
+
+const sentenceEl=document.getElementById("sentence");
+const feedbackEl=document.getElementById("feedback");
+const detailEl=document.getElementById("detail");
+const reminderEl=document.getElementById("reminder");
+const instructionEl=document.getElementById("instruction");
+const topicEl=document.getElementById("topic");
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
+function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="phrases"?"mots connus":"déterminants"}
+function annotation(t){
+  if(topic==="noms") return t.noun;
+  if(topic==="adjectifs") return t.adj;
+  if(topic==="phrases") return t.noun||t.det||t.adj;
+  return t.det;
+}
+function wordType(t){if(t.noun)return "nom";if(t.det)return "déterminant";if(t.adj)return "adjectif";return ""}
+function tokenizePlain(text){
+  const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
+  let out=[],last=0,m;
+  while((m=re.exec(text))){
+    if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});
+    out.push({type:"word",text:m[0],det:null,noun:null,adj:null});
+    last=re.lastIndex;
+  }
+  if(last<text.length)out.push({type:"text",text:text.slice(last)});
+  return out;
+}
+function flatten(parts){
+  let out=[];
+  parts.forEach(p=>{
+    if(p.det||p.noun||p.adj) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null,adj:p.adj||null});
+    else out=out.concat(tokenizePlain(p.text));
+  });
+  return out;
+}
+function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
+function phraseHasTopic(p){
+  return (p.parts||[]).some(part=>{
+    if(topic==="noms") return !!part.noun;
+    if(topic==="adjectifs") return !!part.adj;
+    if(topic==="phrases") return !!(part.noun||part.det||part.adj);
+    return !!part.det;
+  });
+}
+function choosePhrase(){
+  const lv=pickLevel();
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>String(x.p.level)===lv && phraseHasTopic(x.p));
+  let avail=choices.filter(x=>!used[lv].has(x.i));
+  if(!avail.length){used[lv].clear();avail=choices.slice()}
+  const chosen=avail[Math.floor(Math.random()*avail.length)];
+  used[lv].add(chosen.i);
+  return chosen.p;
+}
+function newPhrase(){
+  current=choosePhrase();answered=false;selected.clear();
+  feedbackEl.innerHTML="";detailEl.hidden=true;detailEl.innerHTML="";
+  renderSentence();
+}
+function renderSentence(){
+  sentenceEl.innerHTML="";
+  const tokens=flatten(current.parts);
+  current._tokens=tokens;
+  tokens.forEach((t,i)=>{
+    if(t.type==="text"){sentenceEl.appendChild(document.createTextNode(t.text));return}
+    const sp=document.createElement("span");
+    sp.className="word";sp.textContent=t.text;sp.dataset.i=i;sp.tabIndex=0;
+    sp.addEventListener("click",()=>wordClick(i,sp));
+    sp.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();wordClick(i,sp)}});
+    sentenceEl.appendChild(sp);
+  });
+}
+function wordClick(i,el){
+  const t=current._tokens[i];
+  if(answered){
+    if(t&&annotation(t)&&selected.has(i)){
+      sentenceEl.querySelectorAll(".word").forEach(w=>w.classList.remove("inspecting"));
+      el.classList.add("inspecting");
+      if(topic==="phrases") showClassifier(t,i);
+      else showDetail(t);
+      detailEl.scrollIntoView({block:"nearest",behavior:"smooth"});
+    }
+    return;
+  }
+  if(selected.has(i)){selected.delete(i);el.classList.remove("selected")}
+  else{selected.add(i);el.classList.add("selected")}
+}
+function check(){
+  if(answered)return;
+  answered=true;stats.phrases++;
+  let found=0,missed=0,wrong=0,total=0;
+  sentenceEl.querySelectorAll(".word").forEach(el=>{
+    const i=Number(el.dataset.i),t=current._tokens[i],isTarget=!!annotation(t),isSel=selected.has(i);
+    el.classList.remove("selected");
+    if(isTarget){
+      total++;
+      if(isSel){found++;el.classList.add("correct","afterCorrect")}
+      else{missed++;el.classList.add("missed","afterCorrect")}
+    }else if(isSel){wrong++;el.classList.add("wrong")}
+  });
+  stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;
+  const perfect=found===total&&wrong===0;
+  const label=topicLabel();
+  const afterNote=topic==="phrases"
+    ? 'Clique maintenant sur chaque mot vert que tu avais choisi, puis indique s’il s’agit d’un Nom, d’un Déterminant ou d’un Adjectif.'
+    : 'Clique maintenant sur chaque mot correct (en vert) pour voir ses détails.';
+  feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
+    (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
+    ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
+    (wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+
+    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.<div class="note" style="margin-top:7px">'+afterNote+'</div></div>';
+  stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed,classCorrect:0,classAsked:0});
+  stats.history=stats.history.slice(0,8);
+  updateStats();
+}
+function showClassifier(t,i){
+  const correct=wordType(t);
+  if(!correct)return;
+  detailEl.hidden=false;
+  const previous=t._classChoice||"";
+  detailEl.innerHTML='<h3>Quel type de mot est « '+esc(t.text)+' » ?</h3>'+
+    '<div class="classifyChoices">'+
+    '<button class="classifyBtn" data-type="nom">Nom</button>'+
+    '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
+    '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
+    '</div><div id="classifyResult" class="classifyResult"></div>'+
+    '<div class="note">Choisis le type de mot. Tu peux ensuite cliquer sur un autre mot vert.</div>';
+  const result=document.getElementById("classifyResult");
+  if(previous){
+    const ok=previous===correct;
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse : "+cap(correct):"✗ Correction : "+cap(correct);
+  }
+  detailEl.querySelectorAll(".classifyBtn").forEach(btn=>btn.addEventListener("click",()=>{
+    if(t._classChoice) return;
+    const choice=btn.dataset.type;
+    t._classChoice=choice;
+    const ok=choice===correct;
+    stats.classAsked++;
+    if(ok)stats.classCorrect++;
+    if(stats.history[0]&&stats.history[0].topic==="phrases"){
+      stats.history[0].classAsked++;
+      if(ok)stats.history[0].classCorrect++;
+    }
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse ! "+cap(correct):"✗ C’est un "+correct+".";
+    updateStats();
+  }));
+}
+function showDetail(t){
+  const a=annotation(t); if(!a)return;
+  detailEl.hidden=false;
+  if(topic==="noms"){
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div><div class="note">Détail du mot sélectionné après la correction.</div>';
+  }else if(topic==="adjectifs"){
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }else{
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }
+}
+function updateStats(){
+  document.getElementById("sPhrases").textContent=stats.phrases;
+  document.getElementById("sFound").textContent=stats.found;
+  document.getElementById("sMissed").textContent=stats.missed;
+  document.getElementById("sWrong").textContent=stats.wrong;
+  const cs=document.getElementById("classStat");
+  cs.hidden=topic!=="phrases";
+  document.getElementById("sClassified").textContent=stats.classCorrect+"/"+stats.classAsked;
+  const h=document.getElementById("history");
+  h.innerHTML=stats.history.length?stats.history.map(x=>
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="phrases"?"Phrase":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
+    (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+
+    (x.topic==="phrases"&&x.classAsked?' · Types : '+x.classCorrect+'/'+x.classAsked:'')+'</div>'
+  ).join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>';
+}
+function reminderDet(){
+  let rows=[["Définis","le, la, les"],["Indéfinis","un, une, des"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Possessifs","mon, ma, mes, son, sa, ses, notre, nos, leur, leurs"]);
+    rows.push(["Démonstratifs","ce, cet, cette, ces"]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Interrogatifs","quel, quelle, quels, quelles"]);
+    rows.push(["Numéraux","deux, trois, quatre…"]);
+    rows.push(["Autres","plusieurs, quelques, chaque, aucun, aucune…"]);
+  }
+  return '<h3>Rappel — les déterminants</h3>'+
+    '<p>Un déterminant est placé devant un nom. Il reçoit généralement le genre et le nombre du nom qu’il accompagne.</p>'+
+    '<table><thead><tr><th>Catégorie</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Les exemples du rappel sont volontairement différents de la phrase en cours.</p>';
+}
+function reminderNoun(){
+  let rows=[["Nom commun","chat, école, planète"],["Nom propre","Léa, Montréal, Canada"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"]];
+  if(level==="2"||level==="3"||level==="mix")rows.push(["Catégories","personne, animal, lieu, objet, aliment, astre…"]);
+  if(level==="3"||level==="mix")rows.push(["Autres catégories","phénomène naturel, activité, matière, période, groupe…"]);
+  return '<h3>Rappel — les noms</h3>'+
+    '<p>Un nom sert à nommer une personne, un animal, un lieu, un objet, une idée ou une réalité. Un nom peut être commun ou propre.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un nom pour voir son type, son genre, son nombre et sa catégorie.</p>';
+}
+function reminderAdj(){
+  let rows=[["Adjectif qualificatif","petit chat, fleur rouge"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"],["Position","avant ou après le nom"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Ce qu’il peut exprimer","taille, couleur, forme, état, âge, température…"]);
+    rows.push(["Après un verbe","Mars semble rouge."]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Plusieurs adjectifs","une vieille porte fermée"]);
+    rows.push(["Phrase interrogative","Quels anciens ponts sont solides ?"]);
+  }
+  return '<h3>Rappel — les adjectifs</h3>'+
+    '<p>Un adjectif donne une caractéristique à un nom. Il s’accorde généralement en genre et en nombre avec ce nom.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
+}
+function reminderPhrase(){
+  return '<h3>Rappel — reconnaître les types de mots</h3>'+
+    '<p>Commence par chercher les mots dont tu connais déjà le type. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
+    '<table><thead><tr><th>Type</th><th>Comment le reconnaître</th><th>Exemples</th></tr></thead><tbody>'+
+    '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
+    '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
+    '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
+    '</tbody></table><p class="note">Après Vérifier ma réponse, clique sur chaque mot vert et choisis son type.</p>';
+}
+function updateReminder(){
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="phrases"?reminderPhrase():reminderDet();
+}
+function updateInstruction(){
+  if(topic==="phrases"){
+    instructionEl.innerHTML='Clique sur tous les <span>mots dont tu connais le type</span>, puis vérifie ta sélection.';
+  }else{
+    const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
+    instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
+  }
+}
+function resetSession(){
+  stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
+  used={1:new Set(),2:new Set(),3:new Set()};
+  updateStats();
+  newPhrase();
+}
+document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
+  level=b.dataset.level;
+  document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));
+  updateReminder();newPhrase();
+}));
+topicEl.addEventListener("change",()=>{
+  topic=topicEl.value;
+  updateInstruction();updateReminder();resetSession();
+});
+document.getElementById("showReminder").addEventListener("change",e=>{
+  reminderEl.hidden=!e.target.checked;
+  if(e.target.checked)updateReminder();
+});
+document.getElementById("checkBtn").addEventListener("click",check);
+document.getElementById("nextBtn").addEventListener("click",newPhrase);
+document.getElementById("newSessionBtn").addEventListener("click",resetSession);
+
+updateInstruction();updateReminder();updateStats();newPhrase();
+})();
+</script>
+</body>
+</html>
