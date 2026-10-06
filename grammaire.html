@@ -25,7 +25,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 .reminder{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f8f7ff;border:1px solid #d9d3ff}.reminder h3{margin:0 0 4px;font-size:14px}.reminder p{margin:4px 0;color:#4b5563;line-height:1.35;font-size:13px}.reminder table{width:100%;border-collapse:collapse;font-size:12px;margin-top:5px}.reminder td,.reminder th{padding:4px 6px;border-bottom:1px solid #e5e7eb;text-align:left}
 .exercise{margin-top:8px;padding:12px}.instruction{font-size:14px;font-weight:850;text-align:center;margin-bottom:7px}.instruction span{color:var(--accent)}
 .sentence{min-height:92px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;font-size:clamp(20px,2.8vw,28px);line-height:1.45;text-align:center;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
-.word{display:inline-block;padding:0 2px;border-radius:6px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}.word.inspecting{outline:3px solid #4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+.word{display:inline-block;padding:0 2px;border-radius:6px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}.word.inspecting{outline:3px solid #4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)}.word.classifiedGood{background:#e8f1ff!important;color:#1d4ed8!important;outline:3px solid #60a5fa!important;box-shadow:0 0 0 2px rgba(96,165,250,.18)}.word.classifiedBad{background:#fff0ee!important;color:#b42318!important;outline:3px solid #ef9b92!important}
 .actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:9px}button.main,button.secondary{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
 .feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}.secondStep{margin-top:8px;padding:9px 11px;border:2px solid #4f46e5;border-radius:10px;background:#f4f3ff;color:#273568;font-size:15px;font-weight:900;line-height:1.35}.secondStep strong{color:#312e81}
 .detail{margin-top:7px;padding:8px 10px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 4px;font-size:15px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800}
@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261004-06";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261006-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261004-06"></script>
+<script src="grammaire-data.js?build=20261006-01"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.12</div>
+<div class="versionGitHub">GitHub · Grammaire V1.13</div>
 <script>
 (function(){
 "use strict";
@@ -184,7 +184,7 @@ function check(){
   const perfect=found===total&&wrong===0;
   const label=topicLabel();
   const secondStep=topic==="phrases"
-    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés.</div>'
+    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot bien classé devient bleu</strong>; un mot mal classé devient rouge.</div>'
     : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés.</div>';
   feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
@@ -228,6 +228,12 @@ function phraseWordDetails(t){
   }
   return "";
 }
+function markSecondStep(i,ok){
+  const el=sentenceEl.querySelector('.word[data-i="'+i+'"]');
+  if(!el)return;
+  el.classList.remove("correct","missed","inspecting","classifiedGood","classifiedBad");
+  el.classList.add(ok?"classifiedGood":"classifiedBad");
+}
 function showClassifier(t,i){
   const correct=wordType(t);
   if(!correct)return;
@@ -246,6 +252,7 @@ function showClassifier(t,i){
   const details=document.getElementById("phraseWordDetails");
   if(previous){
     const ok=previous===correct;
+    markSecondStep(i,ok);
     result.className="classifyResult "+(ok?"good":"bad");
     result.textContent=ok?"✓ Bonne réponse : "+cap(correct):"✗ Correction : "+cap(correct);
     details.innerHTML=phraseWordDetails(t);
@@ -261,6 +268,7 @@ function showClassifier(t,i){
       stats.history[0].classAsked++;
       if(ok)stats.history[0].classCorrect++;
     }
+    markSecondStep(i,ok);
     result.className="classifyResult "+(ok?"good":"bad");
     result.textContent=ok?"✓ Bonne réponse ! "+cap(correct):"✗ C’est un "+correct+".";
     details.innerHTML=phraseWordDetails(t);
