@@ -35,9 +35,9 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261006-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261007-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261006-01"></script>
+<script src="grammaire-data.js?build=20261007-01"></script>
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.13</div>
+<div class="versionGitHub">GitHub · Grammaire V1.14</div>
 <script>
 (function(){
 "use strict";
@@ -159,7 +159,10 @@ function wordClick(i,el){
       sentenceEl.querySelectorAll(".word").forEach(w=>w.classList.remove("inspecting"));
       el.classList.add("inspecting");
       if(topic==="phrases") showClassifier(t,i);
-      else showDetail(t);
+      else{
+        markSecondStep(i,true);
+        showDetail(t);
+      }
       detailEl.scrollIntoView({block:"nearest",behavior:"smooth"});
     }
     return;
@@ -185,7 +188,7 @@ function check(){
   const label=topicLabel();
   const secondStep=topic==="phrases"
     ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot bien classé devient bleu</strong>; un mot mal classé devient rouge.</div>'
-    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés.</div>';
+    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot consulté devient bleu</strong>.</div>';
   feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
     ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
@@ -396,7 +399,10 @@ document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
 }));
 topicEl.addEventListener("change",()=>{
   topic=topicEl.value;
-  updateInstruction();updateReminder();resetSession();
+  updateInstruction();
+  updateReminder();
+  updateStats();
+  newPhrase();
 });
 document.getElementById("showReminder").addEventListener("change",e=>{
   reminderEl.hidden=!e.target.checked;
