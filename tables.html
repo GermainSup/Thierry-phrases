@@ -51,7 +51,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20260922-01";
+  var PAGE="tables.html", BUILD="20261009-02";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -73,7 +73,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 <body>
 <div class="wrap">
 <a class="home" href="index.html">🏠 Portail des exercices</a>
-<header><h1>📐 Tables de calcul</h1><div class="sub">Tables de 1 à 10</div></header>
+<header><h1>📐 Tables de calcul</h1><div class="sub">Tables de 1 à 20</div></header>
 
 <section id="config">
   <div class="panel">
@@ -88,15 +88,23 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div id="nums" class="nums"></div>
     <div class="label">Ordre des calculs</div>
     <div class="modes" id="modes">
-      <button class="mode active" data-mode="sequentiel">1 → 10 · Séquentiel</button>
+      <button class="mode active" data-mode="sequentiel">1 → 20 · Séquentiel</button>
       <button class="mode" data-mode="aleatoire">🔀 Aléatoire</button>
+    </div>
+    <div id="randomQuestions" class="hidden" style="margin-bottom:16px">
+      <div class="label">Nombre de questions en mode aléatoire</div>
+      <div class="modes" id="questionCounts" style="grid-template-columns:repeat(3,1fr);margin-bottom:0">
+        <button class="mode active" data-count="10">10 questions</button>
+        <button class="mode" data-count="15">15 questions</button>
+        <button class="mode" data-count="20">20 questions</button>
+      </div>
     </div>
     <button id="start" class="primary">▶ Commencer la table</button>
   </div>
 
   <div class="panel">
     <div class="label">Statistiques et historique</div>
-<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>10 pts par bonne réponse</strong> + <strong>50 pts</strong> pour une table complète parfaite (10/10). Même calcul en mode séquentiel ou aléatoire.</div>
+<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>10 pts par bonne réponse</strong> + <strong>50 pts</strong> pour une session complète parfaite. Même calcul en mode séquentiel ou aléatoire.</div>
     <div class="stats">
       <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
       <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
@@ -141,12 +149,12 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.3</div>
+<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.4</div>
 </div>
 <script>
 (function(){
 'use strict';
-var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',startAt:0,timerId:null,elapsedMs:0};
+var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',questionCount:10,startAt:0,timerId:null,elapsedMs:0};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -162,15 +170,25 @@ function startTimer(){if(state.timerId)clearInterval(state.timerId);state.startA
 function shuffled(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 
 var nums=document.getElementById('nums');
-for(var i=1;i<=10;i++){var b=document.createElement('button');b.className='num'+(i===7?' active':'');b.textContent=i;b.dataset.n=i;nums.appendChild(b)}
+for(var i=1;i<=20;i++){var b=document.createElement('button');b.className='num'+(i===7?' active':'');b.textContent=i;b.dataset.n=i;nums.appendChild(b)}
 nums.addEventListener('click',function(e){if(!e.target.classList.contains('num'))return;document.querySelectorAll('.num').forEach(function(x){x.classList.remove('active')});e.target.classList.add('active');state.n=parseInt(e.target.dataset.n,10)});
 document.querySelector('.ops').addEventListener('click',function(e){var b=e.target.closest('.op');if(!b)return;document.querySelectorAll('.op').forEach(function(x){x.classList.remove('active')});b.classList.add('active');state.op=b.dataset.op});
-document.getElementById('modes').addEventListener('click',function(e){var b=e.target.closest('.mode');if(!b)return;document.querySelectorAll('.mode').forEach(function(x){x.classList.remove('active')});b.classList.add('active');state.mode=b.dataset.mode});
+document.getElementById('modes').addEventListener('click',function(e){
+  var b=e.target.closest('.mode');if(!b)return;
+  document.querySelectorAll('#modes .mode').forEach(function(x){x.classList.remove('active')});
+  b.classList.add('active');state.mode=b.dataset.mode;
+  document.getElementById('randomQuestions').classList.toggle('hidden',state.mode!=='aleatoire');
+});
+document.getElementById('questionCounts').addEventListener('click',function(e){
+  var b=e.target.closest('.mode');if(!b)return;
+  document.querySelectorAll('#questionCounts .mode').forEach(function(x){x.classList.remove('active')});
+  b.classList.add('active');state.questionCount=parseInt(b.dataset.count,10);
+});
 
 function build(){
   state.rows=[];state.done=false;
-  var facteurs=[1,2,3,4,5,6,7,8,9,10];
-  if(state.mode==='aleatoire')facteurs=shuffled(facteurs);
+  var facteurs=[];for(var f=1;f<=20;f++)facteurs.push(f);
+  if(state.mode==='aleatoire')facteurs=shuffled(facteurs).slice(0,state.questionCount);
   facteurs.forEach(function(i){
     var a,b,r;
     if(state.op==='+'){a=i;b=state.n;r=a+b}
@@ -199,14 +217,15 @@ function grade(interrupted){
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✓ '+x.r+'</span></div>'}
     else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+'</span></div>'}
   });
-  var pct=answered?Math.round(good/answered*100):0,complete=answered===10;
+  var totalQuestions=state.rows.length;
+  var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
   var pts=good*10+(complete&&pct===100?50:0);
   var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
   document.getElementById('resultEmoji').textContent=complete&&pct===100?'🏆':pct>=90?'🌟':pct>=70?'👍':'💪';
   document.getElementById('resultTitle').textContent=interrupted?'Table terminée':(complete&&pct===100?'Table parfaite !':pct>=70?'Très bien !':'Continue à pratiquer !');
-  document.getElementById('resultDetail').textContent='Table des '+names[state.op]+' du '+state.n+' · '+answered+'/10 réponses'+(interrupted?' · terminée avant la fin':'');
+  document.getElementById('resultDetail').textContent='Table des '+names[state.op]+' du '+state.n+' · '+answered+'/'+state.rows.length+' réponses'+(interrupted?' · terminée avant la fin':'');
   document.getElementById('rGood').textContent=good;document.getElementById('rErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('rPct').textContent=pct+'%';document.getElementById('rTime').textContent=fmtTime(state.elapsedMs);document.getElementById('rSessionPoints').textContent=pts;document.getElementById('rPoints').textContent=loadP();document.getElementById('recap').innerHTML=rec;
   renderHistory();show('results');
 }
@@ -225,6 +244,6 @@ document.getElementById('refresh').onclick=renderHistory;document.getElementById
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.3</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.4</div>
 </body>
 </html>
