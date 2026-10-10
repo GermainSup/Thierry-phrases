@@ -124,8 +124,8 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div id="points" class="points">0 point accumulé</div>
     <div id="history"></div>
     <div class="hist-actions">
-      <button class="hist-btn" id="refresh">↻ Actualiser</button>
-      <button class="hist-btn danger" id="clearAll">🗑️ Tout effacer</button>
+
+      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
     </div>
   </div>
 </section>
@@ -159,7 +159,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.6 — essai</div>
+
 </div>
 <script>
 (function(){
@@ -250,11 +250,11 @@ function renderHistory(){
 }
 document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
 document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){show('config');renderHistory()};
-document.getElementById('refresh').onclick=renderHistory;document.getElementById('clearAll').onclick=function(){saveH([]);saveP(0);renderHistory()};
+document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer définitivement tout l’historique et les points accumulés ?'))return;saveH([]);saveP(0);renderHistory()};
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.6 — essai</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.7</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
