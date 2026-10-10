@@ -114,7 +114,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
   <div class="panel">
     <div class="label">Statistiques et historique</div>
-<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>10 pts par bonne réponse</strong> + <strong>50 pts</strong> pour une session complète parfaite. Même calcul en mode séquentiel ou aléatoire.</div>
+<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
     <div class="stats">
       <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
       <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
@@ -159,7 +159,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.5 — essai</div>
+<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.6 — essai</div>
 </div>
 <script>
 (function(){
@@ -229,7 +229,7 @@ function grade(interrupted){
   });
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
-  var pts=good*10+(complete&&pct===100?50:0);
+  var pts=good;
   var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
@@ -254,7 +254,7 @@ document.getElementById('refresh').onclick=renderHistory;document.getElementById
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.5 — essai</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.6 — essai</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
@@ -264,7 +264,7 @@ renderHistory();
 <script>
 (function(){
 var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip');var aa=6,bb=7;
-function strategy(a,b){var hi=Math.max(a,b),lo=Math.min(a,b),need=(Math.floor(hi/10)+1)*10-hi;if(lo===0)return 'Ajouter 0 ne change pas le nombre.';if(a===b)return 'Tu as un double : '+a+' + '+a+' = '+(a+b)+'. Essaie de mémoriser ce double.';if(lo>=need&&need>0)return 'Atteins la dizaine suivante : '+hi+' + '+need+' = '+(hi+need)+'. Il reste '+(lo-need)+' à ajouter, donc '+(a+b)+'.';if(lo<=3)return 'Pars du plus grand nombre, '+hi+', et compte '+lo+' de plus : '+(a+b)+'.';if(lo>=5)return 'Décompose '+lo+' en 5 et '+(lo-5)+'. Calcule '+hi+' + 5 = '+(hi+5)+', puis ajoute '+(lo-5)+' : '+(a+b)+'.';return 'Pars de '+hi+' et ajoute '+lo+' en petits pas pour arriver à '+(a+b)+'.'}
+function strategy(a,b){var hi=Math.max(a,b),lo=Math.min(a,b),sum=a+b;var opts=[];if(a===b)opts.push('Doubles : '+a+' + '+a+' = '+sum+'.');else if(Math.abs(a-b)<=4){var dbl=lo;opts.push('Double proche : '+dbl+' + '+dbl+' = '+(dbl*2)+', puis ajoute '+(hi-lo)+' → '+sum+'.')}var need=(Math.floor(hi/10)+1)*10-hi;if(need>0&&lo>=need){opts.push('Passer à la dizaine : '+hi+' + '+need+' = '+(hi+need)+', puis + '+(lo-need)+' = '+sum+'.')}if(lo<=5)opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.');if(opts.length===0){opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + 10 + '+(lo-10)+' = '+sum+'.')}return opts.slice(0,2).join('  Autre idée : ')}
 function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
 document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
 function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
