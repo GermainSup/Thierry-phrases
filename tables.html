@@ -47,6 +47,16 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
   white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)
 }
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
+
+/* Aide aux additions 1 à 20 — V3.5 essai */
+.help-add-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
+.add-help-backdrop{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.80);display:none;align-items:center;justify-content:center;padding:10px}
+.add-help-backdrop.open{display:flex}.add-help-box{background:#1E293B;color:#F8FAFC;border:1px solid #64748B;border-radius:12px;padding:12px;width:min(98vw,750px);max-height:94vh;overflow:auto}
+.add-help-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.add-help-head button{padding:7px 12px;border-radius:7px;background:#F59E0B;border:0;font-weight:bold}
+.add-help-grid{display:grid;grid-template-columns:repeat(21,minmax(23px,1fr));min-width:485px;gap:2px;font-family:Arial,sans-serif;font-size:11px;text-align:center}
+.add-help-grid button,.add-help-grid span{min-width:0;min-height:24px;border:0;border-radius:3px;display:flex;align-items:center;justify-content:center;background:#334155;color:white;font:inherit}
+.add-help-grid .axis{background:#B45309;color:white;font-weight:bold;cursor:pointer}.add-help-grid .cross{background:#F59E0B;color:#111827;font-weight:bold}.add-help-grid .track{background:#2563EB;color:white}.add-help-grid .origin{background:#475569;font-weight:bold}
+.add-help-scroll{overflow:auto;max-width:100%}.add-help-result{font-size:1.3em;font-weight:bold;text-align:center;margin:10px 0}.add-help-tip{line-height:1.5;background:#334155;border-radius:8px;padding:10px;margin-top:8px}
 </style>
 
 <script>
@@ -149,7 +159,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.4</div>
+<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.5 — essai</div>
 </div>
 <script>
 (function(){
@@ -215,7 +225,7 @@ function grade(interrupted){
     var inp=document.getElementById('a'+idx),v=inp.value.trim(),u=v===''?null:parseInt(v,10),ok=v!==''&&u===x.r;inp.disabled=true;
     if(v===''){missing++;rec+='<div class="recap-row none"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>— non répondu → '+x.r+'</span></div>'}
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✓ '+x.r+'</span></div>'}
-    else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+'</span></div>'}
+    else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+(state.op==='+'?' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'">💡 Aide +</button>':'')+'</span></div>'}
   });
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
@@ -244,6 +254,20 @@ document.getElementById('refresh').onclick=renderHistory;document.getElementById
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.4</div>
-</body>
+<div class="versionGitHub">GitHub · Tables de calcul V3.5 — essai</div>
+
+<div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
+<div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
+<p style="font-size:.82em;margin-bottom:8px">Choisis un nombre à gauche et un nombre en haut. Leur croisement montre la somme.</p>
+<div class="add-help-scroll"><div id="addHelpGrid" class="add-help-grid"></div></div>
+<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div></div></div>
+<script>
+(function(){
+var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip');var aa=6,bb=7;
+function strategy(a,b){var hi=Math.max(a,b),lo=Math.min(a,b),need=(Math.floor(hi/10)+1)*10-hi;if(lo===0)return 'Ajouter 0 ne change pas le nombre.';if(a===b)return 'Tu as un double : '+a+' + '+a+' = '+(a+b)+'. Essaie de mémoriser ce double.';if(lo>=need&&need>0)return 'Atteins la dizaine suivante : '+hi+' + '+need+' = '+(hi+need)+'. Il reste '+(lo-need)+' à ajouter, donc '+(a+b)+'.';if(lo<=3)return 'Pars du plus grand nombre, '+hi+', et compte '+lo+' de plus : '+(a+b)+'.';if(lo>=5)return 'Décompose '+lo+' en 5 et '+(lo-5)+'. Calcule '+hi+' + 5 = '+(hi+5)+', puis ajoute '+(lo-5)+' : '+(a+b)+'.';return 'Pars de '+hi+' et ajoute '+lo+' en petits pas pour arriver à '+(a+b)+'.'}
+function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
+function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script></body>
 </html>
