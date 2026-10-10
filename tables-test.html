@@ -47,11 +47,21 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
   white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)
 }
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
+
+/* Aide aux additions 1 à 20 — V3.5 essai */
+.help-add-btn,.help-sub-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
+.add-help-backdrop{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.80);display:none;align-items:center;justify-content:center;padding:10px}
+.add-help-backdrop.open{display:flex}.add-help-box{background:#1E293B;color:#F8FAFC;border:1px solid #64748B;border-radius:12px;padding:12px;width:min(98vw,750px);max-height:94vh;overflow:auto}
+.add-help-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.add-help-head button{padding:7px 12px;border-radius:7px;background:#F59E0B;border:0;font-weight:bold}
+.add-help-grid{display:grid;grid-template-columns:repeat(21,minmax(23px,1fr));min-width:485px;gap:2px;font-family:Arial,sans-serif;font-size:11px;text-align:center}
+.add-help-grid button,.add-help-grid span{min-width:0;min-height:24px;border:0;border-radius:3px;display:flex;align-items:center;justify-content:center;background:#334155;color:white;font:inherit}
+.add-help-grid .axis{background:#B45309;color:white;font-weight:bold;cursor:pointer}.add-help-grid .cross{background:#F59E0B;color:#111827;font-weight:bold}.add-help-grid .track{background:#2563EB;color:white}.add-help-grid .origin{background:#475569;font-weight:bold}
+.add-help-scroll{overflow:auto;max-width:100%}.add-help-result{font-size:1.3em;font-weight:bold;text-align:center;margin:10px 0}.add-help-tip{line-height:1.5;background:#334155;border-radius:8px;padding:10px;margin-top:8px}
 </style>
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261009-02";
+  var PAGE="tables-test.html", BUILD="20261010-01";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -104,7 +114,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
   <div class="panel">
     <div class="label">Statistiques et historique</div>
-<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>10 pts par bonne réponse</strong> + <strong>50 pts</strong> pour une session complète parfaite. Même calcul en mode séquentiel ou aléatoire.</div>
+<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
     <div class="stats">
       <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
       <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
@@ -114,8 +124,8 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div id="points" class="points">0 point accumulé</div>
     <div id="history"></div>
     <div class="hist-actions">
-      <button class="hist-btn" id="refresh">↻ Actualiser</button>
-      <button class="hist-btn danger" id="clearAll">🗑️ Tout effacer</button>
+
+      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
     </div>
   </div>
 </section>
@@ -149,7 +159,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
-<div style="text-align:center;color:var(--muted);font-size:.74rem;padding:10px 0 18px;">Tables de calcul V3.4</div>
+
 </div>
 <script>
 (function(){
@@ -215,11 +225,11 @@ function grade(interrupted){
     var inp=document.getElementById('a'+idx),v=inp.value.trim(),u=v===''?null:parseInt(v,10),ok=v!==''&&u===x.r;inp.disabled=true;
     if(v===''){missing++;rec+='<div class="recap-row none"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>— non répondu → '+x.r+'</span></div>'}
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✓ '+x.r+'</span></div>'}
-    else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+'</span></div>'}
+    else{answered++;err++;inp.classList.add('bad');var help='';if(state.op==='+')help=' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'">💡 Aide +</button>';else if(state.op==='-')help=' <button type="button" class="help-sub-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-r="'+x.r+'">💡 Aide −</button>';rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+help+'</span></div>'}
   });
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
-  var pts=good*10+(complete&&pct===100?50:0);
+  var pts=good;
   var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
@@ -240,10 +250,93 @@ function renderHistory(){
 }
 document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
 document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){show('config');renderHistory()};
-document.getElementById('refresh').onclick=renderHistory;document.getElementById('clearAll').onclick=function(){saveH([]);saveP(0);renderHistory()};
+document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer définitivement tout l’historique et les points accumulés ?'))return;saveH([]);saveP(0);renderHistory()};
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.4</div>
-</body>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.8</div>
+
+<div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
+<div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
+<p style="font-size:.82em;margin-bottom:8px">Choisis un nombre à gauche et un nombre en haut. Leur croisement montre la somme.</p>
+<div class="add-help-scroll"><div id="addHelpGrid" class="add-help-grid"></div></div>
+<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
+<script>
+(function(){
+var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip');var aa=6,bb=7;
+function strategy(a,b){
+  var hi=Math.max(a,b),lo=Math.min(a,b),sum=a+b,opts=[];
+  var near=null,other=null,delta=0;
+  [a,b].some(function(n,idx){var u=n%10;if(u===9||u===8){near=n;other=idx===0?b:a;delta=10-u;return true}return false});
+  if(near!==null){
+    if(other>=delta)opts.push('Approche-toi de la dizaine : '+near+' + '+other+' = '+(near+delta)+' + '+(other-delta)+' = '+sum+'. Tu ajoutes '+delta+' à '+near+' et tu enlèves '+delta+' à l’autre nombre : la somme ne change pas.');
+    else opts.push('Passe par la dizaine : '+near+' + '+other+' = '+(near+delta)+' + '+other+' − '+delta+' = '+sum+'.');
+  }
+  if(a===b)opts.push('Doubles : '+a+' + '+a+' = '+sum+'.');
+  else if(Math.abs(a-b)<=4){var dbl=lo;opts.push('Double proche : '+dbl+' + '+dbl+' = '+(dbl*2)+', puis ajoute '+(hi-lo)+' → '+sum+'.')}
+  var need=(Math.floor(hi/10)+1)*10-hi;
+  if(need>0&&lo>=need)opts.push('Passer à la dizaine : '+hi+' + '+need+' = '+(hi+need)+', puis + '+(lo-need)+' = '+sum+'.');
+  if(lo<=5)opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.');
+  if(opts.length===0){var tens=Math.floor(lo/10)*10,ones=lo-tens;if(tens>0)opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + '+tens+' + '+ones+' = '+sum+'.');else opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.')}
+  return opts.slice(0,2).join('  Autre idée : ');
+}
+function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
+function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);document.getElementById('addHelpCloseBottom').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script>
+
+<div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
+<div class="add-help-box"><div class="add-help-head"><strong>💡 Table des soustractions 1 à 20</strong><button type="button" id="subHelpClose">Fermer ✕</button></div>
+<p style="font-size:.82em;margin-bottom:8px">À gauche : le nombre qu’on enlève. En haut : la différence cherchée. Au croisement : le nombre de départ. La grille montre ainsi la famille addition–soustraction.</p>
+<div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
+<div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
+<script>
+(function(){
+var modal=document.getElementById('subtractionHelp'),grid=document.getElementById('subHelpGrid'),result=document.getElementById('subHelpResult'),tip=document.getElementById('subHelpTip');
+var sub=7,diff=6;
+function strategySub(a,b){
+  var r=a-b,opts=[],u=b%10;
+  if(u===9||u===8){
+    var d=10-u,round=b+d;
+    opts.push('Arrondis le nombre à enlever : '+a+' − '+b+' = '+a+' − '+round+' + '+d+' = '+r+'.');
+  }
+  var toTen=a%10;
+  if(toTen>0&&b>toTen){
+    var rest=b-toTen,base=a-toTen;
+    opts.push('Passe par la dizaine : '+a+' − '+toTen+' = '+base+', puis '+base+' − '+rest+' = '+r+'.');
+  }
+  if(r<=5)opts.push('Compte l’écart : pars de '+b+' et avance de '+r+' pour arriver à '+a+'. Donc '+a+' − '+b+' = '+r+'.');
+  opts.push('Pense à l’addition liée : '+b+' + '+r+' = '+a+'. Donc '+a+' − '+b+' = '+r+'.');
+  return opts.slice(0,2).join('  Autre idée : ');
+}
+function draw(){
+  grid.textContent='';
+  for(var i=0;i<=20;i++){
+    for(var j=0;j<=20;j++){
+      var e=document.createElement(i===0||j===0?'button':'span');
+      if(i===0&&j===0){e.textContent='−';e.className='origin';e.type='button'}
+      else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la différence '+j)}
+      else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir le nombre à enlever '+i)}
+      else{e.textContent=i+j;if(i===sub&&j===diff)e.className='cross';else if(i===sub||j===diff)e.className='track'}
+      grid.appendChild(e);
+    }
+  }
+  var start=sub+diff;
+  result.innerHTML=start+' − '+sub+' = '+diff+'<br><span style="font-size:.72em;color:#CBD5E1">'+sub+' + '+diff+' = '+start+'</span>';
+  tip.textContent='Astuce de calcul mental : '+strategySub(start,sub);
+}
+document.addEventListener('click',function(e){
+  var open=e.target.closest('.help-sub-btn');
+  if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
+  var ax=e.target.closest('#subHelpGrid .axis');
+  if(ax){if(ax.dataset.row)sub=Number(ax.dataset.row);if(ax.dataset.col)diff=Number(ax.dataset.col);draw()}
+});
+function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+document.getElementById('subHelpClose').addEventListener('click',close);
+document.getElementById('subHelpCloseBottom').addEventListener('click',close);
+modal.addEventListener('click',function(e){if(e.target===modal)close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script></body>
 </html>
