@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261013-05";
+  var PAGE="tables-test.html", BUILD="20261013-06";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -268,7 +268,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.9</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.10</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
@@ -302,7 +302,7 @@ function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden'
 
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">Fermer ✕</button></div>
-<p style="font-size:.82em;margin-bottom:8px">À gauche : le nombre qu’on enlève. En haut : la différence cherchée. Au croisement : le nombre de départ. La grille montre ainsi la famille addition–soustraction.</p>
+<p style="font-size:.82em;margin-bottom:8px">À gauche : choisis le nombre qu’on enlève. Ensuite, dans cette même ligne, clique le nombre de départ. La colonne au-dessus indique alors la réponse. Exemple : pour 25 − 8, choisis 8 à gauche puis clique 25 dans la ligne; la colonne 17 donne la réponse.</p>
 <div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
 <div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
 <script>
@@ -332,7 +332,7 @@ function draw(){
       if(i===0&&j===0){e.textContent='−';e.className='origin';e.type='button'}
       else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la différence '+j)}
       else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir le nombre à enlever '+i)}
-      else{e.textContent=i+j;if(i===sub&&j===diff)e.className='cross';else if(i===sub||j===diff)e.className='track'}
+      else{e=document.createElement('button');e.type='button';e.textContent=i+j;e.dataset.sub=i;e.dataset.diff=j;e.dataset.start=i+j;e.setAttribute('aria-label',(i+j)+' moins '+i);if(i===sub&&j===diff)e.className='cross';else if(i===sub||j===diff)e.className='track'}
       grid.appendChild(e);
     }
   }
@@ -345,8 +345,13 @@ document.addEventListener('click',function(e){
   if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
   var free=e.target.closest('.open-sub-matrix');
   if(free){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
+  var cell=e.target.closest('#subHelpGrid button[data-start]');
+  if(cell){sub=Number(cell.dataset.sub);diff=Number(cell.dataset.diff);draw();return}
   var ax=e.target.closest('#subHelpGrid .axis');
-  if(ax){if(ax.dataset.row)sub=Number(ax.dataset.row);if(ax.dataset.col)diff=Number(ax.dataset.col);draw()}
+  if(ax){
+    if(ax.dataset.row){sub=Number(ax.dataset.row);draw();return}
+    if(ax.dataset.col){diff=Number(ax.dataset.col);draw();return}
+  }
 });
 function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 document.getElementById('subHelpClose').addEventListener('click',close);
