@@ -227,6 +227,69 @@ if(phase==='write')content=`<div class="step">3 / 3 — Écriture sans modèle</
 root.innerHTML=`<section class="card"><div class="row between">${reviewNav}<span class="pill">${review?'Correction du contrôle':'Apprentissage'} · ${phase==='discover'?'Découverte':phase==='memory'?'Mémorisation':'Écriture'}</span><span class="muted">${r.tries} essai(s)</span></div></section><section class="card">${content}</section>`;if(phase==='write'&&!feedback)document.getElementById('typed')?.focus()}
 function enterMemory(){phase='memory';visible=true;render();stopTimer();const sec=Number(state.delay);if(sec>0){hideTimer=setTimeout(()=>{if(page==='word'&&phase==='memory'&&visible){visible=false;render()}},sec*1000)}}
 function pickRandom(all,n){return [...all].sort(()=>Math.random()-.5).slice(0,n)}
+function stopDictationTimer(){if(dictTimer){clearInterval(dictTimer);dictTimer=null}}
+function dictationWord(){return dictation&&dictation.words?dictation.words[dictation.index]:null}
+function dictationSpeak(restartTimer){
+  const w=dictationWord();if(!w)return;
+  say(w);
+  if(restartTimer!==false)startDictationTimer();
+}
+function startDictationTimer(){
+  stopDictationTimer();
+  if(!dictation||dictation.stage!=='write')return;
+  dictation.remaining=Number(state.dictationDelay);
+  const tick=()=>{
+    const el=document.getElementById('dictCountdown');
+    if(el){el.textContent=dictation.remaining+' s';el.classList.toggle('urgent',dictation.remaining<=3)}
+  };
+  tick();
+  dictTimer=setInterval(()=>{
+    if(!dictation||page!=='dictation'||dictation.stage!=='write'){stopDictationTimer();return}
+    dictation.remaining--;
+    tick();
+    if(dictation.remaining<=0){stopDictationTimer();finishDictationWord(true)}
+  },1000);
+}
+function startDictation(){
+  const l=list();if(!l||!speechAvailable())return;
+  dictation={words:pickRandom(l.words,l.words.length),index:0,answers:[],stage:'write',remaining:Number(state.dictationDelay)};
+  page='dictation';render();
+  setTimeout(()=>dictationSpeak(true),180);
+}
+function finishDictationWord(timedOut){
+  if(!dictation||dictation.stage!=='write')return;
+  stopDictationTimer();
+  const w=dictationWord(),input=document.getElementById('dictinput');
+  const typed=(input?.value||'').trim();
+  const ok=typed.toLocaleLowerCase('fr-CA')===w;
+  dictation.answers.push({word:w,typed,ok,timedOut:!!timedOut});
+  dictation.stage='feedback';
+  render();
+}
+function nextDictationWord(){
+  if(!dictation)return;
+  dictation.index++;
+  if(dictation.index>=dictation.words.length){dictation.stage='done';render();return}
+  dictation.stage='write';dictation.remaining=Number(state.dictationDelay);render();
+  setTimeout(()=>dictationSpeak(true),180);
+}
+function renderDictation(){
+  const l=list();if(!l||!dictation){navList();return}
+  if(dictation.stage==='done'){
+    const good=dictation.answers.filter(a=>a.ok).length,total=dictation.answers.length;
+    root.innerHTML=`<section class="card"><div class="row between"><h2>🎧 Dictée terminée — Liste ${l.id}</h2><span class="pill">${good}/${total}</span></div><div class="focus"><div class="target">${good}/${total}</div><p class="muted">Cette dictée n’a modifié ni les notes des contrôles ni les résultats d’apprentissage.</p></div><div class="actions">${button('Nouvelle dictée','dictstart','primary')}${button('← Revenir à la liste','list')}</div></section>`;
+    return;
+  }
+  const w=dictationWord(),ped=teaching(l,w),decorated=emphasize(w,ped.bits),last=dictation.answers.at(-1);
+  if(dictation.stage==='write'){
+    root.innerHTML=`<section class="card"><div class="row between"><h2>🎧 Dictée — Liste ${l.id}</h2><span class="pill">Mot ${dictation.index+1}/${dictation.words.length}</span></div><div class="focus"><p class="muted">Écoute le mot et écris-le. Le mot n’est pas affiché.</p><div id="dictCountdown" class="dict-timer">${dictation.remaining} s</div><div class="actions" style="justify-content:center">${button('🔊 Réécouter','dictrepeat')}</div><form id="dictform" class="dict-answer"><label class="sr" for="dictinput">Mot dicté</label><input id="dictinput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Écris le mot entendu…"><button class="primary" type="submit">Corriger</button></form></div><div class="actions">${button('Terminer la dictée','dictstop','danger')}</div></section>`;
+    setTimeout(()=>document.getElementById('dictinput')?.focus(),0);
+    return;
+  }
+  if(dictation.stage==='feedback'&&last){
+    root.innerHTML=`<section class="card"><div class="row between"><h2>✏️ Correction — Dictée</h2><span class="pill">Mot ${dictation.index+1}/${dictation.words.length}</span></div><div class="status ${last.ok?'success':'warn'}"><strong>${last.ok?'✅ Bravo !':'🔎 À revoir'}</strong>${last.timedOut?'<p>Le temps est écoulé.</p>':''}</div><div class="focus"><div class="dict-word-correct">${decorated}</div><div class="lesson"><p><b>📖 Je me rappelle :</b> ${html(ped.rule)}</p><p><b>💡 Mon astuce :</b> ${html(ped.memory)}</p></div>${last.typed?'<p class="muted">Ta réponse : <b>'+html(last.typed)+'</b></p>':'<p class="muted">Aucune réponse écrite.</p>'}</div><div class="actions">${speakButton(w)}${button(dictation.index+1<dictation.words.length?'Mot suivant →':'Voir le résultat','dictnext','primary')}${button('Terminer la dictée','dictstop')}</div></section>`;
+  }
+}
 function startTest(n){const l=list();test={words:pickRandom(l.words,Math.min(n,l.words.length)),index:0,answers:[],stage:'show',visible:true};page='test';render();testTimer()}
 function testTimer(){stopTimer();if(test&&test.stage==='show'){const sec=Number(state.delay)||8;hideTimer=setTimeout(()=>{if(page==='test'&&test&&test.stage==='show'){test.stage='type';test.visible=false;render()}},sec*1000)}}
 function testAdvance(){const l=list();const v=document.getElementById('testinput')?.value.trim()||'';if(!v){alert('Écris un mot avant de continuer.');return}test.answers.push({word:test.words[test.index],typed:v,ok:v.toLocaleLowerCase('fr-CA')===test.words[test.index]});test.index++;if(test.index>=test.words.length){const entry={date:new Date().toISOString(),answers:test.answers,score:test.answers.filter(x=>x.ok).length,total:test.answers.length};(state.tests[l.id]||(state.tests[l.id]=[])).push(entry);save();test.stage='done'}else{test.stage='show';test.visible=true}render();if(test.stage==='show')testTimer()}
