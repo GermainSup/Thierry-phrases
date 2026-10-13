@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261010-01";
+  var PAGE="tables-test.html", BUILD="20261013-05";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -113,6 +113,15 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
   </div>
 
   <div class="panel">
+    <div class="label">Matrices d’aide — consultation libre</div>
+    <div style="color:var(--muted);font-size:.76rem;line-height:1.45;margin-bottom:10px;">Consulte les matrices quand tu veux pour te familiariser avec les résultats. Clique sur une ligne et une colonne pour explorer les calculs.</div>
+    <div class="actions" style="margin-top:0">
+      <button type="button" class="secondary open-add-matrix">📊 Matrice des additions</button>
+      <button type="button" class="secondary open-sub-matrix">📊 Matrice des soustractions</button>
+    </div>
+  </div>
+
+  <div class="panel">
     <div class="label">Statistiques et historique</div>
 <div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
     <div class="stats">
@@ -135,6 +144,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div class="table-head"><div id="opBadge" class="badge">Table</div><div id="tableTitle" class="table-title">du 7</div></div>
     <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
     <div id="rows"></div>
+    <div class="actions" id="exerciseHelpActions"></div>
     <div class="actions">
       <button id="correctBtn" class="secondary">✓ Corriger ma table</button>
       <button id="finishBtn" class="secondary">⏹ Terminer la table</button>
@@ -210,6 +220,10 @@ function build(){
   document.getElementById('opBadge').textContent='Table des '+names[state.op];
   document.getElementById('tableTitle').textContent='du '+state.n;
   var rows=document.getElementById('rows');rows.innerHTML='';
+  var helpActions=document.getElementById('exerciseHelpActions');
+  if(state.op==='+')helpActions.innerHTML='<button type="button" class="secondary open-add-matrix">📊 Voir la matrice des additions</button>';
+  else if(state.op==='-')helpActions.innerHTML='<button type="button" class="secondary open-sub-matrix">📊 Voir la matrice des soustractions</button>';
+  else helpActions.innerHTML='';
   state.rows.forEach(function(x,idx){
     var d=document.createElement('div');d.className='row';
     d.innerHTML='<div class="eq">'+x.a+' '+symbols[state.op]+' '+x.b+'</div><div>=</div><input class="ans" id="a'+idx+'" type="number" inputmode="numeric" placeholder="?">';
@@ -254,10 +268,10 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.8</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.9</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
-<div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Choisis un nombre à gauche et un nombre en haut. Leur croisement montre la somme.</p>
 <div class="add-help-scroll"><div id="addHelpGrid" class="add-help-grid"></div></div>
 <div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
@@ -281,13 +295,13 @@ function strategy(a,b){
   return opts.slice(0,2).join('  Autre idée : ');
 }
 function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var free=e.target.closest('.open-add-matrix');if(free){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
 function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);document.getElementById('addHelpCloseBottom').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 })();
 </script>
 
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
-<div class="add-help-box"><div class="add-help-head"><strong>💡 Table des soustractions 1 à 20</strong><button type="button" id="subHelpClose">Fermer ✕</button></div>
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">Fermer ✕</button></div>
 <p style="font-size:.82em;margin-bottom:8px">À gauche : le nombre qu’on enlève. En haut : la différence cherchée. Au croisement : le nombre de départ. La grille montre ainsi la famille addition–soustraction.</p>
 <div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
 <div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
@@ -329,6 +343,8 @@ function draw(){
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
   if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
+  var free=e.target.closest('.open-sub-matrix');
+  if(free){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
   var ax=e.target.closest('#subHelpGrid .axis');
   if(ax){if(ax.dataset.row)sub=Number(ax.dataset.row);if(ax.dataset.col)diff=Number(ax.dataset.col);draw()}
 });
