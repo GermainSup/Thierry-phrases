@@ -207,7 +207,7 @@ const correctionsFor=(l,w)=>state.corrections[l.id+':'+w]||{};
 const corrected=(l,tIndex,w)=>!!correctionsFor(l,w)[tIndex];
 function markCorrected(l,w){const tests=state.tests[l.id]||[];let changed=false;tests.forEach((t,i)=>{if((t.answers||[]).some(a=>a.word===w&&!a.ok)&&!corrected(l,i,w)){const k=l.id+':'+w;state.corrections[k] ||= {};state.corrections[k][i]=new Date().toISOString();changed=true;}});if(changed)save();return changed;}
 const speechAvailable=()=>typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined';
-function say(w,rate){if(!speechAvailable()){alert('Lecture vocale indisponible sur ce navigateur.');return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.lang='fr-CA';u.rate=rate||.83;speechSynthesis.speak(u)}catch(e){alert('Lecture vocale impossible sur cet appareil.')}}
+function say(w,rate){if(!speechAvailable()){alert('Lecture vocale indisponible sur ce navigateur.');return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.lang='fr-CA';u.rate=rate||.83;const voices=speechSynthesis.getVoices? speechSynthesis.getVoices():[];const frca=voices.find(v=>String(v.lang||'').toLowerCase()==='fr-ca')||voices.find(v=>String(v.lang||'').toLowerCase().startsWith('fr-ca'));if(frca)u.voice=frca;speechSynthesis.speak(u)}catch(e){alert('Lecture vocale impossible sur cet appareil.')}}
 function stopTimer(){if(hideTimer){clearTimeout(hideTimer);hideTimer=null}}
 function navHome(){reviewContext=null;stopTimer();dictation=null;test=null;active=null;page='home';render()}
 function navList(){reviewContext=null;stopTimer();dictation=null;test=null;active=null;page='list';render()}
@@ -230,7 +230,7 @@ function pickRandom(all,n){return [...all].sort(()=>Math.random()-.5).slice(0,n)
 function dictationWord(){return dictation&&dictation.words?dictation.words[dictation.index]:null}
 function dictationSpeak(){
   const w=dictationWord();if(!w)return;
-  say(w,.75);
+  say(w,.65);
 }
 function startDictation(){
   const l=list();if(!l||!speechAvailable())return;
