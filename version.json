@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-13",
   "pages": {
     "index.html": {
       "version": "V3.9",
@@ -22,8 +22,8 @@
       "build": "20261007-01"
     },
     "orthographe.html": {
-      "version": "V1.10",
-      "build": "20261009-01"
+      "version": "V1.14",
+      "build": "20261013-04"
     }
   }
 }
