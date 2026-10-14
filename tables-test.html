@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261013-06";
+  var PAGE="tables-test.html", BUILD="20261014-01";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -268,13 +268,13 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.10</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.11</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
-<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Choisis un nombre à gauche et un nombre en haut. Leur croisement montre la somme.</p>
 <div class="add-help-scroll"><div id="addHelpGrid" class="add-help-grid"></div></div>
-<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
+<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">← Retour au calcul</button></div></div>
 <script>
 (function(){
 var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip');var aa=6,bb=7;
@@ -295,16 +295,20 @@ function strategy(a,b){
   return opts.slice(0,2).join('  Autre idée : ');
 }
 function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var free=e.target.closest('.open-add-matrix');if(free){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
-function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);document.getElementById('addHelpCloseBottom').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}
+function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);openMatrix();return}var free=e.target.closest('.open-add-matrix');if(free){openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
+window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
 </script>
 
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
-<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">Fermer ✕</button></div>
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
 <p style="font-size:.82em;margin-bottom:8px">À gauche : choisis le nombre qu’on enlève. Ensuite, dans cette même ligne, clique le nombre de départ. La colonne au-dessus indique alors la réponse. Exemple : pour 25 − 8, choisis 8 à gauche puis clique 25 dans la ligne; la colonne 17 donne la réponse.</p>
 <div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
-<div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
+<div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">← Retour au calcul</button></div></div>
 <script>
 (function(){
 var modal=document.getElementById('subtractionHelp'),grid=document.getElementById('subHelpGrid'),result=document.getElementById('subHelpResult'),tip=document.getElementById('subHelpTip');
@@ -340,11 +344,14 @@ function draw(){
   result.innerHTML=start+' − '+sub+' = '+diff+'<br><span style="font-size:.72em;color:#CBD5E1">'+sub+' + '+diff+' = '+start+'</span>';
   tip.textContent='Astuce de calcul mental : '+strategySub(start,sub);
 }
+function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'subtraction'},'',location.href)}catch(e){}}
+function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+function closeMatrix(){if(history.state&&history.state.matrixHelp==='subtraction'){history.back()}else hideMatrix()}
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
-  if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
+  if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);openMatrix();return}
   var free=e.target.closest('.open-sub-matrix');
-  if(free){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}
+  if(free){openMatrix();return}
   var cell=e.target.closest('#subHelpGrid button[data-start]');
   if(cell){sub=Number(cell.dataset.sub);diff=Number(cell.dataset.diff);draw();return}
   var ax=e.target.closest('#subHelpGrid .axis');
@@ -353,11 +360,11 @@ document.addEventListener('click',function(e){
     if(ax.dataset.col){diff=Number(ax.dataset.col);draw();return}
   }
 });
-function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
-document.getElementById('subHelpClose').addEventListener('click',close);
-document.getElementById('subHelpCloseBottom').addEventListener('click',close);
-modal.addEventListener('click',function(e){if(e.target===modal)close()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+document.getElementById('subHelpClose').addEventListener('click',closeMatrix);
+document.getElementById('subHelpCloseBottom').addEventListener('click',closeMatrix);
+modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
 </script></body>
 </html>
