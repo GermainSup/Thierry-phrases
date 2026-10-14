@@ -49,7 +49,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 
 /* Aide aux additions 1 à 20 — V3.5 essai */
-.help-add-btn,.help-sub-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
+.help-add-btn,.matrix-seen{display:inline-block;margin-left:7px;font-size:.78em;font-weight:800;color:#166534}.help-sub-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
 .add-help-backdrop{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.80);display:none;align-items:center;justify-content:center;padding:10px}
 .add-help-backdrop.open{display:flex}.add-help-box{background:#1E293B;color:#F8FAFC;border:1px solid #64748B;border-radius:12px;padding:12px;width:min(98vw,750px);max-height:94vh;overflow:auto}
 .add-help-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.add-help-head button{padding:7px 12px;border-radius:7px;background:#F59E0B;border:0;font-weight:bold}
@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261014-02";
+  var PAGE="tables.html", BUILD="20261014-03";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -177,7 +177,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 <script>
 (function(){
 'use strict';
-var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',questionCount:10,startAt:0,timerId:null,elapsedMs:0};
+var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -209,7 +209,7 @@ document.getElementById('questionCounts').addEventListener('click',function(e){
 });
 
 function build(){
-  state.rows=[];state.done=false;
+  state.rows=[];state.done=false;state.matrixConsulted={};state.historyIndex=null;
   var facteurs=[];for(var f=1;f<=20;f++)facteurs.push(f);
   if(state.mode==='aleatoire')facteurs=shuffled(facteurs).slice(0,state.questionCount);
   facteurs.forEach(function(i){
@@ -242,12 +242,12 @@ function grade(interrupted){
     var inp=document.getElementById('a'+idx),v=inp.value.trim(),u=v===''?null:parseInt(v,10),ok=v!==''&&u===x.r;inp.disabled=true;
     if(v===''){missing++;rec+='<div class="recap-row none"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>— non répondu → '+x.r+'</span></div>'}
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✓ '+x.r+'</span></div>'}
-    else{answered++;err++;inp.classList.add('bad');var help='';if(state.op==='+')help=' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'">💡 Aide +</button>';else if(state.op==='-')help=' <button type="button" class="help-sub-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-r="'+x.r+'">💡 Aide −</button>';rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+help+'</span></div>'}
+    else{answered++;err++;inp.classList.add('bad');var help='';if(state.op==='+')help=' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-err-idx="'+idx+'">💡 Aide +</button>';else if(state.op==='-')help=' <button type="button" class="help-sub-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-r="'+x.r+'" data-err-idx="'+idx+'">💡 Aide −</button>';rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+help+' <span id="matrixSeen'+idx+'" class="matrix-seen"></span></span></div>'}
   });
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
   var pts=good;
-  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs,matrixConsulted:[]});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
   document.getElementById('resultEmoji').textContent=complete&&pct===100?'🏆':pct>=90?'🌟':pct>=70?'👍':'💪';
@@ -257,12 +257,25 @@ function grade(interrupted){
   renderHistory();show('results');
 }
 
+window.noteMatrixConsulted=function(idx){
+  idx=parseInt(idx,10);if(!Number.isFinite(idx)||state.matrixConsulted[idx])return;
+  state.matrixConsulted[idx]=true;
+  var seen=document.getElementById('matrixSeen'+idx);
+  if(seen)seen.textContent='📊 Matrice consultée ✓';
+  var h=loadH(),hi=state.historyIndex;
+  if(hi!==null&&h[hi]){
+    h[hi].matrixConsulted=Array.isArray(h[hi].matrixConsulted)?h[hi].matrixConsulted:[];
+    if(!h[hi].matrixConsulted.includes(idx))h[hi].matrixConsulted.push(idx);
+    saveH(h);
+  }
+  renderHistory();
+};
 function renderHistory(){
   var h=loadH(),hist=document.getElementById('history'),pts=loadP();
   document.getElementById('gSessions').textContent=h.length;document.getElementById('points').textContent=pts+' point'+(pts!==1?'s':'')+' accumulé'+(pts!==1?'s':'');
   if(!h.length){document.getElementById('gAvg').textContent='—';document.getElementById('gBest').textContent='—';document.getElementById('gTime').textContent='—';hist.innerHTML='<div style="color:var(--muted);text-align:center;font-size:.8rem;padding:10px">Aucune table enregistrée.</div>';return}
   var sum=0,best=0,timeSum=0,timeCount=0;h.forEach(function(s){sum+=s.pct;best=Math.max(best,s.pct);if(s.durationMs!==undefined){timeSum+=s.durationMs;timeCount++}});document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';document.getElementById('gTime').textContent=timeCount?fmtTime(timeSum/timeCount):'—';
-  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
+  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts'+((s.matrixConsulted||[]).length?'<br>📊 Matrice consultée pour <strong>'+(s.matrixConsulted||[]).length+'</strong> erreur'+((s.matrixConsulted||[]).length>1?'s':''):'')+'</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
   hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}})
 }
 document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
@@ -271,7 +284,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.12</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.13</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
@@ -301,7 +314,7 @@ function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++
 function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);openMatrix();return}var free=e.target.closest('.open-add-matrix');if(free){openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}var free=e.target.closest('.open-add-matrix');if(free){openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
 window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
 document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
@@ -352,7 +365,7 @@ function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hi
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='subtraction'){history.back()}else hideMatrix()}
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
-  if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);openMatrix();return}
+  if(open){sub=Number(open.dataset.b);diff=Number(open.dataset.r);if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
   var free=e.target.closest('.open-sub-matrix');
   if(free){openMatrix();return}
   var cell=e.target.closest('#subHelpGrid button[data-start]');
