@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261014-01";
+  var PAGE="tables.html", BUILD="20261014-02";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -121,22 +121,6 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     </div>
   </div>
 
-  <div class="panel">
-    <div class="label">Statistiques et historique</div>
-<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
-    <div class="stats">
-      <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
-      <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
-      <div class="stat"><div class="v" id="gBest">—</div><div class="l">Meilleur</div></div>
-      <div class="stat"><div class="v" id="gTime">—</div><div class="l">Temps moyen</div></div>
-    </div>
-    <div id="points" class="points">0 point accumulé</div>
-    <div id="history"></div>
-    <div class="hist-actions">
-
-      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
-    </div>
-  </div>
 </section>
 
 <section id="exercise" class="hidden">
@@ -167,6 +151,25 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div id="recap" class="recap"></div>
     <button id="replay" class="primary">↺ Reprendre cette table</button>
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
+  </div>
+</section>
+
+<section id="persistentStats">
+<div class="panel">
+    <div class="label">Statistiques et historique — toujours disponibles</div>
+<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
+      <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
+      <div class="stat"><div class="v" id="gBest">—</div><div class="l">Meilleur</div></div>
+      <div class="stat"><div class="v" id="gTime">—</div><div class="l">Temps moyen</div></div>
+    </div>
+    <div id="points" class="points">0 point accumulé</div>
+    <div id="history"></div>
+    <div class="hist-actions">
+
+      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
+    </div>
   </div>
 </section>
 
@@ -268,7 +271,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.11</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.12</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
