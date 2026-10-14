@@ -49,7 +49,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
 
 /* Aide aux additions 1 à 20 — V3.5 essai */
-.help-add-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
+.help-add-btn,.matrix-seen{display:inline-block;margin-left:7px;font-size:.78em;font-weight:800;color:#166534}.help-sub-btn{background:#F59E0B;color:#1E293B;border:0;border-radius:7px;padding:5px 9px;margin-left:7px;font:inherit;font-weight:bold;cursor:pointer}
 .add-help-backdrop{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.80);display:none;align-items:center;justify-content:center;padding:10px}
 .add-help-backdrop.open{display:flex}.add-help-box{background:#1E293B;color:#F8FAFC;border:1px solid #64748B;border-radius:12px;padding:12px;width:min(98vw,750px);max-height:94vh;overflow:auto}
 .add-help-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.add-help-head button{padding:7px 12px;border-radius:7px;background:#F59E0B;border:0;font-weight:bold}
@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261009-02";
+  var PAGE="tables.html", BUILD="20261014-04";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -98,10 +98,10 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div id="nums" class="nums"></div>
     <div class="label">Ordre des calculs</div>
     <div class="modes" id="modes">
-      <button class="mode active" data-mode="sequentiel">1 → 20 · Séquentiel</button>
-      <button class="mode" data-mode="aleatoire">🔀 Aléatoire</button>
+      <button class="mode" data-mode="sequentiel">1 → 20 · Séquentiel</button>
+      <button class="mode active" data-mode="aleatoire">🔀 Aléatoire</button>
     </div>
-    <div id="randomQuestions" class="hidden" style="margin-bottom:16px">
+    <div id="randomQuestions" style="margin-bottom:16px">
       <div class="label">Nombre de questions en mode aléatoire</div>
       <div class="modes" id="questionCounts" style="grid-template-columns:repeat(3,1fr);margin-bottom:0">
         <button class="mode active" data-count="10">10 questions</button>
@@ -113,21 +113,14 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
   </div>
 
   <div class="panel">
-    <div class="label">Statistiques et historique</div>
-<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
-    <div class="stats">
-      <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
-      <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
-      <div class="stat"><div class="v" id="gBest">—</div><div class="l">Meilleur</div></div>
-      <div class="stat"><div class="v" id="gTime">—</div><div class="l">Temps moyen</div></div>
-    </div>
-    <div id="points" class="points">0 point accumulé</div>
-    <div id="history"></div>
-    <div class="hist-actions">
-
-      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
+    <div class="label">Matrices d’aide — consultation libre</div>
+    <div style="color:var(--muted);font-size:.76rem;line-height:1.45;margin-bottom:10px;">Consulte les matrices quand tu veux pour te familiariser avec les résultats. Clique sur une ligne et une colonne pour explorer les calculs.</div>
+    <div class="actions" style="margin-top:0">
+      <button type="button" class="secondary open-add-matrix">📊 Matrice des additions</button>
+      <button type="button" class="secondary open-sub-matrix">📊 Matrice des soustractions</button>
     </div>
   </div>
+
 </section>
 
 <section id="exercise" class="hidden">
@@ -135,6 +128,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <div class="table-head"><div id="opBadge" class="badge">Table</div><div id="tableTitle" class="table-title">du 7</div></div>
     <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
     <div id="rows"></div>
+    <div class="actions" id="exerciseHelpActions"></div>
     <div class="actions">
       <button id="correctBtn" class="secondary">✓ Corriger ma table</button>
       <button id="finishBtn" class="secondary">⏹ Terminer la table</button>
@@ -160,11 +154,30 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
   </div>
 </section>
 
+<section id="persistentStats">
+<div class="panel">
+    <div class="label">Statistiques et historique — toujours disponibles</div>
+<div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
+      <div class="stat"><div class="v" id="gAvg">—</div><div class="l">Moyenne</div></div>
+      <div class="stat"><div class="v" id="gBest">—</div><div class="l">Meilleur</div></div>
+      <div class="stat"><div class="v" id="gTime">—</div><div class="l">Temps moyen</div></div>
+    </div>
+    <div id="points" class="points">0 point accumulé</div>
+    <div id="history"></div>
+    <div class="hist-actions">
+
+      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
+    </div>
+  </div>
+</section>
+
 </div>
 <script>
 (function(){
 'use strict';
-var state={op:'+',n:7,rows:[],done:false,mode:'sequentiel',questionCount:10,startAt:0,timerId:null,elapsedMs:0};
+var state={op:'+',n:7,rows:[],done:false,mode:'aleatoire',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -195,8 +208,14 @@ document.getElementById('questionCounts').addEventListener('click',function(e){
   b.classList.add('active');state.questionCount=parseInt(b.dataset.count,10);
 });
 
+function defaultRandomMode(){
+  state.mode='aleatoire';
+  document.querySelectorAll('#modes .mode').forEach(function(x){x.classList.toggle('active',x.dataset.mode==='aleatoire')});
+  document.getElementById('randomQuestions').classList.remove('hidden');
+}
+
 function build(){
-  state.rows=[];state.done=false;
+  state.rows=[];state.done=false;state.matrixConsulted={};state.historyIndex=null;
   var facteurs=[];for(var f=1;f<=20;f++)facteurs.push(f);
   if(state.mode==='aleatoire')facteurs=shuffled(facteurs).slice(0,state.questionCount);
   facteurs.forEach(function(i){
@@ -210,6 +229,10 @@ function build(){
   document.getElementById('opBadge').textContent='Table des '+names[state.op];
   document.getElementById('tableTitle').textContent='du '+state.n;
   var rows=document.getElementById('rows');rows.innerHTML='';
+  var helpActions=document.getElementById('exerciseHelpActions');
+  if(state.op==='+')helpActions.innerHTML='<button type="button" class="secondary open-add-matrix">📊 Voir la matrice des additions</button>';
+  else if(state.op==='-')helpActions.innerHTML='<button type="button" class="secondary open-sub-matrix">📊 Voir la matrice des soustractions</button>';
+  else helpActions.innerHTML='';
   state.rows.forEach(function(x,idx){
     var d=document.createElement('div');d.className='row';
     d.innerHTML='<div class="eq">'+x.a+' '+symbols[state.op]+' '+x.b+'</div><div>=</div><input class="ans" id="a'+idx+'" type="number" inputmode="numeric" placeholder="?">';
@@ -225,12 +248,12 @@ function grade(interrupted){
     var inp=document.getElementById('a'+idx),v=inp.value.trim(),u=v===''?null:parseInt(v,10),ok=v!==''&&u===x.r;inp.disabled=true;
     if(v===''){missing++;rec+='<div class="recap-row none"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>— non répondu → '+x.r+'</span></div>'}
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✓ '+x.r+'</span></div>'}
-    else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+(state.op==='+'?' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'">💡 Aide +</button>':'')+'</span></div>'}
+    else{answered++;err++;inp.classList.add('bad');var help='';if(state.op==='+')help=' <button type="button" class="help-add-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-err-idx="'+idx+'">💡 Aide +</button>';else if(state.op==='-')help=' <button type="button" class="help-sub-btn" data-a="'+x.a+'" data-b="'+x.b+'" data-r="'+x.r+'" data-err-idx="'+idx+'">💡 Aide −</button>';rec+='<div class="recap-row bad"><span>'+x.a+' '+symbols[state.op]+' '+x.b+' =</span><span>✗ '+u+' → '+x.r+help+' <span id="matrixSeen'+idx+'" class="matrix-seen"></span></span></div>'}
   });
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
   var pts=good;
-  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs});saveH(h);saveP(loadP()+pts);
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs,matrixConsulted:[]});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
   document.getElementById('resultEmoji').textContent=complete&&pct===100?'🏆':pct>=90?'🌟':pct>=70?'👍':'💪';
@@ -240,34 +263,145 @@ function grade(interrupted){
   renderHistory();show('results');
 }
 
+window.noteMatrixConsulted=function(idx){
+  idx=parseInt(idx,10);if(!Number.isFinite(idx)||state.matrixConsulted[idx])return;
+  state.matrixConsulted[idx]=true;
+  var seen=document.getElementById('matrixSeen'+idx);
+  if(seen)seen.textContent='📊 Matrice consultée ✓';
+  var h=loadH(),hi=state.historyIndex;
+  if(hi!==null&&h[hi]){
+    h[hi].matrixConsulted=Array.isArray(h[hi].matrixConsulted)?h[hi].matrixConsulted:[];
+    if(!h[hi].matrixConsulted.includes(idx))h[hi].matrixConsulted.push(idx);
+    saveH(h);
+  }
+  renderHistory();
+};
 function renderHistory(){
   var h=loadH(),hist=document.getElementById('history'),pts=loadP();
   document.getElementById('gSessions').textContent=h.length;document.getElementById('points').textContent=pts+' point'+(pts!==1?'s':'')+' accumulé'+(pts!==1?'s':'');
   if(!h.length){document.getElementById('gAvg').textContent='—';document.getElementById('gBest').textContent='—';document.getElementById('gTime').textContent='—';hist.innerHTML='<div style="color:var(--muted);text-align:center;font-size:.8rem;padding:10px">Aucune table enregistrée.</div>';return}
   var sum=0,best=0,timeSum=0,timeCount=0;h.forEach(function(s){sum+=s.pct;best=Math.max(best,s.pct);if(s.durationMs!==undefined){timeSum+=s.durationMs;timeCount++}});document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';document.getElementById('gTime').textContent=timeCount?fmtTime(timeSum/timeCount):'—';
-  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
+  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts'+((s.matrixConsulted||[]).length?'<br>📊 Matrice consultée pour <strong>'+(s.matrixConsulted||[]).length+'</strong> erreur'+((s.matrixConsulted||[]).length>1?'s':''):'')+'</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
   hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}})
 }
 document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
-document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){show('config');renderHistory()};
+document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){defaultRandomMode();show('config');renderHistory()};
 document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer définitivement tout l’historique et les points accumulés ?'))return;saveH([]);saveP(0);renderHistory()};
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.7</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.14</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
-<div class="add-help-box"><div class="add-help-head"><strong>💡 Table d'additions 1 à 20</strong><button type="button" id="addHelpClose">Fermer ✕</button></div>
-<p style="font-size:.82em;margin-bottom:8px">Choisis un nombre à gauche et un nombre en haut. Leur croisement montre la somme.</p>
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
+<p style="font-size:.82em;margin-bottom:8px">Entre toi-même les deux nombres du calcul, puis repère-les dans la matrice. Tu peux aussi explorer la grille en cliquant sur les axes.</p>
+<form id="addMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
+  <label style="font-size:.78em;font-weight:800">1er nombre<br><input id="addTermA" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
+  <label style="font-size:.78em;font-weight:800">2e nombre<br><input id="addTermB" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
+  <button type="submit" class="secondary">Repérer dans la matrice</button>
+</form>
+<div id="addMatrixMsg" class="tiny" aria-live="polite"></div>
 <div class="add-help-scroll"><div id="addHelpGrid" class="add-help-grid"></div></div>
-<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">Fermer ✕</button></div></div>
+<div id="addHelpResult" class="add-help-result" aria-live="polite"></div><div id="addHelpTip" class="add-help-tip"></div><button type="button" id="addHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">← Retour au calcul</button></div></div>
 <script>
 (function(){
-var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip');var aa=6,bb=7;
-function strategy(a,b){var hi=Math.max(a,b),lo=Math.min(a,b),sum=a+b;var opts=[];if(a===b)opts.push('Doubles : '+a+' + '+a+' = '+sum+'.');else if(Math.abs(a-b)<=4){var dbl=lo;opts.push('Double proche : '+dbl+' + '+dbl+' = '+(dbl*2)+', puis ajoute '+(hi-lo)+' → '+sum+'.')}var need=(Math.floor(hi/10)+1)*10-hi;if(need>0&&lo>=need){opts.push('Passer à la dizaine : '+hi+' + '+need+' = '+(hi+need)+', puis + '+(lo-need)+' = '+sum+'.')}if(lo<=5)opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.');if(opts.length===0){opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + 10 + '+(lo-10)+' = '+sum+'.')}return opts.slice(0,2).join('  Autre idée : ')}
-function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(i===aa&&j===bb)e.className='cross';else if(i===aa||j===bb)e.className='track'}grid.appendChild(e)}}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=Number(open.dataset.a);bb=Number(open.dataset.b);modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);draw()}});
-function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')};document.getElementById('addHelpClose').addEventListener('click',close);document.getElementById('addHelpCloseBottom').addEventListener('click',close);modal.addEventListener('click',function(e){if(e.target===modal)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+var modal=document.getElementById('additionHelp'),grid=document.getElementById('addHelpGrid'),result=document.getElementById('addHelpResult'),tip=document.getElementById('addHelpTip'),form=document.getElementById('addMatrixForm'),inA=document.getElementById('addTermA'),inB=document.getElementById('addTermB'),msg=document.getElementById('addMatrixMsg');var aa=6,bb=7;
+function strategy(a,b){
+  var hi=Math.max(a,b),lo=Math.min(a,b),sum=a+b,opts=[];
+  var near=null,other=null,delta=0;
+  [a,b].some(function(n,idx){var u=n%10;if(u===9||u===8){near=n;other=idx===0?b:a;delta=10-u;return true}return false});
+  if(near!==null){
+    if(other>=delta)opts.push('Approche-toi de la dizaine : '+near+' + '+other+' = '+(near+delta)+' + '+(other-delta)+' = '+sum+'. Tu ajoutes '+delta+' à '+near+' et tu enlèves '+delta+' à l’autre nombre : la somme ne change pas.');
+    else opts.push('Passe par la dizaine : '+near+' + '+other+' = '+(near+delta)+' + '+other+' − '+delta+' = '+sum+'.');
+  }
+  if(a===b)opts.push('Doubles : '+a+' + '+a+' = '+sum+'.');
+  else if(Math.abs(a-b)<=4){var dbl=lo;opts.push('Double proche : '+dbl+' + '+dbl+' = '+(dbl*2)+', puis ajoute '+(hi-lo)+' → '+sum+'.')}
+  var need=(Math.floor(hi/10)+1)*10-hi;
+  if(need>0&&lo>=need)opts.push('Passer à la dizaine : '+hi+' + '+need+' = '+(hi+need)+', puis + '+(lo-need)+' = '+sum+'.');
+  if(lo<=5)opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.');
+  if(opts.length===0){var tens=Math.floor(lo/10)*10,ones=lo-tens;if(tens>0)opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + '+tens+' + '+ones+' = '+sum+'.');else opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.')}
+  return opts.slice(0,2).join('  Autre idée : ');
+}
+function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if(aa!==null&&bb!==null&&(i===aa||j===bb))e.className='track'}grid.appendChild(e)}}if(aa===null||bb===null){result.textContent='Entre les deux termes du calcul.';tip.textContent='';return}inA.value=aa;inB.value=bb;result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
+function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}
+function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
+form.addEventListener('submit',function(e){e.preventDefault();var a=Number(inA.value),b=Number(inB.value);if(!Number.isInteger(a)||a<1||a>20||!Number.isInteger(b)||b<1||b>20){msg.textContent='Entre deux nombres de 1 à 20.';return}msg.textContent='';aa=a;bb=b;draw()});
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.textContent='Entre toi-même les deux termes de ton calcul.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();setTimeout(function(){inA.focus()},60);return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
+window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
+})();
+</script>
+
+<div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
+<div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
+<p style="font-size:.82em;margin-bottom:8px">Entre toi-même le nombre de départ et le nombre à soustraire. La matrice repérera ensuite la réponse. Exemple : 25 − 8 → entre 25 et 8; la colonne 17 donne la réponse.</p>
+<form id="subMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
+  <label style="font-size:.78em;font-weight:800">Nombre de départ<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
+  <label style="font-size:.78em;font-weight:800">Nombre à soustraire<br><input id="subTerm" type="number" min="1" max="20" inputmode="numeric" style="width:92px"></label>
+  <button type="submit" class="secondary">Repérer dans la matrice</button>
+</form>
+<div id="subMatrixMsg" class="tiny" aria-live="polite"></div>
+<div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
+<div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">← Retour au calcul</button></div></div>
+<script>
+(function(){
+var modal=document.getElementById('subtractionHelp'),grid=document.getElementById('subHelpGrid'),result=document.getElementById('subHelpResult'),tip=document.getElementById('subHelpTip'),form=document.getElementById('subMatrixForm'),inStart=document.getElementById('subStart'),inSub=document.getElementById('subTerm'),msg=document.getElementById('subMatrixMsg');
+var sub=7,diff=6;
+function strategySub(a,b){
+  var r=a-b,opts=[],u=b%10;
+  if(u===9||u===8){
+    var d=10-u,round=b+d;
+    opts.push('Arrondis le nombre à enlever : '+a+' − '+b+' = '+a+' − '+round+' + '+d+' = '+r+'.');
+  }
+  var toTen=a%10;
+  if(toTen>0&&b>toTen){
+    var rest=b-toTen,base=a-toTen;
+    opts.push('Passe par la dizaine : '+a+' − '+toTen+' = '+base+', puis '+base+' − '+rest+' = '+r+'.');
+  }
+  if(r<=5)opts.push('Compte l’écart : pars de '+b+' et avance de '+r+' pour arriver à '+a+'. Donc '+a+' − '+b+' = '+r+'.');
+  opts.push('Pense à l’addition liée : '+b+' + '+r+' = '+a+'. Donc '+a+' − '+b+' = '+r+'.');
+  return opts.slice(0,2).join('  Autre idée : ');
+}
+function draw(){
+  grid.textContent='';
+  for(var i=0;i<=20;i++){
+    for(var j=0;j<=20;j++){
+      var e=document.createElement(i===0||j===0?'button':'span');
+      if(i===0&&j===0){e.textContent='−';e.className='origin';e.type='button'}
+      else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la différence '+j)}
+      else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir le nombre à enlever '+i)}
+      else{e=document.createElement('button');e.type='button';e.textContent=i+j;e.dataset.sub=i;e.dataset.diff=j;e.dataset.start=i+j;e.setAttribute('aria-label',(i+j)+' moins '+i);if(i===sub&&j===diff)e.className='cross';else if(i===sub||j===diff)e.className='track'}
+      grid.appendChild(e);
+    }
+  }
+  if(sub===null||diff===null){result.textContent='Entre les deux termes de la soustraction.';tip.textContent='';return}
+  var start=sub+diff;inStart.value=start;inSub.value=sub;
+  result.innerHTML=start+' − '+sub+' = '+diff+'<br><span style="font-size:.72em;color:#CBD5E1">'+sub+' + '+diff+' = '+start+'</span>';
+  tip.textContent='Astuce de calcul mental : '+strategySub(start,sub);
+}
+function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'subtraction'},'',location.href)}catch(e){}}
+function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+function closeMatrix(){if(history.state&&history.state.matrixHelp==='subtraction'){history.back()}else hideMatrix()}
+form.addEventListener('submit',function(e){e.preventDefault();var start=Number(inStart.value),s=Number(inSub.value),d=start-s;if(!Number.isInteger(start)||!Number.isInteger(s)||s<1||s>20||d<1||d>20){msg.textContent='Utilise un nombre à soustraire de 1 à 20 et un résultat de 1 à 20.';return}msg.textContent='';sub=s;diff=d;draw()});
+document.addEventListener('click',function(e){
+  var open=e.target.closest('.help-sub-btn');
+  if(open){sub=null;diff=null;inStart.value='';inSub.value='';msg.textContent='Entre toi-même les deux termes de ton calcul.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();setTimeout(function(){inStart.focus()},60);return}
+  var free=e.target.closest('.open-sub-matrix');
+  if(free){msg.textContent='';openMatrix();return}
+  var cell=e.target.closest('#subHelpGrid button[data-start]');
+  if(cell){sub=Number(cell.dataset.sub);diff=Number(cell.dataset.diff);msg.textContent='';draw();return}
+  var ax=e.target.closest('#subHelpGrid .axis');
+  if(ax){
+    if(ax.dataset.row){sub=Number(ax.dataset.row);msg.textContent='';draw();return}
+    if(ax.dataset.col){diff=Number(ax.dataset.col);msg.textContent='';draw();return}
+  }
+});
+window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+document.getElementById('subHelpClose').addEventListener('click',closeMatrix);
+document.getElementById('subHelpCloseBottom').addEventListener('click',closeMatrix);
+modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
 </script></body>
 </html>
