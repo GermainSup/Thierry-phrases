@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "pages": {
     "index.html": {
-      "version": "V3.9",
-      "build": "20261009-03"
+      "version": "V3.10",
+      "build": "20261014-05"
     },
     "noms.html": {
       "version": "V18.5",
@@ -14,8 +14,8 @@
       "build": "20260922-01"
     },
     "tables.html": {
-      "version": "V3.4",
-      "build": "20261009-02"
+      "version": "V3.14",
+      "build": "20261014-04"
     },
     "grammaire.html": {
       "version": "V1.14",
