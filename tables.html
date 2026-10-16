@@ -26,8 +26,8 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .secondary{width:100%;background:transparent;color:var(--text);border:2px solid var(--gold);border-radius:12px;padding:13px;font:inherit;font-weight:900;cursor:pointer}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .hidden{display:none!important}
-.table-head{text-align:center;margin-bottom:14px}.badge{display:inline-block;background:var(--gold);color:var(--bg);padding:5px 14px;border-radius:999px;font-size:.72rem;font-weight:900}.table-title{font-size:1.6rem;font-weight:900;margin-top:8px}
-.row{display:grid;grid-template-columns:1fr auto 62px;gap:7px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)}#rows.two-col{display:grid;grid-template-rows:repeat(10,auto);grid-auto-flow:column;grid-auto-columns:1fr 1fr;column-gap:16px}#rows.two-col .row{min-width:0}@media(max-width:700px){#rows.two-col{display:block}}
+.table-head{text-align:center;margin-bottom:8px}.badge{display:inline-block;background:var(--gold);color:var(--bg);padding:5px 14px;border-radius:999px;font-size:.72rem;font-weight:900}.table-title{font-size:1.45rem;font-weight:900;margin-top:5px}
+.row{display:grid;grid-template-columns:1fr auto 62px;gap:7px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)}#rows.multi-col{display:grid;grid-auto-flow:column;grid-auto-columns:1fr 1fr;column-gap:16px}#rows.multi-col.rows-10{grid-template-rows:repeat(5,auto)}#rows.multi-col.rows-15{grid-template-rows:repeat(8,auto)}#rows.multi-col.rows-20{grid-template-rows:repeat(10,auto)}#rows.multi-col .row{min-width:0}@media(max-width:700px){#rows.multi-col{display:block}}
 .eq{font-size:1.05rem;font-weight:800}.ans{width:62px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:8px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;text-align:center;padding:7px}.ans:focus{outline:0;border-color:var(--gold)}.ans.good{border-color:var(--green);color:var(--green)}.ans.bad{border-color:var(--red);color:#FCA5A5}
 .result{padding:18px;border-radius:12px;text-align:center;margin-bottom:12px}.perfect{background:rgba(34,197,94,.13)}.ok{background:rgba(59,130,246,.13)}.practice{background:rgba(245,158,11,.12)}
 .result h2{font-size:1.25rem}.result p{color:var(--muted);font-size:.82rem;margin-top:5px}#results .stats{grid-template-columns:repeat(4,1fr)}
@@ -36,7 +36,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .history-item{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:8px;align-items:flex-start}.history-main{flex:1}.history-title{font-size:.82rem;font-weight:900}.history-detail{font-size:.7rem;color:var(--muted);margin-top:2px;line-height:1.4}.del{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:6px 7px;font:inherit;font-size:.68rem;font-weight:800;cursor:pointer}
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
-.timer{text-align:center;color:var(--muted);font-size:.82rem;font-weight:900;margin:8px 0 12px}
+.timer{text-align:center;color:var(--muted);font-size:.8rem;font-weight:900;margin:5px 0 8px}
 @media(min-width:900px){.wrap{max-width:1040px}.work-layout{display:grid;grid-template-columns:minmax(520px,590px) minmax(300px,1fr);gap:14px;align-items:start}.work-main,.side-column{min-width:0}.side-column{position:sticky;top:8px}#config{display:block}#config .panel{margin-bottom:0}.matrix-panel{position:static;margin-bottom:12px}#persistentStats{position:static}}@media(max-width:899px){.work-layout{display:block}.side-column{display:block}.matrix-panel,#persistentStats{position:static}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
 
 .versionGitHub{
@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261015-06";
+  var PAGE="tables.html", BUILD="20261015-07";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -120,11 +120,11 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
   <div class="panel">
     <div class="table-head"><div id="opBadge" class="badge">Table</div><div id="tableTitle" class="table-title">du 7</div></div>
     <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
+    <div class="actions" id="exerciseHelpActions" style="margin:0 0 10px"></div>
     <div id="rows"></div>
-    <div class="actions" id="exerciseHelpActions"></div>
-    <div class="actions">
-      <button id="correctBtn" class="secondary">✓ Corriger ma table</button>
-      <button id="finishBtn" class="secondary">⏹ Terminer la table</button>
+    <div class="actions" style="margin-top:8px">
+      <button id="correctBtn" class="secondary">✓ Corriger</button>
+      <button id="finishBtn" class="secondary">⏹ Terminer</button>
     </div>
   </div>
 </section>
@@ -234,7 +234,7 @@ function build(){
   });
   document.getElementById('opBadge').textContent='Table des '+names[state.op];
   document.getElementById('tableTitle').textContent='du '+state.n;
-  var rows=document.getElementById('rows');rows.innerHTML='';rows.className=state.rows.length>10?'two-col':'';
+  var rows=document.getElementById('rows');rows.innerHTML='';rows.className=state.rows.length>=10?'multi-col rows-'+state.rows.length:'';
   var helpActions=document.getElementById('exerciseHelpActions');
   if(state.op==='+')helpActions.innerHTML='<button type="button" class="secondary open-add-matrix">📊 Voir la matrice des additions</button>';
   else if(state.op==='-')helpActions.innerHTML='<button type="button" class="secondary open-sub-matrix">📊 Voir la matrice des soustractions</button>';
@@ -296,7 +296,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.19</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.20</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
