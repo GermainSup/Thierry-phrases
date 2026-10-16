@@ -12,7 +12,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#1E293B;--card:#263345;--text:#F8FAFC;--muted:#CBD5E1;--gold:#F59E0B;--blue:#3B82F6;--green:#22C55E;--red:#EF4444}
 body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;min-height:100vh;padding:14px}
-.wrap{max-width:900px;margin:auto}
+.wrap{max-width:1180px;margin:auto}
 .home{display:inline-block;text-decoration:none;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;font-size:.78rem;font-weight:800;margin-bottom:10px}
 header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(--muted);font-size:.82rem;margin-top:4px}
 .panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px;margin-bottom:14px}
@@ -37,7 +37,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
 .timer{text-align:center;color:var(--muted);font-size:.82rem;font-weight:900;margin:8px 0 12px}
-@media(min-width:760px){#config{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.85fr);gap:14px;align-items:start}#config .panel{margin-bottom:0}.matrix-panel{position:sticky;top:14px}}@media(max-width:759px){#config{display:block}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.work-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(310px,.9fr);gap:16px;align-items:start}.work-main{min-width:0}#persistentStats{min-width:0;position:sticky;top:14px}#config{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);gap:14px;align-items:start}#config .panel{margin-bottom:0}.matrix-panel{position:sticky;top:14px}}@media(max-width:899px){.work-layout{display:block}#config{display:block}#persistentStats{position:static}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
 
 .versionGitHub{
   position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
@@ -56,12 +56,12 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .add-help-grid{display:grid;grid-template-columns:repeat(21,minmax(23px,1fr));min-width:485px;gap:2px;font-family:Arial,sans-serif;font-size:11px;text-align:center}
 .add-help-grid button,.add-help-grid span{min-width:0;min-height:24px;border:0;border-radius:3px;display:flex;align-items:center;justify-content:center;background:#334155;color:white;font:inherit}
 .add-help-grid .axis{background:#B45309;color:white;font-weight:bold;cursor:pointer}.add-help-grid .cross{background:#F59E0B;color:#111827;font-weight:bold}.add-help-grid .track{background:#2563EB;color:white}.add-help-grid .origin{background:#475569;font-weight:bold}
-.add-help-scroll{overflow:auto;max-width:100%}.add-help-result{font-size:1.3em;font-weight:bold;text-align:center;margin:10px 0}.add-help-tip{line-height:1.5;background:#334155;border-radius:8px;padding:10px;margin-top:8px}
+.matrix-op{font-size:2.2rem;font-weight:900;line-height:1;color:#FBBF24;padding:0 3px 7px}.matrix-form{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:8px 0 12px}.matrix-form input{font:inherit;font-size:1rem;padding:8px 9px;border-radius:8px;border:2px solid rgba(255,255,255,.18);background:#334155;color:#fff}.add-help-scroll{overflow:auto;max-width:100%}.add-help-result{font-size:1.3em;font-weight:bold;text-align:center;margin:10px 0}.add-help-tip{line-height:1.5;background:#334155;border-radius:8px;padding:10px;margin-top:8px}
 </style>
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261015-02";
+  var PAGE="tables.html", BUILD="20261015-03";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -85,6 +85,8 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 <a class="home" href="index.html">🏠 Portail des exercices</a>
 <header><h1>📐 Tables de calcul</h1><div class="sub">Tables de 1 à 20</div></header>
 
+<div class="work-layout">
+<div class="work-main">
 <section id="config">
   <div class="panel">
     <div class="label">Opération</div>
@@ -153,6 +155,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
   </div>
 </section>
+</div>
 
 <section id="persistentStats">
 <div class="panel">
@@ -172,6 +175,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     </div>
   </div>
 </section>
+</div>
 
 </div>
 <script>
@@ -290,14 +294,15 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.15</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.16</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-sub">➖ Passer à la matrice des soustractions</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Entre toi-même les deux nombres du calcul, puis repère-les dans la matrice. Tu peux aussi explorer la grille en cliquant sur les axes.</p>
-<form id="addMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
+<form id="addMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">1er nombre<br><input id="addTermA" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
+  <span class="matrix-op" aria-hidden="true">+</span>
   <label style="font-size:.78em;font-weight:800">2e nombre<br><input id="addTermB" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
   <button type="submit" class="secondary">Repérer dans la matrice</button>
 </form>
@@ -338,8 +343,9 @@ document.getElementById('addHelpClose').addEventListener('click',closeMatrix);do
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-add">➕ Passer à la matrice des additions</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Entre toi-même le nombre de départ et le nombre à soustraire. La matrice repérera ensuite la réponse. Exemple : 25 − 8 → entre 25 et 8; la colonne 17 donne la réponse.</p>
-<form id="subMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
+<form id="subMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">Nombre de départ<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
+  <span class="matrix-op" aria-hidden="true">−</span>
   <label style="font-size:.78em;font-weight:800">Nombre à soustraire<br><input id="subTerm" type="number" min="1" max="20" inputmode="numeric" style="width:92px"></label>
   <button type="submit" class="secondary">Repérer dans la matrice</button>
 </form>
