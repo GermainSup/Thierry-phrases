@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261015-07";
+  var PAGE="tables-test.html", BUILD="20261015-08";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -161,6 +161,9 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 <section id="persistentStats">
 <div class="panel">
     <div class="label">Statistiques et historique — toujours disponibles</div>
+    <div class="hist-actions" style="margin:0 0 12px">
+      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:11px 14px;width:100%;font-size:.82rem">🗑️ Effacer tout l’historique</button>
+    </div>
 <div style="color:var(--muted);font-size:.72rem;line-height:1.4;margin:-2px 0 12px;">Points : <strong>1 point par bonne réponse</strong>, sans bonus. Même calcul en mode séquentiel ou aléatoire.</div>
     <div class="stats">
       <div class="stat"><div class="v" id="gSessions">0</div><div class="l">Sessions</div></div>
@@ -170,10 +173,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     </div>
     <div id="points" class="points">0 point accumulé</div>
     <div id="history"></div>
-    <div class="hist-actions">
 
-      <button class="hist-btn danger" id="clearAll" style="background:#B91C1C;color:#fff;border:2px solid #F87171;font-weight:900;padding:13px 18px;width:100%;font-size:.9rem">🗑️ Effacer tout l’historique</button>
-    </div>
   </div>
 </section>
 </aside>
@@ -296,7 +296,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.20</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.21</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
