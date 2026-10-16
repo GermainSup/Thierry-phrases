@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261015-05";
+  var PAGE="tables-test.html", BUILD="20261015-06";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -296,7 +296,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.18</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.19</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
@@ -344,13 +344,19 @@ document.getElementById('addHelpClose').addEventListener('click',closeMatrix);do
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-add">➕ Passer à la matrice des additions</button></div>
-<p style="font-size:.82em;margin-bottom:8px"><b>1.</b> Choisis d’abord le <b>2e terme</b> (le nombre soustrait) dans la colonne de gauche. <b>2.</b> Dans cette ligne, clique ensuite le <b>1er terme</b> (le nombre de départ). Exemple : pour <b>25 − 8</b>, choisis <b>8</b> à gauche, puis clique <b>25</b>; la colonne <b>17</b> donne la réponse.</p>
-<div id="subMatrixMsg" class="add-help-tip" aria-live="polite">Étape 1 : choisis le 2e terme dans la colonne de gauche.</div>
+<p style="font-size:.82em;margin-bottom:8px">Tu peux <b>entrer directement les deux termes</b> de la soustraction ou utiliser la matrice. Dans la matrice : <b>1.</b> choisis d’abord le <b>2e terme</b> dans la colonne de gauche; <b>2.</b> dans cette ligne, clique le <b>1er terme</b>. Exemple : <b>25 − 8</b> → choisis 8, puis 25; la colonne 17 donne la réponse.</p>
+<form id="subMatrixForm" class="matrix-form">
+  <label style="font-size:.78em;font-weight:800">1er terme<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
+  <span class="matrix-op" aria-hidden="true">−</span>
+  <label style="font-size:.78em;font-weight:800">2e terme<br><input id="subTerm" type="number" min="1" max="20" inputmode="numeric" style="width:92px"></label>
+  <button type="submit" class="secondary">Repérer dans la matrice</button>
+</form>
+<div id="subMatrixMsg" class="add-help-tip" aria-live="polite">Entre les deux termes ou commence par choisir le 2e terme dans la colonne de gauche.</div>
 <div class="add-help-scroll"><div id="subHelpGrid" class="add-help-grid"></div></div>
 <div id="subHelpResult" class="add-help-result" aria-live="polite"></div><div id="subHelpTip" class="add-help-tip"></div><button type="button" id="subHelpCloseBottom" style="display:block;margin:14px auto 3px;padding:11px 30px;border:0;border-radius:9px;background:#F59E0B;color:#1E293B;font:inherit;font-weight:900;cursor:pointer">← Retour au calcul</button></div></div>
 <script>
 (function(){
-var modal=document.getElementById('subtractionHelp'),grid=document.getElementById('subHelpGrid'),result=document.getElementById('subHelpResult'),tip=document.getElementById('subHelpTip'),msg=document.getElementById('subMatrixMsg');
+var modal=document.getElementById('subtractionHelp'),grid=document.getElementById('subHelpGrid'),result=document.getElementById('subHelpResult'),tip=document.getElementById('subHelpTip'),form=document.getElementById('subMatrixForm'),inStart=document.getElementById('subStart'),inSub=document.getElementById('subTerm'),msg=document.getElementById('subMatrixMsg');
 var sub=null,diff=null;
 function strategySub(a,b){
   var r=a-b,opts=[],u=b%10;
@@ -385,21 +391,30 @@ function draw(){
   }
   if(sub===null){result.textContent='';tip.textContent='';return}
   if(diff===null){result.textContent='2e terme choisi : '+sub;tip.textContent='Étape 2 : dans la ligne '+sub+', clique le nombre de départ.';return}
-  var start=sub+diff;
+  var start=sub+diff;inStart.value=start;inSub.value=sub;
   result.innerHTML=start+' − '+sub+' = '+diff+'<br><span style="font-size:.72em;color:#CBD5E1">'+sub+' + '+diff+' = '+start+'</span>';
   tip.textContent='Astuce de calcul mental : '+strategySub(start,sub);
 }
 function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();if(push!==false){try{history.pushState({matrixHelp:'subtraction'},'',location.href)}catch(e){}}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='subtraction'){history.back()}else hideMatrix()}
-function resetSubMatrix(){sub=null;diff=null;msg.textContent='Étape 1 : choisis le 2e terme dans la colonne de gauche.';draw()}
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var start=Number(inStart.value),s=Number(inSub.value),d=start-s;
+  if(!Number.isInteger(start)||!Number.isInteger(s)||s<1||s>20||d<1||d>20){
+    msg.textContent='Entre un 2e terme de 1 à 20 et une différence comprise entre 1 et 20.';
+    return;
+  }
+  sub=s;diff=d;msg.textContent='Repérage : '+start+' − '+s+' = '+d+'.';draw();
+});
+function resetSubMatrix(){sub=null;diff=null;inStart.value='';inSub.value='';msg.textContent='Entre les deux termes ou commence par choisir le 2e terme dans la colonne de gauche.';draw()}
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
   if(open){resetSubMatrix();if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
   var free=e.target.closest('.open-sub-matrix');
   if(free){resetSubMatrix();openMatrix();return}
   var ax=e.target.closest('#subHelpGrid .axis[data-row]');
-  if(ax){sub=Number(ax.dataset.row);diff=null;msg.textContent='Étape 2 : dans la ligne '+sub+', clique le 1er terme (nombre de départ).';draw();return}
+  if(ax){sub=Number(ax.dataset.row);diff=null;inSub.value=sub;inStart.value='';msg.textContent='Étape 2 : dans la ligne '+sub+', clique le 1er terme (nombre de départ).';draw();return}
   var cell=e.target.closest('#subHelpGrid button[data-start]');
   if(cell){
     if(sub===null){msg.textContent='Commence par choisir le 2e terme dans la colonne de gauche.';return}
