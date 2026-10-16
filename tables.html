@@ -12,7 +12,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#1E293B;--card:#263345;--text:#F8FAFC;--muted:#CBD5E1;--gold:#F59E0B;--blue:#3B82F6;--green:#22C55E;--red:#EF4444}
 body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;min-height:100vh;padding:14px}
-.wrap{max-width:540px;margin:auto}
+.wrap{max-width:900px;margin:auto}
 .home{display:inline-block;text-decoration:none;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;font-size:.78rem;font-weight:800;margin-bottom:10px}
 header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(--muted);font-size:.82rem;margin-top:4px}
 .panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px;margin-bottom:14px}
@@ -37,7 +37,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
 .timer{text-align:center;color:var(--muted);font-size:.82rem;font-weight:900;margin:8px 0 12px}
-@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:760px){#config{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.85fr);gap:14px;align-items:start}#config .panel{margin-bottom:0}.matrix-panel{position:sticky;top:14px}}@media(max-width:759px){#config{display:block}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
 
 .versionGitHub{
   position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
@@ -61,7 +61,7 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261014-04";
+  var PAGE="tables.html", BUILD="20261015-02";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -112,9 +112,9 @@ header{text-align:center;padding:10px 0 18px}h1{font-size:1.7rem}.sub{color:var(
     <button id="start" class="primary">▶ Commencer la table</button>
   </div>
 
-  <div class="panel">
-    <div class="label">Matrices d’aide — consultation libre</div>
-    <div style="color:var(--muted);font-size:.76rem;line-height:1.45;margin-bottom:10px;">Consulte les matrices quand tu veux pour te familiariser avec les résultats. Clique sur une ligne et une colonne pour explorer les calculs.</div>
+  <div class="panel matrix-panel" style="border:2px solid rgba(245,158,11,.55);background:rgba(245,158,11,.07)">
+    <div class="label" style="color:#FBBF24;font-size:.78rem">📊 Matrices d’aide — accès direct</div>
+    <div style="color:var(--muted);font-size:.76rem;line-height:1.45;margin-bottom:10px;">Consulte-les librement avant, pendant ou après un exercice. Elles restent accessibles sans perdre ta table en cours.</div>
     <div class="actions" style="margin-top:0">
       <button type="button" class="secondary open-add-matrix">📊 Matrice des additions</button>
       <button type="button" class="secondary open-sub-matrix">📊 Matrice des soustractions</button>
@@ -290,10 +290,11 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.14</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.15</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
+<div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-sub">➖ Passer à la matrice des soustractions</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Entre toi-même les deux nombres du calcul, puis repère-les dans la matrice. Tu peux aussi explorer la grille en cliquant sur les axes.</p>
 <form id="addMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
   <label style="font-size:.78em;font-weight:800">1er nombre<br><input id="addTermA" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
@@ -323,18 +324,19 @@ function strategy(a,b){
   return opts.slice(0,2).join('  Autre idée : ');
 }
 function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if(aa!==null&&bb!==null&&(i===aa||j===bb))e.className='track'}grid.appendChild(e)}}if(aa===null||bb===null){result.textContent='Entre les deux termes du calcul.';tip.textContent='';return}inA.value=aa;inB.value=bb;result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
-function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}
+function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();if(push!==false){try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
 form.addEventListener('submit',function(e){e.preventDefault();var a=Number(inA.value),b=Number(inB.value);if(!Number.isInteger(a)||a<1||a>20||!Number.isInteger(b)||b<1||b>20){msg.textContent='Entre deux nombres de 1 à 20.';return}msg.textContent='';aa=a;bb=b;draw()});
 document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.textContent='Entre toi-même les deux termes de ton calcul.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();setTimeout(function(){inA.focus()},60);return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
-window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+window.addEventListener('openAddMatrix',function(){openMatrix(false)});document.addEventListener('click',function(e){if(e.target.closest('.switch-to-sub')){hideMatrix();window.dispatchEvent(new Event('openSubMatrix'))}});window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
 document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
 </script>
 
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
+<div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-add">➕ Passer à la matrice des additions</button></div>
 <p style="font-size:.82em;margin-bottom:8px">Entre toi-même le nombre de départ et le nombre à soustraire. La matrice repérera ensuite la réponse. Exemple : 25 − 8 → entre 25 et 8; la colonne 17 donne la réponse.</p>
 <form id="subMatrixForm" style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0 12px">
   <label style="font-size:.78em;font-weight:800">Nombre de départ<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
@@ -380,7 +382,7 @@ function draw(){
   result.innerHTML=start+' − '+sub+' = '+diff+'<br><span style="font-size:.72em;color:#CBD5E1">'+sub+' + '+diff+' = '+start+'</span>';
   tip.textContent='Astuce de calcul mental : '+strategySub(start,sub);
 }
-function openMatrix(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();try{history.pushState({matrixHelp:'subtraction'},'',location.href)}catch(e){}}
+function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();if(push!==false){try{history.pushState({matrixHelp:'subtraction'},'',location.href)}catch(e){}}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='subtraction'){history.back()}else hideMatrix()}
 form.addEventListener('submit',function(e){e.preventDefault();var start=Number(inStart.value),s=Number(inSub.value),d=start-s;if(!Number.isInteger(start)||!Number.isInteger(s)||s<1||s>20||d<1||d>20){msg.textContent='Utilise un nombre à soustraire de 1 à 20 et un résultat de 1 à 20.';return}msg.textContent='';sub=s;diff=d;draw()});
@@ -397,7 +399,7 @@ document.addEventListener('click',function(e){
     if(ax.dataset.col){diff=Number(ax.dataset.col);msg.textContent='';draw();return}
   }
 });
-window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
+window.addEventListener('openSubMatrix',function(){openMatrix(false)});document.addEventListener('click',function(e){if(e.target.closest('.switch-to-add')){hideMatrix();window.dispatchEvent(new Event('openAddMatrix'))}});window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
 document.getElementById('subHelpClose').addEventListener('click',closeMatrix);
 document.getElementById('subHelpCloseBottom').addEventListener('click',closeMatrix);
 modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});
