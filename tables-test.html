@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables-test.html", BUILD="20261020-03";
+  var PAGE="tables-test.html", BUILD="20261020-04";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -154,7 +154,11 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
         <label>Nombre de termes
           <input id="seqCount" type="number" min="2" max="10" inputmode="numeric" value="6">
         </label>
+        <label>Trous à compléter
+          <input id="seqHoles" type="number" min="0" max="10" inputmode="numeric" value="0">
+        </label>
       </div>
+      <div class="tiny" style="margin:-4px 0 8px;color:var(--muted)">0 trou = toute la séquence à produire. Sinon, seuls les trous sont à compléter.</div>
       <div id="sequenceConfigMsg" class="tiny" style="margin-bottom:10px"></div>
       <button id="startSequence" class="primary">▶ Commencer la séquence</button>
     </div>
@@ -264,7 +268,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 <script>
 (function(){
 'use strict';
-var state={exerciseType:'single',op:'+',n:7,rangeStart:1,rangeEnd:5,rows:[],done:false,mode:'aleatoire',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null,sequenceDir:'+',sequenceStart:5,sequenceStep:5,sequenceCount:6,sequenceValues:[]};
+var state={exerciseType:'single',op:'+',n:7,rangeStart:1,rangeEnd:5,rows:[],done:false,mode:'aleatoire',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null,sequenceDir:'+',sequenceStart:5,sequenceStep:5,sequenceCount:6,sequenceHoles:0,sequenceValues:[],sequenceTargets:[]};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -385,45 +389,64 @@ function grade(interrupted){
 }
 
 function readSequenceConfig(){
-  var start=parseInt(document.getElementById('seqStart').value,10),step=parseInt(document.getElementById('seqStep').value,10),count=parseInt(document.getElementById('seqCount').value,10);
+  var start=parseInt(document.getElementById('seqStart').value,10),step=parseInt(document.getElementById('seqStep').value,10),count=parseInt(document.getElementById('seqCount').value,10),holes=parseInt(document.getElementById('seqHoles').value,10);
   var msg=document.getElementById('sequenceConfigMsg');
   if(!Number.isInteger(start)||start<0){msg.textContent='Le nombre de départ doit être 0 ou plus.';return false}
   if(!Number.isInteger(step)||step<1||step>100){msg.textContent='Choisis un incrément de 1 à 100.';return false}
   if(!Number.isInteger(count)||count<2||count>10){msg.textContent='Choisis de 2 à 10 termes.';return false}
+  if(!Number.isInteger(holes)||holes<0||holes>count){msg.textContent='Le nombre de trous doit aller de 0 au nombre de termes.';return false}
   if(state.sequenceDir==='-'&&start-step*(count-1)<0){msg.textContent='Cette suite descend sous 0. Choisis un départ plus grand, un incrément plus petit ou moins de termes.';return false}
-  msg.textContent='';state.sequenceStart=start;state.sequenceStep=step;state.sequenceCount=count;return true;
+  msg.textContent='';state.sequenceStart=start;state.sequenceStep=step;state.sequenceCount=count;state.sequenceHoles=holes;return true;
 }
 function startSequence(){
   if(!readSequenceConfig())return;
-  state.done=false;state.historyIndex=null;state.sequenceValues=[];
+  state.done=false;state.historyIndex=null;state.sequenceValues=[];state.sequenceTargets=[];
   for(var i=0;i<state.sequenceCount;i++)state.sequenceValues.push(state.sequenceStart+(state.sequenceDir==='+'?1:-1)*state.sequenceStep*i);
+
+  if(state.sequenceHoles===0){
+    for(var a=0;a<state.sequenceCount;a++)state.sequenceTargets.push(a);
+  }else{
+    var indexes=[];for(var b=0;b<state.sequenceCount;b++)indexes.push(b);
+    state.sequenceTargets=shuffled(indexes).slice(0,state.sequenceHoles).sort(function(x,y){return x-y});
+  }
+
   document.getElementById('sequenceBadge').textContent='Suite '+state.sequenceDir+state.sequenceStep;
-  document.getElementById('sequenceTitle').textContent='Départ '+state.sequenceStart+' · '+state.sequenceCount+' termes';
+  document.getElementById('sequenceTitle').textContent='Départ '+state.sequenceStart+' · '+state.sequenceCount+' termes · '+(state.sequenceHoles===0?'à produire au complet':state.sequenceHoles+' trou'+(state.sequenceHoles>1?'s':''));
   var grid=document.getElementById('sequenceGrid');grid.innerHTML='';
-  state.sequenceValues.forEach(function(v,i){var lab=document.createElement('label');lab.className='sequence-cell';lab.innerHTML='<span>Terme '+(i+1)+'</span><input id="seqA'+i+'" type="number" inputmode="numeric" placeholder="?">';grid.appendChild(lab)});
+  state.sequenceValues.forEach(function(v,i){
+    var isTarget=state.sequenceTargets.indexOf(i)!==-1,lab=document.createElement('label');lab.className='sequence-cell';
+    if(isTarget){
+      lab.innerHTML='<span>Terme '+(i+1)+'</span><input id="seqA'+i+'" type="number" inputmode="numeric" placeholder="?">';
+    }else{
+      lab.innerHTML='<span>Terme '+(i+1)+'</span><input id="seqA'+i+'" type="number" value="'+v+'" disabled aria-label="Terme donné '+v+'">';
+    }
+    grid.appendChild(lab);
+  });
   show('sequenceExercise');startTimer();
-  var live=document.getElementById('liveTime'),seqTime=document.getElementById('sequenceTime');
-  if(live&&seqTime){seqTime.textContent='00:00';if(state.timerId)clearInterval(state.timerId);state.startAt=Date.now();state.elapsedMs=0;state.timerId=setInterval(function(){state.elapsedMs=Date.now()-state.startAt;seqTime.textContent=fmtTime(state.elapsedMs)},500)}
-  setTimeout(function(){document.getElementById('seqA0')?.focus()},100);
+  var seqTime=document.getElementById('sequenceTime');
+  if(seqTime){seqTime.textContent='00:00';if(state.timerId)clearInterval(state.timerId);state.startAt=Date.now();state.elapsedMs=0;state.timerId=setInterval(function(){state.elapsedMs=Date.now()-state.startAt;seqTime.textContent=fmtTime(state.elapsedMs)},500)}
+  setTimeout(function(){var first=state.sequenceTargets.length?document.getElementById('seqA'+state.sequenceTargets[0]):null;if(first)first.focus()},100);
 }
+
 function gradeSequence(interrupted){
   if(state.done)return;state.done=true;stopTimer();
   var good=0,err=0,answered=0,missing=0,rec='';
-  state.sequenceValues.forEach(function(expected,i){
-    var inp=document.getElementById('seqA'+i),raw=inp.value.trim(),u=raw===''?null:parseInt(raw,10),ok=raw!==''&&u===expected;inp.disabled=true;
+  state.sequenceTargets.forEach(function(i){
+    var expected=state.sequenceValues[i],inp=document.getElementById('seqA'+i),raw=inp.value.trim(),u=raw===''?null:parseInt(raw,10),ok=raw!==''&&u===expected;inp.disabled=true;
     if(raw===''){missing++;rec+='<div class="recap-row none"><span>Terme '+(i+1)+'</span><span>— → '+expected+'</span></div>'}
     else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>Terme '+(i+1)+'</span><span>✓ '+expected+'</span></div>'}
     else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>Terme '+(i+1)+'</span><span>✗ '+u+' → '+expected+'</span></div>'}
   });
-  var pct=answered?Math.round(good/answered*100):0,pts=good;
-  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),type:'sequence',dir:state.sequenceDir,seqStart:state.sequenceStart,seqStep:state.sequenceStep,seqCount:state.sequenceCount,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,durationMs:state.elapsedMs});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
-  var box=document.getElementById('sequenceResultBox');box.className='result '+(answered===state.sequenceValues.length&&pct===100?'perfect':pct>=70?'ok':'practice');
-  document.getElementById('sequenceResultEmoji').textContent=answered===state.sequenceValues.length&&pct===100?'🏆':pct>=70?'👍':'💪';
+  var total=state.sequenceTargets.length,pct=answered?Math.round(good/answered*100):0,pts=good;
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),type:'sequence',dir:state.sequenceDir,seqStart:state.sequenceStart,seqStep:state.sequenceStep,seqCount:state.sequenceCount,seqHoles:state.sequenceHoles,targetCount:total,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,durationMs:state.elapsedMs});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
+  var box=document.getElementById('sequenceResultBox');box.className='result '+(answered===total&&pct===100?'perfect':pct>=70?'ok':'practice');
+  document.getElementById('sequenceResultEmoji').textContent=answered===total&&pct===100?'🏆':pct>=70?'👍':'💪';
   document.getElementById('sequenceResultTitle').textContent=interrupted?'Séquence interrompue':(pct===100?'Séquence parfaite !':'Séquence terminée');
-  document.getElementById('sequenceResultDetail').textContent='Départ '+state.sequenceStart+' · '+state.sequenceDir+state.sequenceStep+' · '+answered+'/'+state.sequenceValues.length+' réponses';
+  document.getElementById('sequenceResultDetail').textContent='Départ '+state.sequenceStart+' · '+state.sequenceDir+state.sequenceStep+' · '+(state.sequenceHoles===0?'suite complète':state.sequenceHoles+' trou'+(state.sequenceHoles>1?'s':''))+' · '+answered+'/'+total+' réponses';
   document.getElementById('sequenceGood').textContent=good;document.getElementById('sequenceErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('sequencePct').textContent=pct+'%';document.getElementById('sequenceResultTime').textContent=fmtTime(state.elapsedMs);document.getElementById('sequencePts').textContent=pts;document.getElementById('sequenceRecap').innerHTML=rec;
   renderHistory();show('sequenceResults');
 }
+
 window.noteMatrixConsulted=function(idx){
   idx=parseInt(idx,10);if(!Number.isFinite(idx)||state.matrixConsulted[idx])return;
   state.matrixConsulted[idx]=true;
@@ -447,8 +470,8 @@ function renderHistory(){
   for(var i=h.length-1;i>=0;i--){
     var s=h[i],bad=(s.err||0),tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—',title='',detail='';
     if(s.type==='sequence'){
-      title='🔢 Suite '+(s.dir||'+')+(s.seqStep||0)+' · départ '+s.seqStart+' · '+s.pct+'%';
-      detail=(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · interrompue':'')+'<br>Termes : '+s.seqCount+' · Bonnes : <strong>'+s.good+'</strong> · Mauvaises : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts';
+      title='🔢 Suite '+(s.dir||'+')+(s.seqStep||0)+' · départ '+s.seqStart+' · '+(s.seqHoles===0?'complète':((s.seqHoles||s.targetCount||0)+' trou'+((s.seqHoles||s.targetCount||0)>1?'s':'')))+' · '+s.pct+'%';
+      detail=(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · interrompue':'')+'<br>Termes : '+s.seqCount+' · À compléter : '+(s.targetCount||s.seqCount)+' · Bonnes : <strong>'+s.good+'</strong> · Mauvaises : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts';
     }else{
       var mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel';
       var scope=s.type==='range'?('Tables '+s.rangeStart+' à '+s.rangeEnd):('Table du '+s.n);
@@ -466,7 +489,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul TEST V3.24</div>
+<div class="versionGitHub">GitHub · Tables de calcul TEST V3.25</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
