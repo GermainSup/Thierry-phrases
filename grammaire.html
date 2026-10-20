@@ -30,14 +30,14 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 .feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}.secondStep{margin-top:8px;padding:9px 11px;border:2px solid #4f46e5;border-radius:10px;background:#f4f3ff;color:#273568;font-size:15px;font-weight:900;line-height:1.35}.secondStep strong{color:#312e81}
 .detail{margin-top:7px;padding:8px 10px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 4px;font-size:15px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800}
 .classifyChoices{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.classifyBtn{border:2px solid #cbd7ff;background:#fff;color:#273568;border-radius:10px;padding:7px 10px;font-weight:850;cursor:pointer}.classifyBtn:hover{background:#eef2ff}.classifyResult{margin-top:7px;font-weight:800}.classifyResult.good{color:var(--good)}.classifyResult.bad{color:var(--bad)}
-.stats{margin-top:8px;padding:10px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8f9fc;border-radius:10px;padding:6px;text-align:center}.v{font-size:18px;font-weight:900}.l{font-size:10px;color:var(--muted);text-transform:uppercase}.history{margin-top:6px;font-size:12px}.hist{padding:5px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}
+.stats{margin-top:8px;padding:10px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8f9fc;border-radius:10px;padding:6px;text-align:center}.v{font-size:18px;font-weight:900}.l{font-size:10px;color:var(--muted);text-transform:uppercase}.history{margin-top:6px;font-size:12px}.hist{padding:5px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}.verbPractice{margin-top:8px;padding:12px}.verbControls{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}.verbPrompt{margin-top:10px;padding:12px;border:2px dashed #cbd5e1;border-radius:12px;background:#fbfdff;text-align:center}.verbPrompt .big{font-size:22px;font-weight:900}.verbAnswer{width:130px;max-width:45vw;border:2px solid #cfd8ff;border-radius:9px;padding:6px 8px;font:inherit;font-size:18px;font-weight:900;text-align:center;color:var(--text)}.verbAnswer.good{border-color:#7fc69d;background:var(--goodbg);color:var(--good)}.verbAnswer.bad{border-color:#ef9b92;background:var(--badbg);color:var(--bad)}.verbScore{font-size:12px;font-weight:850;color:var(--muted);margin-top:7px;text-align:center}@media(max-width:680px){.verbControls{grid-template-columns:1fr 1fr}.verbControls button{grid-column:1/-1}}
 .versionGitHub{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,.92);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261007-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261020-06";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
-<script src="grammaire-data.js?build=20261007-01"></script>
+<script src="grammaire-data.js?build=20261020-06"></script>
 </head>
 <body>
 <div class="wrap">
@@ -46,7 +46,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <h1>🧠 Grammaire</h1>
 <div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
 <div class="controls">
-<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="determinants">Déterminants</option><option value="noms">Noms</option><option value="adjectifs">Adjectifs</option><option value="verbes">Verbes</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
 <div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
 </div>
 <label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
@@ -58,20 +58,32 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div class="actions"><button id="checkBtn" class="main">✓ Vérifier ma réponse</button><button id="nextBtn" class="secondary">Autre phrase</button><button id="newSessionBtn" class="secondary">Nouvelle session</button></div>
 <div id="feedback"></div><div id="detail" class="detail" hidden></div>
 </section>
+<section id="verbPractice" class="verbPractice card" hidden>
+<strong>Conjugaison — complète la partie variable</strong>
+<div class="verbControls" style="margin-top:8px">
+  <label><span class="note">Verbe</span><select id="conjVerb"><option value="mix">Mélange</option><option>être</option><option>avoir</option><option>aimer</option><option>aller</option><option>finir</option></select></label>
+  <label><span class="note">Temps / forme</span><select id="conjTense"><option value="mix">Mélange</option><option value="participe présent">Participe présent</option><option value="présent">Présent</option><option value="imparfait">Imparfait</option><option value="conditionnel présent">Conditionnel présent</option><option value="futur simple">Futur simple</option><option value="futur proche">Futur proche</option></select></label>
+  <button id="newConjBtn" class="secondary">Autre conjugaison</button>
+</div>
+<div id="conjPrompt" class="verbPrompt"></div>
+<div class="actions"><button id="checkConjBtn" class="main">✓ Vérifier</button></div>
+<div id="conjFeedback"></div>
+<div id="conjScore" class="verbScore">Conjugaisons réussies : 0/0</div>
+</section>
 <section class="stats card">
 <strong>Session en cours</strong>
 <div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div><div class="stat" id="classStat" hidden><div class="v" id="sClassified">0/0</div><div class="l">Types réussis</div></div></div>
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.14</div>
+<div class="versionGitHub">GitHub · Grammaire V1.15</div>
 <script>
 (function(){
 "use strict";
 const bank=window.GRAMMAR_BANK||[];
 let level="1",topic="determinants",current=null,answered=false,selected=new Set();
 let used={1:new Set(),2:new Set(),3:new Set()};
-let stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
+let stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,conjAsked:0,conjCorrect:0,history:[]};
 
 const sentenceEl=document.getElementById("sentence");
 const feedbackEl=document.getElementById("feedback");
@@ -80,22 +92,152 @@ const reminderEl=document.getElementById("reminder");
 const instructionEl=document.getElementById("instruction");
 const topicEl=document.getElementById("topic");
 
+const PERSONS=["1re personne du singulier","2e personne du singulier","3e personne du singulier","1re personne du pluriel","2e personne du pluriel","3e personne du pluriel"];
+const PRONOUNS=["je","tu","il/elle","nous","vous","ils/elles"];
+const VERB_FORMS={
+"sont":{inf:"être",tense:"présent",person:"3e personne du pluriel"},
+"est":{inf:"être",tense:"présent",person:"3e personne du singulier"},
+"regarde":{inf:"regarder",tense:"présent",person:"3e personne du singulier"},
+"mange":{inf:"manger",tense:"présent",person:"3e personne du singulier"},
+"chante":{inf:"chanter",tense:"présent",person:"3e personne du singulier"},
+"rangent":{inf:"ranger",tense:"présent",person:"3e personne du pluriel"},
+"brille":{inf:"briller",tense:"présent",person:"3e personne du singulier"},
+"dort":{inf:"dormir",tense:"présent",person:"3e personne du singulier"},
+"saute":{inf:"sauter",tense:"présent",person:"3e personne du singulier"},
+"ouvre":{inf:"ouvrir",tense:"présent",person:"3e personne du singulier"},
+"dessine":{inf:"dessiner",tense:"présent",person:"3e personne du singulier"},
+"roule":{inf:"rouler",tense:"présent",person:"3e personne du singulier"},
+"éclairent":{inf:"éclairer",tense:"présent",person:"3e personne du pluriel"},
+"range":{inf:"ranger",tense:"présent",person:"3e personne du singulier"},
+"prépare":{inf:"préparer",tense:"présent",person:"3e personne du singulier"},
+"avance":{inf:"avancer",tense:"présent",person:"3e personne du singulier"},
+"construisent":{inf:"construire",tense:"présent",person:"3e personne du pluriel"},
+"apporte":{inf:"apporter",tense:"présent",person:"3e personne du singulier"},
+"lit":{inf:"lire",tense:"présent",person:"3e personne du singulier"},
+"visite":{inf:"visiter",tense:"présent",person:"3e personne du singulier"},
+"suit":{inf:"suivre",tense:"présent",person:"3e personne du singulier"},
+"montrent":{inf:"montrer",tense:"présent",person:"3e personne du pluriel"},
+"pose":{inf:"poser",tense:"présent",person:"3e personne du singulier"},
+"abrite":{inf:"abriter",tense:"présent",person:"3e personne du singulier"},
+"laisse":{inf:"laisser",tense:"présent",person:"3e personne du singulier"},
+"brillent":{inf:"briller",tense:"présent",person:"3e personne du pluriel"},
+"place":{inf:"placer",tense:"présent",person:"3e personne du singulier"},
+"suivent":{inf:"suivre",tense:"présent",person:"3e personne du pluriel"},
+"dois":{inf:"devoir",tense:"présent",person:"2e personne du singulier"},
+"placer":{inf:"placer",tense:"infinitif",person:"—"},
+"observent":{inf:"observer",tense:"présent",person:"3e personne du pluriel"},
+"permettent":{inf:"permettre",tense:"présent",person:"3e personne du pluriel"},
+"résoudre":{inf:"résoudre",tense:"infinitif",person:"—"},
+"pousse":{inf:"pousser",tense:"présent",person:"3e personne du singulier"},
+"apparaît":{inf:"apparaître",tense:"présent",person:"3e personne du singulier"},
+"court":{inf:"courir",tense:"présent",person:"3e personne du singulier"},
+"attend":{inf:"attendre",tense:"présent",person:"3e personne du singulier"},
+"observe":{inf:"observer",tense:"présent",person:"3e personne du singulier"},
+"porte":{inf:"porter",tense:"présent",person:"3e personne du singulier"},
+"rejoignent":{inf:"rejoindre",tense:"présent",person:"3e personne du pluriel"},
+"semble":{inf:"sembler",tense:"présent",person:"3e personne du singulier"},
+"bordent":{inf:"border",tense:"présent",person:"3e personne du pluriel"},
+"cachent":{inf:"cacher",tense:"présent",person:"3e personne du pluriel"},
+"découvre":{inf:"découvrir",tense:"présent",person:"3e personne du singulier"},
+"trouve":{inf:"trouver",tense:"présent",person:"3e personne du singulier"},
+"possède":{inf:"posséder",tense:"présent",person:"3e personne du singulier"},
+"traverse":{inf:"traverser",tense:"présent",person:"3e personne du singulier"},
+"vois":{inf:"voir",tense:"présent",person:"2e personne du singulier"}
+};
+function verbInfoFor(word){return VERB_FORMS[String(word||"").toLowerCase()]||null}
+
+const CONJ={
+"être":{
+"participe présent":["étant"],
+"présent":["suis","es","est","sommes","êtes","sont"],
+"imparfait":["étais","étais","était","étions","étiez","étaient"],
+"conditionnel présent":["serais","serais","serait","serions","seriez","seraient"],
+"futur simple":["serai","seras","sera","serons","serez","seront"],
+"futur proche":["vais être","vas être","va être","allons être","allez être","vont être"]},
+"avoir":{
+"participe présent":["ayant"],
+"présent":["ai","as","a","avons","avez","ont"],
+"imparfait":["avais","avais","avait","avions","aviez","avaient"],
+"conditionnel présent":["aurais","aurais","aurait","aurions","auriez","auraient"],
+"futur simple":["aurai","auras","aura","aurons","aurez","auront"],
+"futur proche":["vais avoir","vas avoir","va avoir","allons avoir","allez avoir","vont avoir"]},
+"aimer":{
+"participe présent":["aimant"],
+"présent":["aime","aimes","aime","aimons","aimez","aiment"],
+"imparfait":["aimais","aimais","aimait","aimions","aimiez","aimaient"],
+"conditionnel présent":["aimerais","aimerais","aimerait","aimerions","aimeriez","aimeraient"],
+"futur simple":["aimerai","aimeras","aimera","aimerons","aimerez","aimeront"],
+"futur proche":["vais aimer","vas aimer","va aimer","allons aimer","allez aimer","vont aimer"]},
+"aller":{
+"participe présent":["allant"],
+"présent":["vais","vas","va","allons","allez","vont"],
+"imparfait":["allais","allais","allait","allions","alliez","allaient"],
+"conditionnel présent":["irais","irais","irait","irions","iriez","iraient"],
+"futur simple":["irai","iras","ira","irons","irez","iront"],
+"futur proche":["vais aller","vas aller","va aller","allons aller","allez aller","vont aller"]},
+"finir":{
+"participe présent":["finissant"],
+"présent":["finis","finis","finit","finissons","finissez","finissent"],
+"imparfait":["finissais","finissais","finissait","finissions","finissiez","finissaient"],
+"conditionnel présent":["finirais","finirais","finirait","finirions","finiriez","finiraient"],
+"futur simple":["finirai","finiras","finira","finirons","finirez","finiront"],
+"futur proche":["vais finir","vas finir","va finir","allons finir","allez finir","vont finir"]}
+};
+const CONJ_STEMS={
+"être":{"participe présent":"ét","présent":["s","e","e","somm","êt","s"],"imparfait":"ét","conditionnel présent":"ser","futur simple":"ser"},
+"avoir":{"participe présent":"ay","présent":["","a","a","av","av",""],"imparfait":"av","conditionnel présent":"aur","futur simple":"aur"},
+"aimer":{"participe présent":"aim","présent":"aim","imparfait":"aim","conditionnel présent":"aimer","futur simple":"aimer"},
+"aller":{"participe présent":"all","présent":["v","v","v","all","all","v"],"imparfait":"all","conditionnel présent":"ir","futur simple":"ir"},
+"finir":{"participe présent":"finiss","présent":["fin","fin","fin","finiss","finiss","finiss"],"imparfait":"finiss","conditionnel présent":"finir","futur simple":"finir"}
+};
+let conjCurrent=null;
+function makeConjQuestion(){
+  const verbs=["être","avoir","aimer","aller","finir"],tenses=["participe présent","présent","imparfait","conditionnel présent","futur simple","futur proche"];
+  const vSel=document.getElementById("conjVerb").value,tSel=document.getElementById("conjTense").value;
+  const verb=vSel==="mix"?verbs[Math.floor(Math.random()*verbs.length)]:vSel;
+  const tense=tSel==="mix"?tenses[Math.floor(Math.random()*tenses.length)]:tSel;
+  const person=tense==="participe présent"?0:Math.floor(Math.random()*6);
+  const full=CONJ[verb][tense][person];
+  let stem="",answer="",lead="";
+  if(tense==="futur proche"){
+    const parts=full.split(" ");answer=parts[0];lead=(person===0?"je":PRONOUNS[person])+" ";
+    conjCurrent={verb,tense,person,full,stem:"",answer,tail:" "+verb};
+  }else{
+    const sm=CONJ_STEMS[verb][tense],s=Array.isArray(sm)?sm[person]:sm;
+    stem=s||"";answer=full.slice(stem.length);
+    lead=tense==="participe présent"?"":(person===0?"je":PRONOUNS[person])+" ";
+    conjCurrent={verb,tense,person,full,stem,answer,tail:""};
+  }
+  const who=tense==="participe présent"?"aucune personne — forme non personnelle":PERSONS[person];
+  document.getElementById("conjPrompt").innerHTML='<div class="note">'+cap(verb)+' · '+cap(tense)+' · '+who+'</div><div class="big">'+esc(lead)+esc(conjCurrent.stem)+'<input id="conjAnswer" class="verbAnswer" autocomplete="off" spellcheck="false" aria-label="Partie manquante">'+esc(conjCurrent.tail)+'</div>';
+  document.getElementById("conjFeedback").innerHTML="";
+  setTimeout(()=>document.getElementById("conjAnswer")?.focus(),50);
+}
+function checkConj(){
+  const inp=document.getElementById("conjAnswer");if(!inp||!conjCurrent)return;
+  const got=inp.value.trim().toLowerCase(),ok=got===conjCurrent.answer.toLowerCase();
+  stats.conjAsked++;if(ok)stats.conjCorrect++;
+  inp.classList.add(ok?"good":"bad");inp.disabled=true;
+  document.getElementById("conjFeedback").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Bonne réponse !':'Correction : <strong>'+esc(conjCurrent.full)+'</strong>')+'</div>';
+  document.getElementById("conjScore").textContent='Conjugaisons réussies : '+stats.conjCorrect+'/'+stats.conjAsked;
+}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
 function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
-function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="phrases"?"mots connus":"déterminants"}
+function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="verbes"?"verbes":topic==="phrases"?"mots connus":"déterminants"}
 function annotation(t){
   if(topic==="noms") return t.noun;
   if(topic==="adjectifs") return t.adj;
-  if(topic==="phrases") return t.noun||t.det||t.adj;
+  if(topic==="verbes") return t.verb;
+  if(topic==="phrases") return t.noun||t.det||t.adj||t.verb;
   return t.det;
 }
-function wordType(t){if(t.noun)return "nom";if(t.det)return "déterminant";if(t.adj)return "adjectif";return ""}
+function wordType(t){if(t.noun)return "nom";if(t.det)return "déterminant";if(t.adj)return "adjectif";if(t.verb)return "verbe";return ""}
 function tokenizePlain(text){
   const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
   let out=[],last=0,m;
   while((m=re.exec(text))){
     if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});
-    out.push({type:"word",text:m[0],det:null,noun:null,adj:null});
+    out.push({type:"word",text:m[0],det:null,noun:null,adj:null,verb:verbInfoFor(m[0])});
     last=re.lastIndex;
   }
   if(last<text.length)out.push({type:"text",text:text.slice(last)});
@@ -104,27 +246,27 @@ function tokenizePlain(text){
 function flatten(parts){
   let out=[];
   parts.forEach(p=>{
-    if(p.det||p.noun||p.adj) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null,adj:p.adj||null});
+    if(p.det||p.noun||p.adj||p.verb) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null,adj:p.adj||null,verb:p.verb||verbInfoFor(p.text)});
     else out=out.concat(tokenizePlain(p.text));
   });
   return out;
 }
 function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
 function phraseHasTopic(p){
-  return (p.parts||[]).some(part=>{
-    if(topic==="noms") return !!part.noun;
-    if(topic==="adjectifs") return !!part.adj;
-    if(topic==="phrases") return true;
-    return !!part.det;
-  });
+  const toks=flatten(p.parts||[]);
+  if(topic==="noms") return toks.some(t=>t.noun);
+  if(topic==="adjectifs") return toks.some(t=>t.adj);
+  if(topic==="verbes") return toks.some(t=>t.verb);
+  if(topic==="phrases") return true;
+  return toks.some(t=>t.det);
 }
 function choosePhrase(){
   const lv=pickLevel();
   const choices=bank.map((p,i)=>({p,i})).filter(x=>{
     if(String(x.p.level)!==lv) return false;
     if(topic==="phrases"){
-      const parts=x.p.parts||[];
-      return parts.some(p=>p.noun) && parts.some(p=>p.det) && parts.some(p=>p.adj);
+      const toks=flatten(x.p.parts||[]);
+      return toks.some(t=>t.noun) && toks.some(t=>t.det) && toks.some(t=>t.adj) && toks.some(t=>t.verb);
     }
     return phraseHasTopic(x.p);
   });
@@ -187,7 +329,7 @@ function check(){
   const perfect=found===total&&wrong===0;
   const label=topicLabel();
   const secondStep=topic==="phrases"
-    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong> ou d’un <strong>Adjectif</strong>. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot bien classé devient bleu</strong>; un mot mal classé devient rouge.</div>'
+    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong>, d’un <strong>Adjectif</strong> ou d’un <strong>Verbe</strong>. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot bien classé devient bleu</strong>; un mot mal classé devient rouge.</div>'
     : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot consulté devient bleu</strong>.</div>';
   feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
     (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
@@ -229,6 +371,10 @@ function phraseWordDetails(t){
       (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
       '</div>';
   }
+  if(t.verb){
+    const a=t.verb;
+    return '<div class="chips" style="margin-top:8px"><span class="chip">Verbe</span><span class="chip">Infinitif : '+esc(a.inf)+'</span><span class="chip">Temps : '+esc(cap(a.tense))+'</span><span class="chip">Personne : '+esc(a.person)+'</span></div>';
+  }
   return "";
 }
 function markSecondStep(i,ok){
@@ -247,7 +393,8 @@ function showClassifier(t,i){
     '<button class="classifyBtn" data-type="nom">Nom</button>'+
     '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
     '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
-    '</div><div class="note" style="margin-top:6px"><strong>Plus tard :</strong> Verbe · Pronom · Mot invariable…</div>'+
+    '<button class="classifyBtn" data-type="verbe">Verbe</button>'+
+    '</div><div class="note" style="margin-top:6px"><strong>Plus tard :</strong> Pronom · Mot invariable…</div>'+
     '<div id="classifyResult" class="classifyResult"></div>'+
     '<div id="phraseWordDetails"></div>'+
     '<div class="note">Après avoir choisi le type, les caractéristiques déjà apprises apparaissent ici.</div>';
@@ -298,6 +445,13 @@ function showDetail(t){
       (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
       (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
       '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }else if(topic==="verbes"){
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Verbe</span>'+
+      '<span class="chip">Infinitif : '+esc(a.inf)+'</span>'+
+      '<span class="chip">Temps : '+esc(cap(a.tense))+'</span>'+
+      '<span class="chip">Personne : '+esc(a.person)+'</span>'+
+      '</div><div class="note">Après la correction, identifie l’infinitif, le temps et la personne du verbe.</div>';
   }else{
     detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
       '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
@@ -317,7 +471,7 @@ function updateStats(){
   document.getElementById("sClassified").textContent=stats.classCorrect+"/"+stats.classAsked;
   const h=document.getElementById("history");
   h.innerHTML=stats.history.length?stats.history.map(x=>
-    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="phrases"?"Phrase":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="verbes"?"Verbes":x.topic==="phrases"?"Phrase":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
     (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
     (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+
     (x.topic==="phrases"&&x.classAsked?' · Types : '+x.classCorrect+'/'+x.classAsked:'')+'</div>'
@@ -366,28 +520,38 @@ function reminderAdj(){
     rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
     '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
 }
+function reminderVerb(){
+  return '<h3>Rappel — les verbes</h3>'+
+    '<p>Un verbe exprime une action, un état ou un changement. Pour l’identifier, cherche son <strong>infinitif</strong>, son <strong>temps</strong> et sa <strong>personne</strong>.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    '<tr><td><strong>Infinitif</strong></td><td>être, avoir, aimer, aller, finir</td></tr>'+
+    '<tr><td><strong>Temps / formes</strong></td><td>participe présent, présent, imparfait, conditionnel présent, futur simple, futur proche</td></tr>'+
+    '<tr><td><strong>Personne</strong></td><td>je, tu, il/elle, nous, vous, ils/elles</td></tr>'+
+    '</tbody></table><p class="note">Le participe présent est une forme non personnelle : il n’a pas de personne conjuguée.</p>';
+}
 function reminderPhrase(){
   return '<h3>Rappel — reconnaître les types de mots</h3>'+
-    '<p>Commence par chercher les <strong>noms, déterminants et adjectifs</strong>. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
+    '<p>Commence par chercher les <strong>noms, déterminants, adjectifs et verbes</strong>. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
     '<table><thead><tr><th>Type</th><th>Comment le reconnaître</th><th>Exemples</th></tr></thead><tbody>'+
     '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
     '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
     '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
+    '<tr><td><strong>Verbe</strong></td><td>Exprime une action ou un état et se conjugue.</td><td>regarde, sont, avance</td></tr>'+
     '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, passe à la <strong>2e étape</strong> : clique sur chaque mot vert ou jaune et choisis son type.</p>';
 }
 function updateReminder(){
-  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="phrases"?reminderPhrase():reminderDet();
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="verbes"?reminderVerb():topic==="phrases"?reminderPhrase():reminderDet();
 }
 function updateInstruction(){
   if(topic==="phrases"){
-    instructionEl.innerHTML='Clique sur tous les <span>noms, déterminants et adjectifs</span> que tu reconnais, puis vérifie ta sélection.';
+    instructionEl.innerHTML='Clique sur tous les <span>noms, déterminants, adjectifs et verbes</span> que tu reconnais, puis vérifie ta sélection.';
   }else{
-    const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":"déterminants";
+    const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="verbes"?"verbes":"déterminants";
     instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
   }
 }
 function resetSession(){
-  stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,history:[]};
+  stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,conjAsked:0,conjCorrect:0,history:[]};
   used={1:new Set(),2:new Set(),3:new Set()};
   updateStats();
   newPhrase();
@@ -399,6 +563,8 @@ document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
 }));
 topicEl.addEventListener("change",()=>{
   topic=topicEl.value;
+  document.getElementById("verbPractice").hidden=topic!=="verbes";
+  if(topic==="verbes")makeConjQuestion();
   updateInstruction();
   updateReminder();
   updateStats();
@@ -411,6 +577,10 @@ document.getElementById("showReminder").addEventListener("change",e=>{
 document.getElementById("checkBtn").addEventListener("click",check);
 document.getElementById("nextBtn").addEventListener("click",newPhrase);
 document.getElementById("newSessionBtn").addEventListener("click",resetSession);
+document.getElementById("newConjBtn").addEventListener("click",makeConjQuestion);
+document.getElementById("checkConjBtn").addEventListener("click",checkConj);
+document.getElementById("conjVerb").addEventListener("change",makeConjQuestion);
+document.getElementById("conjTense").addEventListener("change",makeConjQuestion);
 
 updateInstruction();updateReminder();updateStats();newPhrase();
 })();
