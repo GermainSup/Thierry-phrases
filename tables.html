@@ -21,10 +21,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .op,.num{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:11px 6px;font:inherit;font-weight:900;cursor:pointer}
 .op{font-size:1.4rem}.op span{display:block;font-size:.55rem;margin-top:3px}.op.active{border-color:var(--gold);color:var(--gold);background:rgba(245,158,11,.1)}
 .nums{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:16px}.num.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.mode{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}.mode.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
+.exercise-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.exercise-type{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 7px;font:inherit;font-size:.74rem;font-weight:900;cursor:pointer}.exercise-type.active{border-color:var(--gold);color:#FBBF24;background:rgba(245,158,11,.1)}.range-controls,.sequence-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.range-controls label,.sequence-controls label{font-size:.72rem;color:var(--muted);font-weight:800}.range-controls input,.sequence-controls input,.sequence-controls select{width:100%;margin-top:5px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:9px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;padding:9px;text-align:center}.sequence-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.sequence-cell{display:flex;flex-direction:column;gap:4px;text-align:center;font-size:.68rem;color:var(--muted)}.sequence-cell input{width:100%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:9px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;padding:9px;text-align:center}.sequence-cell input.good{border-color:var(--green);color:var(--green)}.sequence-cell input.bad{border-color:var(--red);color:#FCA5A5}@media(max-width:700px){.exercise-types{grid-template-columns:1fr}.range-controls,.sequence-controls{grid-template-columns:1fr 1fr}.sequence-grid{grid-template-columns:repeat(2,1fr)}}.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.mode{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}.mode.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
 .primary{width:100%;background:var(--gold);color:var(--bg);border:0;border-radius:12px;padding:14px;font:inherit;font-size:.95rem;font-weight:900;cursor:pointer}
 .secondary{width:100%;background:transparent;color:var(--text);border:2px solid var(--gold);border-radius:12px;padding:13px;font:inherit;font-weight:900;cursor:pointer}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.actions.action-3{grid-template-columns:repeat(3,1fr)}
 .hidden{display:none!important}
 .table-head{text-align:center;margin-bottom:8px}.badge{display:inline-block;background:var(--gold);color:var(--bg);padding:5px 14px;border-radius:999px;font-size:.72rem;font-weight:900}.table-title{font-size:1.45rem;font-weight:900;margin-top:5px}
 .row{display:grid;grid-template-columns:1fr auto 62px;gap:7px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)}#rows.multi-col{display:grid;grid-auto-flow:column;grid-auto-columns:1fr 1fr;column-gap:16px}#rows.multi-col.rows-10{grid-template-rows:repeat(5,auto)}#rows.multi-col.rows-15{grid-template-rows:repeat(8,auto)}#rows.multi-col.rows-20{grid-template-rows:repeat(10,auto)}#rows.multi-col .row{min-width:0}@media(max-width:700px){#rows.multi-col{display:block}}
@@ -37,7 +37,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
 .timer{text-align:center;color:var(--muted);font-size:.8rem;font-weight:900;margin:5px 0 8px}
-@media(min-width:900px){.wrap{max-width:1040px}.work-layout{display:grid;grid-template-columns:minmax(520px,590px) minmax(300px,1fr);gap:14px;align-items:start}.work-main,.side-column{min-width:0}.side-column{position:sticky;top:8px}#config{display:block}#config .panel{margin-bottom:0}.matrix-panel{position:static;margin-bottom:12px}#persistentStats{position:static}}@media(max-width:899px){.work-layout{display:block}.side-column{display:block}.matrix-panel,#persistentStats{position:static}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.wrap{max-width:1040px}.work-layout{display:grid;grid-template-columns:minmax(520px,590px) minmax(300px,1fr);gap:14px;align-items:start}.work-main,.side-column{min-width:0}.side-column{position:sticky;top:8px}#config{display:block}#config .panel{margin-bottom:0}.matrix-panel{position:static;margin-bottom:12px}#persistentStats{position:static}}@media(max-width:899px){.work-layout{display:block}.side-column{display:block}.matrix-panel,#persistentStats{position:static}}@media(max-width:540px){.actions.action-3{grid-template-columns:1fr}.actions,.hist-actions{grid-template-columns:1fr}}@media(max-width:420px){.ops{grid-template-columns:repeat(2,1fr)}}
 
 .versionGitHub{
   position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261015-08";
+  var PAGE="tables.html", BUILD="20261020-05";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -89,31 +89,80 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 <div class="work-main">
 <section id="config">
   <div class="panel">
-    <div class="label">Opération</div>
-    <div class="ops">
-      <button class="op active" data-op="+">+<span>Addition</span></button>
-      <button class="op" data-op="-">−<span>Soustraction</span></button>
-      <button class="op" data-op="*">×<span>Multiplication</span></button>
-      <button class="op" data-op="/">÷<span>Division</span></button>
+    <div class="label">Type d’exercice</div>
+    <div class="exercise-types" id="exerciseTypes">
+      <button class="exercise-type active" data-type="single">1 table</button>
+      <button class="exercise-type" data-type="range">Plage de tables</button>
+      <button class="exercise-type" data-type="sequence">Suites + / −</button>
     </div>
-    <div class="label">Table du nombre…</div>
-    <div id="nums" class="nums"></div>
-    <div class="label">Ordre des calculs</div>
-    <div class="modes" id="modes">
-      <button class="mode" data-mode="sequentiel">1 → 20 · Séquentiel</button>
-      <button class="mode active" data-mode="aleatoire">🔀 Aléatoire</button>
-    </div>
-    <div id="randomQuestions" style="margin-bottom:16px">
-      <div class="label">Nombre de questions en mode aléatoire</div>
-      <div class="modes" id="questionCounts" style="grid-template-columns:repeat(3,1fr);margin-bottom:0">
-        <button class="mode active" data-count="10">10 questions</button>
-        <button class="mode" data-count="15">15 questions</button>
-        <button class="mode" data-count="20">20 questions</button>
-      </div>
-    </div>
-    <button id="start" class="primary">▶ Commencer la table</button>
-  </div>
 
+    <div id="tableConfig">
+      <div class="label">Opération</div>
+      <div class="ops">
+        <button class="op active" data-op="+">+<span>Addition</span></button>
+        <button class="op" data-op="-">−<span>Soustraction</span></button>
+        <button class="op" data-op="*">×<span>Multiplication</span></button>
+        <button class="op" data-op="/">÷<span>Division</span></button>
+      </div>
+
+      <div id="singleControls">
+        <div class="label">Table du nombre…</div>
+        <div id="nums" class="nums"></div>
+        <div class="label">Ordre des calculs</div>
+        <div class="modes" id="modes">
+          <button class="mode" data-mode="sequentiel">1 → 20 · Séquentiel</button>
+          <button class="mode active" data-mode="aleatoire">🔀 Aléatoire</button>
+        </div>
+      </div>
+
+      <div id="rangeControls" class="hidden">
+        <div class="label">Plage de tables — toujours aléatoire</div>
+        <div class="range-controls">
+          <label>De la table
+            <input id="rangeStart" type="number" min="1" max="20" inputmode="numeric" value="1">
+          </label>
+          <label>À la table
+            <input id="rangeEnd" type="number" min="1" max="20" inputmode="numeric" value="5">
+          </label>
+        </div>
+      </div>
+
+      <div id="randomQuestions" style="margin-bottom:16px">
+        <div class="label">Nombre de questions</div>
+        <div class="modes" id="questionCounts" style="grid-template-columns:repeat(3,1fr);margin-bottom:0">
+          <button class="mode active" data-count="10">10 questions</button>
+          <button class="mode" data-count="15">15 questions</button>
+          <button class="mode" data-count="20">20 questions</button>
+        </div>
+      </div>
+      <button id="start" class="primary">▶ Commencer</button>
+    </div>
+
+    <div id="sequenceConfig" class="hidden">
+      <div class="label">Compter par intervalles</div>
+      <div class="modes" id="sequenceDirection">
+        <button class="mode active" data-dir="+">➕ En avançant</button>
+        <button class="mode" data-dir="-">➖ En reculant</button>
+      </div>
+      <div class="sequence-controls">
+        <label>Nombre de départ
+          <input id="seqStart" type="number" min="0" max="999" inputmode="numeric" value="5">
+        </label>
+        <label>Incrément
+          <input id="seqStep" type="number" min="1" max="100" inputmode="numeric" value="5">
+        </label>
+        <label>Nombre de termes
+          <input id="seqCount" type="number" min="2" max="10" inputmode="numeric" value="6">
+        </label>
+        <label>Termes inclus
+          <input id="seqIncluded" type="number" min="0" max="10" inputmode="numeric" value="0">
+        </label>
+      </div>
+      <div class="tiny" style="margin:-4px 0 8px;color:var(--muted)">Inclus = 0 : toute la séquence est à compléter. Inclus = 2 : deux termes sont déjà fournis comme repères.</div>
+      <div id="sequenceConfigMsg" class="tiny" style="margin-bottom:10px"></div>
+      <button id="startSequence" class="primary">▶ Commencer la séquence</button>
+    </div>
+  </div>
 </section>
 
 <section id="exercise" class="hidden">
@@ -122,9 +171,43 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
     <div class="actions" id="exerciseHelpActions" style="margin:0 0 10px"></div>
     <div id="rows"></div>
-    <div class="actions" style="margin-top:8px">
+    <div class="actions action-3" style="margin-top:8px">
       <button id="correctBtn" class="secondary">✓ Corriger</button>
       <button id="finishBtn" class="secondary">⏹ Terminer</button>
+      <button id="returnHome" class="secondary">← Retour</button>
+    </div>
+  </div>
+</section>
+
+<section id="sequenceExercise" class="hidden">
+  <div class="panel">
+    <div class="table-head"><div class="badge" id="sequenceBadge">Suite</div><div class="table-title" id="sequenceTitle">+ 5</div></div>
+    <div class="timer">⏱ Temps : <span id="sequenceTime">00:00</span></div>
+    <p class="sub" style="text-align:center;margin-bottom:8px">Complète tous les termes de la suite.</p>
+    <div id="sequenceGrid" class="sequence-grid"></div>
+    <div class="actions action-3">
+      <button id="sequenceCorrect" class="secondary">✓ Corriger</button>
+      <button id="sequenceInterrupt" class="secondary">⏹ Interrompre</button>
+      <button id="sequenceReturn" class="secondary">← Retour</button>
+    </div>
+  </div>
+</section>
+
+<section id="sequenceResults" class="hidden">
+  <div class="panel">
+    <div id="sequenceResultBox" class="result perfect"><div id="sequenceResultEmoji" style="font-size:2.5rem">🏆</div><h2 id="sequenceResultTitle">Séquence terminée</h2><p id="sequenceResultDetail"></p></div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="sequenceGood">0</div><div class="l">Bonnes</div></div>
+      <div class="stat"><div class="v" id="sequenceErr">0</div><div class="l">Erreurs</div></div>
+      <div class="stat"><div class="v" id="sequencePct">0%</div><div class="l">Précision</div></div>
+      <div class="stat"><div class="v" id="sequenceResultTime">00:00</div><div class="l">Temps</div></div>
+    </div>
+    <div class="points">Cette séquence : <span id="sequencePts">0</span> points</div>
+    <div class="label">Correction</div>
+    <div id="sequenceRecap" class="recap"></div>
+    <div class="actions">
+      <button id="sequenceReplay" class="secondary">↺ Reprendre</button>
+      <button id="sequenceChoose" class="secondary">← Retour</button>
     </div>
   </div>
 </section>
@@ -142,8 +225,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="points">Total accumulé : <span id="rPoints">0</span> points</div>
     <div class="label">Détail ligne par ligne</div>
     <div id="recap" class="recap"></div>
-    <button id="replay" class="primary">↺ Reprendre cette table</button>
-    <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
+    <div class="actions">
+      <button id="replay" class="secondary">↺ Reprendre</button>
+      <button id="choose" class="secondary">← Retour</button>
+    </div>
   </div>
 </section>
 </div>
@@ -183,7 +268,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 <script>
 (function(){
 'use strict';
-var state={op:'+',n:7,rows:[],done:false,mode:'aleatoire',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null};
+var state={exerciseType:'single',op:'+',n:7,rangeStart:1,rangeEnd:5,rows:[],done:false,mode:'aleatoire',questionCount:10,startAt:0,timerId:null,elapsedMs:0,matrixConsulted:{},historyIndex:null,sequenceDir:'+',sequenceStart:5,sequenceStep:5,sequenceCount:6,sequenceIncluded:0,sequenceValues:[],sequenceTargets:[]};
 var K_H='thierry_tables_hist_v2', K_P='thierry_tables_pts_v2';
 var symbols={'+':'+','-':'−','*':'×','/':'÷'};
 var names={'+':'additions','-':'soustractions','*':'multiplications','/':'divisions'};
@@ -192,12 +277,25 @@ function loadH(){try{return JSON.parse(localStorage.getItem(K_H)||'[]')}catch(e)
 function saveH(h){try{localStorage.setItem(K_H,JSON.stringify(h.slice(-100)))}catch(e){}}
 function loadP(){try{return parseInt(localStorage.getItem(K_P)||'0',10)||0}catch(e){return 0}}
 function saveP(p){try{localStorage.setItem(K_P,String(p))}catch(e){}}
-function show(id){['config','exercise','results'].forEach(function(x){document.getElementById(x).classList.add('hidden')});document.getElementById(id).classList.remove('hidden')}
+function show(id){['config','exercise','results','sequenceExercise','sequenceResults'].forEach(function(x){document.getElementById(x).classList.add('hidden')});document.getElementById(id).classList.remove('hidden')}
 function fmtTime(ms){var sec=Math.max(0,Math.round((ms||0)/1000)),m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
 function stopTimer(){if(state.timerId){clearInterval(state.timerId);state.timerId=null}state.elapsedMs=state.startAt?Date.now()-state.startAt:state.elapsedMs}
 function startTimer(){if(state.timerId)clearInterval(state.timerId);state.startAt=Date.now();state.elapsedMs=0;var el=document.getElementById('liveTime');if(el)el.textContent='00:00';state.timerId=setInterval(function(){state.elapsedMs=Date.now()-state.startAt;if(el)el.textContent=fmtTime(state.elapsedMs)},500)}
 function shuffled(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
 
+function setExerciseType(type){
+  state.exerciseType=type;
+  document.querySelectorAll('#exerciseTypes .exercise-type').forEach(function(b){b.classList.toggle('active',b.dataset.type===type)});
+  document.getElementById('tableConfig').classList.toggle('hidden',type==='sequence');
+  document.getElementById('sequenceConfig').classList.toggle('hidden',type!=='sequence');
+  document.getElementById('singleControls').classList.toggle('hidden',type!=='single');
+  document.getElementById('rangeControls').classList.toggle('hidden',type!=='range');
+  document.getElementById('randomQuestions').classList.toggle('hidden',type==='single'&&state.mode!=='aleatoire');
+}
+document.getElementById('exerciseTypes').addEventListener('click',function(e){var b=e.target.closest('.exercise-type');if(b)setExerciseType(b.dataset.type)});
+document.getElementById('rangeStart').addEventListener('change',function(){state.rangeStart=Math.max(1,Math.min(20,parseInt(this.value,10)||1));this.value=state.rangeStart});
+document.getElementById('rangeEnd').addEventListener('change',function(){state.rangeEnd=Math.max(1,Math.min(20,parseInt(this.value,10)||5));this.value=state.rangeEnd});
+document.getElementById('sequenceDirection').addEventListener('click',function(e){var b=e.target.closest('.mode');if(!b)return;document.querySelectorAll('#sequenceDirection .mode').forEach(function(x){x.classList.remove('active')});b.classList.add('active');state.sequenceDir=b.dataset.dir});
 var nums=document.getElementById('nums');
 for(var i=1;i<=20;i++){var b=document.createElement('button');b.className='num'+(i===7?' active':'');b.textContent=i;b.dataset.n=i;nums.appendChild(b)}
 nums.addEventListener('click',function(e){if(!e.target.classList.contains('num'))return;document.querySelectorAll('.num').forEach(function(x){x.classList.remove('active')});e.target.classList.add('active');state.n=parseInt(e.target.dataset.n,10)});
@@ -220,20 +318,41 @@ function defaultRandomMode(){
   document.getElementById('randomQuestions').classList.remove('hidden');
 }
 
+function returnToStart(){
+  stopTimer();
+  state.done=false;
+  setExerciseType('single');
+  defaultRandomMode();
+  show('config');
+  renderHistory();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function makeQuestion(tableN,factor){
+  var a,b,r;
+  if(state.op==='+'){a=factor;b=tableN;r=a+b}
+  else if(state.op==='-'){a=tableN+factor;b=tableN;r=factor}
+  else if(state.op==='*'){a=tableN;b=factor;r=a*b}
+  else{a=tableN*factor;b=tableN;r=factor}
+  return {a:a,b:b,r:r,facteur:factor,tableN:tableN};
+}
 function build(){
   state.rows=[];state.done=false;state.matrixConsulted={};state.historyIndex=null;
-  var facteurs=[];for(var f=1;f<=20;f++)facteurs.push(f);
-  if(state.mode==='aleatoire')facteurs=shuffled(facteurs).slice(0,state.questionCount);
-  facteurs.forEach(function(i){
-    var a,b,r;
-    if(state.op==='+'){a=i;b=state.n;r=a+b}
-    else if(state.op==='-'){a=state.n+i;b=state.n;r=i}
-    else if(state.op==='*'){a=state.n;b=i;r=a*b}
-    else{a=state.n*i;b=state.n;r=i}
-    state.rows.push({a:a,b:b,r:r,facteur:i});
-  });
+  if(state.exerciseType==='range'){
+    var lo=Math.min(state.rangeStart,state.rangeEnd),hi=Math.max(state.rangeStart,state.rangeEnd);
+    state.rangeStart=lo;state.rangeEnd=hi;
+    for(var q=0;q<state.questionCount;q++){
+      var tn=lo+Math.floor(Math.random()*(hi-lo+1));
+      var factor=1+Math.floor(Math.random()*20);
+      state.rows.push(makeQuestion(tn,factor));
+    }
+  }else{
+    var facteurs=[];for(var f=1;f<=20;f++)facteurs.push(f);
+    if(state.mode==='aleatoire')facteurs=shuffled(facteurs).slice(0,state.questionCount);
+    facteurs.forEach(function(i){state.rows.push(makeQuestion(state.n,i))});
+  }
   document.getElementById('opBadge').textContent='Table des '+names[state.op];
-  document.getElementById('tableTitle').textContent='du '+state.n;
+  document.getElementById('tableTitle').textContent=state.exerciseType==='range'?'tables '+state.rangeStart+' à '+state.rangeEnd:'du '+state.n;
   var rows=document.getElementById('rows');rows.innerHTML='';rows.className=state.rows.length>=10?'multi-col rows-'+state.rows.length:'';
   var helpActions=document.getElementById('exerciseHelpActions');
   if(state.op==='+')helpActions.innerHTML='<button type="button" class="secondary open-add-matrix">📊 Voir la matrice des additions</button>';
@@ -244,7 +363,7 @@ function build(){
     d.innerHTML='<div class="eq">'+x.a+' '+symbols[state.op]+' '+x.b+'</div><div>=</div><input class="ans" id="a'+idx+'" type="number" inputmode="numeric" placeholder="?">';
     rows.appendChild(d);
   });
-  show('exercise');startTimer();setTimeout(function(){document.getElementById('a0').focus()},100);
+  show('exercise');startTimer();setTimeout(function(){document.getElementById('a0')?.focus()},100);
 }
 
 function grade(interrupted){
@@ -259,14 +378,70 @@ function grade(interrupted){
   var totalQuestions=state.rows.length;
   var pct=answered?Math.round(good/answered*100):0,complete=answered===totalQuestions;
   var pts=good;
-  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),op:state.op,n:state.n,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.mode,durationMs:state.elapsedMs,matrixConsulted:[]});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),type:state.exerciseType,op:state.op,n:state.n,rangeStart:state.rangeStart,rangeEnd:state.rangeEnd,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,mode:state.exerciseType==='range'?'aleatoire':state.mode,durationMs:state.elapsedMs,matrixConsulted:[]});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
 
   var box=document.getElementById('resultBox');box.className='result '+(complete&&pct===100?'perfect':pct>=70?'ok':'practice');
   document.getElementById('resultEmoji').textContent=complete&&pct===100?'🏆':pct>=90?'🌟':pct>=70?'👍':'💪';
   document.getElementById('resultTitle').textContent=interrupted?'Table terminée':(complete&&pct===100?'Table parfaite !':pct>=70?'Très bien !':'Continue à pratiquer !');
-  document.getElementById('resultDetail').textContent='Table des '+names[state.op]+' du '+state.n+' · '+answered+'/'+state.rows.length+' réponses'+(interrupted?' · terminée avant la fin':'');
+  document.getElementById('resultDetail').textContent='Table des '+names[state.op]+' '+(state.exerciseType==='range'?('· tables '+state.rangeStart+' à '+state.rangeEnd):('du '+state.n))+' · '+answered+'/'+state.rows.length+' réponses'+(interrupted?' · terminée avant la fin':'');
   document.getElementById('rGood').textContent=good;document.getElementById('rErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('rPct').textContent=pct+'%';document.getElementById('rTime').textContent=fmtTime(state.elapsedMs);document.getElementById('rSessionPoints').textContent=pts;document.getElementById('rPoints').textContent=loadP();document.getElementById('recap').innerHTML=rec;
   renderHistory();show('results');
+}
+
+function readSequenceConfig(){
+  var start=parseInt(document.getElementById('seqStart').value,10),step=parseInt(document.getElementById('seqStep').value,10),count=parseInt(document.getElementById('seqCount').value,10),included=parseInt(document.getElementById('seqIncluded').value,10);
+  var msg=document.getElementById('sequenceConfigMsg');
+  if(!Number.isInteger(start)||start<0){msg.textContent='Le nombre de départ doit être 0 ou plus.';return false}
+  if(!Number.isInteger(step)||step<1||step>100){msg.textContent='Choisis un incrément de 1 à 100.';return false}
+  if(!Number.isInteger(count)||count<2||count>10){msg.textContent='Choisis de 2 à 10 termes.';return false}
+  if(!Number.isInteger(included)||included<0||included>count){msg.textContent='Le nombre de termes inclus doit aller de 0 au nombre de termes.';return false}
+  if(state.sequenceDir==='-'&&start-step*(count-1)<0){msg.textContent='Cette suite descend sous 0. Choisis un départ plus grand, un incrément plus petit ou moins de termes.';return false}
+  msg.textContent='';state.sequenceStart=start;state.sequenceStep=step;state.sequenceCount=count;state.sequenceIncluded=included;return true;
+}
+function startSequence(){
+  if(!readSequenceConfig())return;
+  state.done=false;state.historyIndex=null;state.sequenceValues=[];state.sequenceTargets=[];
+  for(var i=0;i<state.sequenceCount;i++)state.sequenceValues.push(state.sequenceStart+(state.sequenceDir==='+'?1:-1)*state.sequenceStep*i);
+
+  var allIndexes=[];for(var a=0;a<state.sequenceCount;a++)allIndexes.push(a);
+  var includedIndexes=state.sequenceIncluded===0?[]:shuffled(allIndexes.slice()).slice(0,state.sequenceIncluded);
+  for(var b=0;b<state.sequenceCount;b++)if(includedIndexes.indexOf(b)===-1)state.sequenceTargets.push(b);
+
+  document.getElementById('sequenceBadge').textContent='Suite '+state.sequenceDir+state.sequenceStep;
+  document.getElementById('sequenceTitle').textContent='Départ '+state.sequenceStart+' · '+state.sequenceCount+' termes · '+state.sequenceIncluded+' inclus';
+  var grid=document.getElementById('sequenceGrid');grid.innerHTML='';
+  state.sequenceValues.forEach(function(v,i){
+    var isTarget=state.sequenceTargets.indexOf(i)!==-1,lab=document.createElement('label');lab.className='sequence-cell';
+    if(isTarget){
+      lab.innerHTML='<span>Terme '+(i+1)+'</span><input id="seqA'+i+'" type="number" inputmode="numeric" placeholder="?">';
+    }else{
+      lab.innerHTML='<span>Terme '+(i+1)+'</span><input id="seqA'+i+'" type="number" value="'+v+'" disabled aria-label="Terme donné '+v+'">';
+    }
+    grid.appendChild(lab);
+  });
+  show('sequenceExercise');startTimer();
+  var seqTime=document.getElementById('sequenceTime');
+  if(seqTime){seqTime.textContent='00:00';if(state.timerId)clearInterval(state.timerId);state.startAt=Date.now();state.elapsedMs=0;state.timerId=setInterval(function(){state.elapsedMs=Date.now()-state.startAt;seqTime.textContent=fmtTime(state.elapsedMs)},500)}
+  setTimeout(function(){var first=state.sequenceTargets.length?document.getElementById('seqA'+state.sequenceTargets[0]):null;if(first)first.focus()},100);
+}
+
+function gradeSequence(interrupted){
+  if(state.done)return;state.done=true;stopTimer();
+  var good=0,err=0,answered=0,missing=0,rec='';
+  state.sequenceTargets.forEach(function(i){
+    var expected=state.sequenceValues[i],inp=document.getElementById('seqA'+i),raw=inp.value.trim(),u=raw===''?null:parseInt(raw,10),ok=raw!==''&&u===expected;inp.disabled=true;
+    if(raw===''){missing++;rec+='<div class="recap-row none"><span>Terme '+(i+1)+'</span><span>— → '+expected+'</span></div>'}
+    else if(ok){answered++;good++;inp.classList.add('good');rec+='<div class="recap-row good"><span>Terme '+(i+1)+'</span><span>✓ '+expected+'</span></div>'}
+    else{answered++;err++;inp.classList.add('bad');rec+='<div class="recap-row bad"><span>Terme '+(i+1)+'</span><span>✗ '+u+' → '+expected+'</span></div>'}
+  });
+  var total=state.sequenceTargets.length,pct=answered?Math.round(good/answered*100):0,pts=good;
+  var h=loadH();h.push({date:new Date().toLocaleDateString('fr-CA'),heure:new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'}),type:'sequence',dir:state.sequenceDir,seqStart:state.sequenceStart,seqStep:state.sequenceStep,seqCount:state.sequenceCount,seqIncluded:state.sequenceIncluded,targetCount:total,good:good,err:err,answered:answered,missing:missing,pct:pct,pts:pts,interrupted:!!interrupted,durationMs:state.elapsedMs});state.historyIndex=h.length-1;saveH(h);saveP(loadP()+pts);
+  var box=document.getElementById('sequenceResultBox');box.className='result '+(answered===total&&pct===100?'perfect':pct>=70?'ok':'practice');
+  document.getElementById('sequenceResultEmoji').textContent=answered===total&&pct===100?'🏆':pct>=70?'👍':'💪';
+  document.getElementById('sequenceResultTitle').textContent=interrupted?'Séquence interrompue':(pct===100?'Séquence parfaite !':'Séquence terminée');
+  document.getElementById('sequenceResultDetail').textContent='Départ '+state.sequenceStart+' · '+state.sequenceDir+state.sequenceStep+' · '+(state.sequenceIncluded===0?'aucun terme inclus':state.sequenceIncluded+' terme'+(state.sequenceIncluded>1?'s':'')+' inclus')+' · '+answered+'/'+total+' réponses';
+  document.getElementById('sequenceGood').textContent=good;document.getElementById('sequenceErr').textContent=err+(missing?' +'+missing+' NR':'');document.getElementById('sequencePct').textContent=pct+'%';document.getElementById('sequenceResultTime').textContent=fmtTime(state.elapsedMs);document.getElementById('sequencePts').textContent=pts;document.getElementById('sequenceRecap').innerHTML=rec;
+  renderHistory();show('sequenceResults');
 }
 
 window.noteMatrixConsulted=function(idx){
@@ -286,22 +461,37 @@ function renderHistory(){
   var h=loadH(),hist=document.getElementById('history'),pts=loadP();
   document.getElementById('gSessions').textContent=h.length;document.getElementById('points').textContent=pts+' point'+(pts!==1?'s':'')+' accumulé'+(pts!==1?'s':'');
   if(!h.length){document.getElementById('gAvg').textContent='—';document.getElementById('gBest').textContent='—';document.getElementById('gTime').textContent='—';hist.innerHTML='<div style="color:var(--muted);text-align:center;font-size:.8rem;padding:10px">Aucune table enregistrée.</div>';return}
-  var sum=0,best=0,timeSum=0,timeCount=0;h.forEach(function(s){sum+=s.pct;best=Math.max(best,s.pct);if(s.durationMs!==undefined){timeSum+=s.durationMs;timeCount++}});document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';document.getElementById('gTime').textContent=timeCount?fmtTime(timeSum/timeCount):'—';
-  var out='';for(var i=h.length-1;i>=0;i--){var s=h[i],bad=(s.err||0),mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel',tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—';out+='<div class="history-item"><div class="history-main"><div class="history-title">'+symbols[s.op]+' Table du '+s.n+' · '+s.pct+'%</div><div class="history-detail">'+(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts'+((s.matrixConsulted||[]).length?'<br>📊 Matrice consultée pour <strong>'+(s.matrixConsulted||[]).length+'</strong> erreur'+((s.matrixConsulted||[]).length>1?'s':''):'')+'</div></div><button class="del" data-i="'+i+'">Effacer</button></div>'}hist.innerHTML=out;
-  hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}})
+  var sum=0,best=0,timeSum=0,timeCount=0;h.forEach(function(s){sum+=s.pct||0;best=Math.max(best,s.pct||0);if(s.durationMs!==undefined){timeSum+=s.durationMs;timeCount++}});
+  document.getElementById('gAvg').textContent=Math.round(sum/h.length)+'%';document.getElementById('gBest').textContent=best+'%';document.getElementById('gTime').textContent=timeCount?fmtTime(timeSum/timeCount):'—';
+  var out='';
+  for(var i=h.length-1;i>=0;i--){
+    var s=h[i],bad=(s.err||0),tm=s.durationMs!==undefined?fmtTime(s.durationMs):'—',title='',detail='';
+    if(s.type==='sequence'){
+      title='🔢 Suite '+(s.dir||'+')+(s.seqStep||0)+' · départ '+s.seqStart+' · '+((s.seqIncluded||0)+' inclus')+' · '+s.pct+'%';
+      detail=(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · interrompue':'')+'<br>Termes : '+s.seqCount+' · Inclus : '+(s.seqIncluded||0)+' · À compléter : '+(s.targetCount||s.seqCount)+' · Bonnes : <strong>'+s.good+'</strong> · Mauvaises : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts';
+    }else{
+      var mode=s.mode==='aleatoire'?'Aléatoire':'Séquentiel';
+      var scope=s.type==='range'?('Tables '+s.rangeStart+' à '+s.rangeEnd):('Table du '+s.n);
+      title=(symbols[s.op]||s.op)+' '+scope+' · '+s.pct+'%';
+      detail=(s.date||'')+(s.heure?' · '+s.heure:'')+(s.interrupted?' · terminée avant la fin':'')+' · '+mode+'<br>Bonnes réponses : <strong>'+s.good+'</strong> · Mauvaises réponses : <strong>'+bad+'</strong> · Temps : <strong>'+tm+'</strong><br>Résultat : '+s.good+'/'+s.answered+' · '+s.pts+' pts'+((s.matrixConsulted||[]).length?'<br>📊 Matrice consultée pour <strong>'+(s.matrixConsulted||[]).length+'</strong> erreur'+((s.matrixConsulted||[]).length>1?'s':''):'');
+    }
+    out+='<div class="history-item"><div class="history-main"><div class="history-title">'+title+'</div><div class="history-detail">'+detail+'</div></div><button class="del" data-i="'+i+'">Effacer</button></div>';
+  }
+  hist.innerHTML=out;
+  hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}});
 }
-document.getElementById('start').onclick=build;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};
-document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){defaultRandomMode();show('config');renderHistory()};
+document.getElementById('start').onclick=build;document.getElementById('startSequence').onclick=startSequence;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};document.getElementById('returnHome').onclick=returnToStart;document.getElementById('sequenceCorrect').onclick=function(){gradeSequence(false)};document.getElementById('sequenceInterrupt').onclick=function(){gradeSequence(true)};document.getElementById('sequenceReturn').onclick=returnToStart;
+document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=returnToStart;document.getElementById('sequenceReplay').onclick=startSequence;document.getElementById('sequenceChoose').onclick=returnToStart;
 document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer définitivement tout l’historique et les points accumulés ?'))return;saveH([]);saveP(0);renderHistory()};
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.21</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.26</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-sub">➖ Passer à la matrice des soustractions</button></div>
-<p style="font-size:.82em;margin-bottom:8px">Entre toi-même les deux nombres du calcul, puis repère-les dans la matrice. Tu peux aussi explorer la grille en cliquant sur les axes.</p>
+<p style="font-size:.82em;margin-bottom:8px">Entre les deux nombres dans les cases <b>ou</b> sélectionne-les directement sur les axes de la matrice.</p>
 <form id="addMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">1er nombre<br><input id="addTermA" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
   <span class="matrix-op" aria-hidden="true">+</span>
@@ -330,12 +520,12 @@ function strategy(a,b){
   if(opts.length===0){var tens=Math.floor(lo/10)*10,ones=lo-tens;if(tens>0)opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + '+tens+' + '+ones+' = '+sum+'.');else opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.')}
   return opts.slice(0,2).join('  Autre idée : ');
 }
-function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if(aa!==null&&bb!==null&&(i===aa||j===bb))e.className='track'}grid.appendChild(e)}}if(aa===null||bb===null){result.textContent='Entre les deux termes du calcul.';tip.textContent='';return}inA.value=aa;inB.value=bb;result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
+function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis'+(bb!==null&&j===bb?' cross':'');e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis'+(aa!==null&&i===aa?' cross':'');e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if((aa!==null&&i===aa)||(bb!==null&&j===bb))e.className='track'}grid.appendChild(e)}}if(aa!==null)inA.value=aa;if(bb!==null)inB.value=bb;if(aa===null||bb===null){result.textContent=aa!==null?'1er terme choisi : '+aa:(bb!==null?'2e terme choisi : '+bb:'Entre les deux termes du calcul.');tip.textContent='Choisis maintenant l’autre terme.';return}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
 function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();if(push!==false){try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
 form.addEventListener('submit',function(e){e.preventDefault();var a=Number(inA.value),b=Number(inB.value);if(!Number.isInteger(a)||a<1||a>20||!Number.isInteger(b)||b<1||b>20){msg.textContent='Entre deux nombres de 1 à 20.';return}msg.textContent='';aa=a;bb=b;draw()});
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.textContent='Entre toi-même les deux termes de ton calcul.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();setTimeout(function(){inA.focus()},60);return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.innerHTML='Choisis les nombres avec les axes <b>ou</b> entre-les dans les cases.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
 window.addEventListener('openAddMatrix',function(){openMatrix(false)});document.addEventListener('click',function(e){if(e.target.closest('.switch-to-sub')){hideMatrix();window.dispatchEvent(new Event('openSubMatrix'))}});window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
 document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
@@ -344,7 +534,7 @@ document.getElementById('addHelpClose').addEventListener('click',closeMatrix);do
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-add">➕ Passer à la matrice des additions</button></div>
-<p style="font-size:.82em;margin-bottom:8px">Tu peux <b>entrer directement les deux termes</b> de la soustraction ou utiliser la matrice. Dans la matrice : <b>1.</b> choisis d’abord le <b>2e terme</b> dans la colonne de gauche; <b>2.</b> dans cette ligne, clique le <b>1er terme</b>. Exemple : <b>25 − 8</b> → choisis 8, puis 25; la colonne 17 donne la réponse.</p>
+<p style="font-size:.82em;margin-bottom:8px">Tu peux <b>entrer les deux termes dans les cases</b> ou les sélectionner directement dans la matrice. Dans la matrice : <b>1.</b> choisis d’abord le <b>2e terme</b> dans la colonne de gauche; <b>2.</b> dans cette ligne, clique le <b>1er terme</b>. Exemple : <b>25 − 8</b> → choisis 8, puis 25; la colonne 17 donne la réponse.</p>
 <form id="subMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">1er terme<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
   <span class="matrix-op" aria-hidden="true">−</span>
@@ -410,7 +600,7 @@ form.addEventListener('submit',function(e){
 function resetSubMatrix(){sub=null;diff=null;inStart.value='';inSub.value='';msg.textContent='Entre les deux termes ou commence par choisir le 2e terme dans la colonne de gauche.';draw()}
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
-  if(open){resetSubMatrix();if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
+  if(open){resetSubMatrix();msg.innerHTML='Choisis les nombres avec la matrice <b>ou</b> entre les deux termes dans les cases.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
   var free=e.target.closest('.open-sub-matrix');
   if(free){resetSubMatrix();openMatrix();return}
   var ax=e.target.closest('#subHelpGrid .axis[data-row]');
