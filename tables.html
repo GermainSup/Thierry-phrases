@@ -24,7 +24,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .exercise-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.exercise-type{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 7px;font:inherit;font-size:.74rem;font-weight:900;cursor:pointer}.exercise-type.active{border-color:var(--gold);color:#FBBF24;background:rgba(245,158,11,.1)}.range-controls,.sequence-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.range-controls label,.sequence-controls label{font-size:.72rem;color:var(--muted);font-weight:800}.range-controls input,.sequence-controls input,.sequence-controls select{width:100%;margin-top:5px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:9px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;padding:9px;text-align:center}.sequence-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.sequence-cell{display:flex;flex-direction:column;gap:4px;text-align:center;font-size:.68rem;color:var(--muted)}.sequence-cell input{width:100%;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:9px;color:var(--text);font:inherit;font-size:1rem;font-weight:800;padding:9px;text-align:center}.sequence-cell input.good{border-color:var(--green);color:var(--green)}.sequence-cell input.bad{border-color:var(--red);color:#FCA5A5}@media(max-width:700px){.exercise-types{grid-template-columns:1fr}.range-controls,.sequence-controls{grid-template-columns:1fr 1fr}.sequence-grid{grid-template-columns:repeat(2,1fr)}}.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.mode{background:transparent;color:var(--muted);border:2px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;font:inherit;font-size:.78rem;font-weight:900;cursor:pointer}.mode.active{border-color:var(--blue);color:#93C5FD;background:rgba(59,130,246,.12)}
 .primary{width:100%;background:var(--gold);color:var(--bg);border:0;border-radius:12px;padding:14px;font:inherit;font-size:.95rem;font-weight:900;cursor:pointer}
 .secondary{width:100%;background:transparent;color:var(--text);border:2px solid var(--gold);border-radius:12px;padding:13px;font:inherit;font-weight:900;cursor:pointer}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.actions.action-3{grid-template-columns:repeat(3,1fr)}
 .hidden{display:none!important}
 .table-head{text-align:center;margin-bottom:8px}.badge{display:inline-block;background:var(--gold);color:var(--bg);padding:5px 14px;border-radius:999px;font-size:.72rem;font-weight:900}.table-title{font-size:1.45rem;font-weight:900;margin-top:5px}
 .row{display:grid;grid-template-columns:1fr auto 62px;gap:7px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)}#rows.multi-col{display:grid;grid-auto-flow:column;grid-auto-columns:1fr 1fr;column-gap:16px}#rows.multi-col.rows-10{grid-template-rows:repeat(5,auto)}#rows.multi-col.rows-15{grid-template-rows:repeat(8,auto)}#rows.multi-col.rows-20{grid-template-rows:repeat(10,auto)}#rows.multi-col .row{min-width:0}@media(max-width:700px){#rows.multi-col{display:block}}
@@ -37,7 +37,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 .hist-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.hist-btn{background:rgba(255,255,255,.05);color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:9px;font:inherit;font-size:.72rem;font-weight:800;cursor:pointer}.hist-btn.danger{color:#FCA5A5;border-color:rgba(239,68,68,.3)}
 .points{text-align:center;color:var(--gold);font-weight:900;font-size:.82rem;margin:10px 0}
 .timer{text-align:center;color:var(--muted);font-size:.8rem;font-weight:900;margin:5px 0 8px}
-@media(min-width:900px){.wrap{max-width:1040px}.work-layout{display:grid;grid-template-columns:minmax(520px,590px) minmax(300px,1fr);gap:14px;align-items:start}.work-main,.side-column{min-width:0}.side-column{position:sticky;top:8px}#config{display:block}#config .panel{margin-bottom:0}.matrix-panel{position:static;margin-bottom:12px}#persistentStats{position:static}}@media(max-width:899px){.work-layout{display:block}.side-column{display:block}.matrix-panel,#persistentStats{position:static}}@media(max-width:420px){.actions,.hist-actions{grid-template-columns:1fr}.ops{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.wrap{max-width:1040px}.work-layout{display:grid;grid-template-columns:minmax(520px,590px) minmax(300px,1fr);gap:14px;align-items:start}.work-main,.side-column{min-width:0}.side-column{position:sticky;top:8px}#config{display:block}#config .panel{margin-bottom:0}.matrix-panel{position:static;margin-bottom:12px}#persistentStats{position:static}}@media(max-width:899px){.work-layout{display:block}.side-column{display:block}.matrix-panel,#persistentStats{position:static}}@media(max-width:540px){.actions.action-3{grid-template-columns:1fr}.actions,.hist-actions{grid-template-columns:1fr}}@media(max-width:420px){.ops{grid-template-columns:repeat(2,1fr)}}
 
 .versionGitHub{
   position:fixed;left:50%;bottom:6px;transform:translateX(-50%);
@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261020-01";
+  var PAGE="tables.html", BUILD="20261020-02";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -167,9 +167,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="timer">⏱ Temps : <span id="liveTime">00:00</span></div>
     <div class="actions" id="exerciseHelpActions" style="margin:0 0 10px"></div>
     <div id="rows"></div>
-    <div class="actions" style="margin-top:8px">
+    <div class="actions action-3" style="margin-top:8px">
       <button id="correctBtn" class="secondary">✓ Corriger</button>
       <button id="finishBtn" class="secondary">⏹ Terminer</button>
+      <button id="returnHome" class="secondary">← Retour</button>
     </div>
   </div>
 </section>
@@ -180,9 +181,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="timer">⏱ Temps : <span id="sequenceTime">00:00</span></div>
     <p class="sub" style="text-align:center;margin-bottom:8px">Complète tous les termes de la suite.</p>
     <div id="sequenceGrid" class="sequence-grid"></div>
-    <div class="actions">
-      <button id="sequenceCorrect" class="secondary">✓ Corriger / terminer</button>
+    <div class="actions action-3">
+      <button id="sequenceCorrect" class="secondary">✓ Corriger</button>
       <button id="sequenceInterrupt" class="secondary">⏹ Interrompre</button>
+      <button id="sequenceReturn" class="secondary">← Retour</button>
     </div>
   </div>
 </section>
@@ -199,8 +201,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="points">Cette séquence : <span id="sequencePts">0</span> points</div>
     <div class="label">Correction</div>
     <div id="sequenceRecap" class="recap"></div>
-    <button id="sequenceReplay" class="primary">↺ Reprendre cette séquence</button>
-    <button id="sequenceChoose" class="primary" style="margin-top:10px">← Choisir une autre séquence</button>
+    <div class="actions">
+      <button id="sequenceReplay" class="secondary">↺ Reprendre</button>
+      <button id="sequenceChoose" class="secondary">← Retour</button>
+    </div>
   </div>
 </section>
 
@@ -217,8 +221,10 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
     <div class="points">Total accumulé : <span id="rPoints">0</span> points</div>
     <div class="label">Détail ligne par ligne</div>
     <div id="recap" class="recap"></div>
-    <button id="replay" class="primary">↺ Reprendre cette table</button>
-    <button id="choose" class="primary" style="margin-top:10px">← Choisir une autre table</button>
+    <div class="actions">
+      <button id="replay" class="secondary">↺ Reprendre</button>
+      <button id="choose" class="secondary">← Retour</button>
+    </div>
   </div>
 </section>
 </div>
@@ -306,6 +312,16 @@ function defaultRandomMode(){
   state.mode='aleatoire';
   document.querySelectorAll('#modes .mode').forEach(function(x){x.classList.toggle('active',x.dataset.mode==='aleatoire')});
   document.getElementById('randomQuestions').classList.remove('hidden');
+}
+
+function returnToStart(){
+  stopTimer();
+  state.done=false;
+  setExerciseType('single');
+  defaultRandomMode();
+  show('config');
+  renderHistory();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function makeQuestion(tableN,factor){
@@ -444,18 +460,18 @@ function renderHistory(){
   hist.innerHTML=out;
   hist.querySelectorAll('.del').forEach(function(b){b.onclick=function(){var a=loadH(),i=parseInt(b.dataset.i,10);a.splice(i,1);saveH(a);saveP(a.reduce(function(t,s){return t+(s.pts||0)},0));renderHistory()}});
 }
-document.getElementById('start').onclick=build;document.getElementById('startSequence').onclick=startSequence;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};document.getElementById('sequenceCorrect').onclick=function(){gradeSequence(false)};document.getElementById('sequenceInterrupt').onclick=function(){gradeSequence(true)};
-document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=function(){defaultRandomMode();show('config');renderHistory()};document.getElementById('sequenceReplay').onclick=startSequence;document.getElementById('sequenceChoose').onclick=function(){setExerciseType('sequence');show('config');renderHistory()};
+document.getElementById('start').onclick=build;document.getElementById('startSequence').onclick=startSequence;document.getElementById('correctBtn').onclick=function(){grade(false)};document.getElementById('finishBtn').onclick=function(){grade(true)};document.getElementById('returnHome').onclick=returnToStart;document.getElementById('sequenceCorrect').onclick=function(){gradeSequence(false)};document.getElementById('sequenceInterrupt').onclick=function(){gradeSequence(true)};document.getElementById('sequenceReturn').onclick=returnToStart;
+document.getElementById('replay').onclick=build;document.getElementById('choose').onclick=returnToStart;document.getElementById('sequenceReplay').onclick=startSequence;document.getElementById('sequenceChoose').onclick=returnToStart;
 document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer définitivement tout l’historique et les points accumulés ?'))return;saveH([]);saveP(0);renderHistory()};
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.22</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.23</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-sub">➖ Passer à la matrice des soustractions</button></div>
-<p style="font-size:.82em;margin-bottom:8px">Entre toi-même les deux nombres du calcul, puis repère-les dans la matrice. Tu peux aussi explorer la grille en cliquant sur les axes.</p>
+<p style="font-size:.82em;margin-bottom:8px">Entre les deux nombres dans les cases <b>ou</b> sélectionne-les directement sur les axes de la matrice.</p>
 <form id="addMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">1er nombre<br><input id="addTermA" type="number" min="1" max="20" inputmode="numeric" style="width:78px"></label>
   <span class="matrix-op" aria-hidden="true">+</span>
@@ -489,7 +505,7 @@ function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-h
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
 form.addEventListener('submit',function(e){e.preventDefault();var a=Number(inA.value),b=Number(inB.value);if(!Number.isInteger(a)||a<1||a>20||!Number.isInteger(b)||b<1||b>20){msg.textContent='Entre deux nombres de 1 à 20.';return}msg.textContent='';aa=a;bb=b;draw()});
-document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.textContent='Entre toi-même les deux termes de ton calcul.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();setTimeout(function(){inA.focus()},60);return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
+document.addEventListener('click',function(e){var open=e.target.closest('.help-add-btn');if(open){aa=null;bb=null;inA.value='';inB.value='';msg.innerHTML='Choisis les nombres avec les axes <b>ou</b> entre-les dans les cases.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}var free=e.target.closest('.open-add-matrix');if(free){msg.textContent='';openMatrix();return}var ax=e.target.closest('#addHelpGrid .axis');if(ax){if(ax.dataset.row)aa=Number(ax.dataset.row);if(ax.dataset.col)bb=Number(ax.dataset.col);msg.textContent='';draw()}});
 window.addEventListener('openAddMatrix',function(){openMatrix(false)});document.addEventListener('click',function(e){if(e.target.closest('.switch-to-sub')){hideMatrix();window.dispatchEvent(new Event('openSubMatrix'))}});window.addEventListener('popstate',function(){if(modal.classList.contains('open'))hideMatrix()});
 document.getElementById('addHelpClose').addEventListener('click',closeMatrix);document.getElementById('addHelpCloseBottom').addEventListener('click',closeMatrix);modal.addEventListener('click',function(e){if(e.target===modal)closeMatrix()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeMatrix()});
 })();
@@ -498,7 +514,7 @@ document.getElementById('addHelpClose').addEventListener('click',closeMatrix);do
 <div id="subtractionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table des soustractions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des soustractions 1 à 20</strong><button type="button" id="subHelpClose">← Retour au calcul</button></div>
 <div class="actions" style="margin:0 0 10px"><button type="button" class="secondary switch-to-add">➕ Passer à la matrice des additions</button></div>
-<p style="font-size:.82em;margin-bottom:8px">Tu peux <b>entrer directement les deux termes</b> de la soustraction ou utiliser la matrice. Dans la matrice : <b>1.</b> choisis d’abord le <b>2e terme</b> dans la colonne de gauche; <b>2.</b> dans cette ligne, clique le <b>1er terme</b>. Exemple : <b>25 − 8</b> → choisis 8, puis 25; la colonne 17 donne la réponse.</p>
+<p style="font-size:.82em;margin-bottom:8px">Tu peux <b>entrer les deux termes dans les cases</b> ou les sélectionner directement dans la matrice. Dans la matrice : <b>1.</b> choisis d’abord le <b>2e terme</b> dans la colonne de gauche; <b>2.</b> dans cette ligne, clique le <b>1er terme</b>. Exemple : <b>25 − 8</b> → choisis 8, puis 25; la colonne 17 donne la réponse.</p>
 <form id="subMatrixForm" class="matrix-form">
   <label style="font-size:.78em;font-weight:800">1er terme<br><input id="subStart" type="number" min="2" max="40" inputmode="numeric" style="width:92px"></label>
   <span class="matrix-op" aria-hidden="true">−</span>
@@ -564,7 +580,7 @@ form.addEventListener('submit',function(e){
 function resetSubMatrix(){sub=null;diff=null;inStart.value='';inSub.value='';msg.textContent='Entre les deux termes ou commence par choisir le 2e terme dans la colonne de gauche.';draw()}
 document.addEventListener('click',function(e){
   var open=e.target.closest('.help-sub-btn');
-  if(open){resetSubMatrix();if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
+  if(open){resetSubMatrix();msg.innerHTML='Choisis les nombres avec la matrice <b>ou</b> entre les deux termes dans les cases.';if(open.dataset.errIdx!==undefined&&window.noteMatrixConsulted)window.noteMatrixConsulted(open.dataset.errIdx);openMatrix();return}
   var free=e.target.closest('.open-sub-matrix');
   if(free){resetSubMatrix();openMatrix();return}
   var ax=e.target.closest('#subHelpGrid .axis[data-row]');
