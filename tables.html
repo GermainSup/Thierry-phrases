@@ -61,7 +61,7 @@ header{text-align:center;padding:2px 0 10px}h1{font-size:1.55rem}.sub{color:var(
 
 <script>
 (function(){
-  var PAGE="tables.html", BUILD="20261020-02";
+  var PAGE="tables.html", BUILD="20261020-03";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -466,7 +466,7 @@ document.getElementById('clearAll').onclick=function(){if(!confirm('Effacer déf
 renderHistory();
 })();
 </script>
-<div class="versionGitHub">GitHub · Tables de calcul V3.23</div>
+<div class="versionGitHub">GitHub · Tables de calcul V3.24</div>
 
 <div id="additionHelp" class="add-help-backdrop" role="dialog" aria-modal="true" aria-label="Table d'additions" aria-hidden="true">
 <div class="add-help-box"><div class="add-help-head"><strong>📊 Matrice des additions 1 à 20</strong><button type="button" id="addHelpClose">← Retour au calcul</button></div>
@@ -500,7 +500,7 @@ function strategy(a,b){
   if(opts.length===0){var tens=Math.floor(lo/10)*10,ones=lo-tens;if(tens>0)opts.push('Décomposer : '+hi+' + '+lo+' = '+hi+' + '+tens+' + '+ones+' = '+sum+'.');else opts.push('Compter à partir de '+hi+' : ajoute '+lo+' → '+sum+'.')}
   return opts.slice(0,2).join('  Autre idée : ');
 }
-function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis';e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis';e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if(aa!==null&&bb!==null&&(i===aa||j===bb))e.className='track'}grid.appendChild(e)}}if(aa===null||bb===null){result.textContent='Entre les deux termes du calcul.';tip.textContent='';return}inA.value=aa;inB.value=bb;result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
+function draw(){grid.textContent='';for(var i=0;i<=20;i++){for(var j=0;j<=20;j++){var e=document.createElement(i===0||j===0?'button':'span');if(i===0&&j===0){e.textContent='+';e.className='origin';e.type='button'}else if(i===0){e.textContent=j;e.className='axis'+(bb!==null&&j===bb?' cross':'');e.type='button';e.dataset.col=j;e.setAttribute('aria-label','Choisir la colonne '+j)}else if(j===0){e.textContent=i;e.className='axis'+(aa!==null&&i===aa?' cross':'');e.type='button';e.dataset.row=i;e.setAttribute('aria-label','Choisir la ligne '+i)}else{e.textContent=i+j;if(aa!==null&&bb!==null&&i===aa&&j===bb)e.className='cross';else if((aa!==null&&i===aa)||(bb!==null&&j===bb))e.className='track'}grid.appendChild(e)}}if(aa!==null)inA.value=aa;if(bb!==null)inB.value=bb;if(aa===null||bb===null){result.textContent=aa!==null?'1er terme choisi : '+aa:(bb!==null?'2e terme choisi : '+bb:'Entre les deux termes du calcul.');tip.textContent='Choisis maintenant l’autre terme.';return}result.textContent=aa+' + '+bb+' = '+(aa+bb);tip.textContent='Astuce de calcul mental : '+strategy(aa,bb)}
 function openMatrix(push){modal.classList.add('open');modal.setAttribute('aria-hidden','false');draw();if(push!==false){try{history.pushState({matrixHelp:'addition'},'',location.href)}catch(e){}}}
 function hideMatrix(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
 function closeMatrix(){if(history.state&&history.state.matrixHelp==='addition'){history.back()}else hideMatrix()}
