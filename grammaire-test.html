@@ -35,7 +35,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire-test.html",BUILD="20261021-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire-test.html",BUILD="20261021-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
 <script src="grammaire-data.js?build=20261021-01"></script>
 </head>
@@ -75,7 +75,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
   <label><span class="note">Temps / forme</span><select id="conjTense"><option value="mix">Mélange</option><option value="participe présent">Participe présent</option><option value="présent">Présent</option><option value="imparfait">Imparfait</option><option value="conditionnel présent">Conditionnel présent</option><option value="futur simple">Futur simple</option><option value="futur proche">Futur proche</option></select></label>
 </div>
 <div id="conjPrompt" class="verbPrompt"></div>
-<div class="actions"><button id="checkConjBtn" class="main">✓ Vérifier</button><button id="newConjBtn" class="secondary">Autre cas</button><button id="completeBackBtn" class="secondary">← Retour</button><button id="completeFinishBtn" class="secondary">⏹ Terminer</button></div>
+<div class="actions"><button id="checkConjBtn" class="main">✓ Vérifier</button><button id="newConjBtn" class="secondary">Autre cas</button><button id="completeBackBtn" class="secondary">← Retour</button><button id="completeFinishBtn" class="secondary">⏹ Terminer</button><button id="completeNewSessionBtn" class="secondary">Nouvelle session</button></div>
 <div id="conjFeedback"></div>
 <div id="conjScore" class="verbScore">Réussites : 0/0</div>
 <div id="conjPoints" class="verbPoints">Points : 0</div>
@@ -88,7 +88,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
   <label><span class="note">Temps</span><select id="fullTense"><option value="mix">Mélange</option><option value="présent">Présent</option><option value="imparfait">Imparfait</option><option value="conditionnel présent">Conditionnel présent</option><option value="futur simple">Futur simple</option><option value="futur proche">Futur proche</option></select></label>
 </div>
 <div id="fullConjPrompt" class="verbPrompt"></div>
-<div class="actions"><button id="checkFullConjBtn" class="main">✓ Vérifier</button><button id="newFullConjBtn" class="secondary">Autre cas</button><button id="fullBackBtn" class="secondary">← Retour</button><button id="fullFinishBtn" class="secondary">⏹ Terminer</button></div>
+<div class="actions"><button id="checkFullConjBtn" class="main">✓ Vérifier</button><button id="newFullConjBtn" class="secondary">Autre cas</button><button id="fullBackBtn" class="secondary">← Retour</button><button id="fullFinishBtn" class="secondary">⏹ Terminer</button><button id="fullNewSessionBtn" class="secondary">Nouvelle session</button></div>
 <div id="fullConjFeedback"></div>
 <div id="fullConjScore" class="verbScore">Réussites : 0/0</div>
 <div id="fullConjPoints" class="verbPoints">Points : 0</div>
@@ -99,7 +99,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire TEST V1.16</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.17</div>
 <script>
 (function(){
 "use strict";
@@ -241,6 +241,19 @@ function showVerbModeChooser(summary){
   document.getElementById("verbModeSummary").innerHTML=summary||"";
   document.querySelectorAll(".verbModeBtn").forEach(b=>b.classList.remove("active"));
   window.scrollTo({top:0,behavior:"smooth"});
+}
+function resetVerbSession(kind){
+  if(kind==="identify"){
+    stats.phrases=0;stats.found=0;stats.missed=0;stats.wrong=0;stats.verbIdentifyAsked=0;stats.verbIdentifyCorrect=0;stats.history=[];
+    used={1:new Set(),2:new Set(),3:new Set()};
+    updateStats();newPhrase();
+  }else if(kind==="complete"){
+    stats.conjAsked=0;stats.conjCorrect=0;stats.conjPoints=0;
+    updateVerbStats();makeConjQuestion();
+  }else if(kind==="conjugate"){
+    stats.fullAsked=0;stats.fullCorrect=0;stats.fullPoints=0;
+    updateVerbStats();makeFullConjQuestion();
+  }
 }
 function finishVerbMode(kind){
   let html="";
@@ -666,7 +679,7 @@ document.getElementById("showReminder").addEventListener("change",e=>{
 });
 document.getElementById("checkBtn").addEventListener("click",check);
 document.getElementById("nextBtn").addEventListener("click",newPhrase);
-document.getElementById("newSessionBtn").addEventListener("click",resetSession);
+document.getElementById("newSessionBtn").addEventListener("click",()=>{if(topic==="verbes"&&verbMode==="identify")resetVerbSession("identify");else resetSession()});
 document.querySelectorAll(".verbModeBtn").forEach(btn=>btn.addEventListener("click",()=>{
   verbMode=btn.dataset.verbmode;
   document.querySelectorAll(".verbModeBtn").forEach(b=>b.classList.toggle("active",b===btn));
@@ -677,7 +690,7 @@ document.querySelectorAll(".verbModeBtn").forEach(btn=>btn.addEventListener("cli
     document.getElementById("verbConjugate").hidden=true;
     document.getElementById("verbIdentifyBack").hidden=false;
     document.getElementById("verbIdentifyFinish").hidden=false;
-    document.getElementById("newSessionBtn").hidden=true;
+    document.getElementById("newSessionBtn").hidden=false;
     document.getElementById("nextBtn").textContent="Autre cas";
     newPhrase();
   }else if(verbMode==="complete"){
@@ -700,12 +713,14 @@ document.getElementById("conjVerb").addEventListener("change",makeConjQuestion);
 document.getElementById("conjTense").addEventListener("change",makeConjQuestion);
 document.getElementById("completeBackBtn").addEventListener("click",()=>showVerbModeChooser(""));
 document.getElementById("completeFinishBtn").addEventListener("click",()=>finishVerbMode("complete"));
+document.getElementById("completeNewSessionBtn").addEventListener("click",()=>resetVerbSession("complete"));
 document.getElementById("newFullConjBtn").addEventListener("click",makeFullConjQuestion);
 document.getElementById("checkFullConjBtn").addEventListener("click",checkFullConj);
 document.getElementById("fullVerb").addEventListener("change",makeFullConjQuestion);
 document.getElementById("fullTense").addEventListener("change",makeFullConjQuestion);
 document.getElementById("fullBackBtn").addEventListener("click",()=>showVerbModeChooser(""));
 document.getElementById("fullFinishBtn").addEventListener("click",()=>finishVerbMode("conjugate"));
+document.getElementById("fullNewSessionBtn").addEventListener("click",()=>resetVerbSession("conjugate"));
 
 updateInstruction();updateReminder();updateStats();newPhrase();
 })();
