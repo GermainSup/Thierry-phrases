@@ -35,7 +35,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire-test.html",BUILD="20261105-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire-test.html",BUILD="20261107-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
 <script src="grammaire-data.js?build=20261021-01"></script>
 </head>
@@ -69,9 +69,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
   <button class="gnPick active" data-g="1">GN 1</button>
   <button class="gnPick" data-g="2">GN 2</button>
   <button class="gnPick" data-g="3">GN 3</button>
-  <button id="gnRulesBtn" class="secondary">📘 Règles</button>
 </div>
-<div id="gnRulesBox" class="gnRules" hidden></div>
 <div id="gnSentence" class="gnSentence"></div>
 <div id="gnFeedback"></div>
 <div id="gnClassifier" class="gnClassify" hidden></div>
@@ -121,7 +119,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire TEST V1.22</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.23</div>
 <script>
 (function(){
 "use strict";
@@ -349,9 +347,6 @@ const GN_BANK=[
 {level:3,parts:[["Cette",1,"D"],["curieuse",1,"Adj"],["exploratrice",1,"N"],["n'",0,""],["ouvre",0,""],["pas",0,""],["la",2,"D"],["lourde",2,"Adj"],["boîte",2,"N"],["mais",0,""],["observe",0,""],["deux",3,"D"],["petits",3,"Adj"],["indices",3,"N"],["étranges",3,"Adj"],[".",0,""]]}
 ];
 let gnCurrent=null,gnGroup=1,gnAssign=new Map(),gnAnswered=false,gnClassChoices=new Map(),gnClassResults=new Map(),gnUsed={1:new Set(),2:new Set(),3:new Set()};
-function gnRulesHtml(){
-  return '<strong>Règles du GN</strong><br><br><strong>1. Commence toujours par trouver les noms.</strong> Chaque GN est construit autour d’un <strong>nom noyau (N)</strong>.<br><strong>2. Cherche ensuite les mots qui se rattachent à ce nom :</strong> le <strong>déterminant (D)</strong> et un ou plusieurs <strong>adjectifs (Adj)</strong>.<br><strong>3. Regroupe seulement les mots qui appartiennent au même nom.</strong><br><br><strong>Niveau 1 :</strong> GN simples. <strong>Niveau 2 :</strong> souvent 2 GN et 1 ou 2 verbes. <strong>Niveau 3 :</strong> phrases plus longues, parfois négatives, avec plusieurs verbes.';
-}
 function pickGnCase(){
   const lv=level==="mix"?String(1+Math.floor(Math.random()*3)):level;
   const pool=GN_BANK.map((x,i)=>({x,i})).filter(o=>String(o.x.level)===lv);
@@ -723,7 +718,15 @@ function reminderAdj(){
     '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
 }
 function reminderGN(){
-  return '<h3>Rappel — le groupe du nom (GN)</h3><p><strong>Commence par trouver les noms.</strong> Chaque GN est construit autour d’un <strong>nom noyau</strong>. Cherche ensuite le déterminant et les adjectifs qui se rattachent à ce nom.</p><table><thead><tr><th>Symbole</th><th>Rôle</th><th>Exemple</th></tr></thead><tbody><tr><td><strong>D</strong></td><td>Déterminant</td><td>le, une, ces</td></tr><tr><td><strong>N</strong></td><td>Nom noyau</td><td>chien, maison</td></tr><tr><td><strong>Adj</strong></td><td>Adjectif</td><td>petit, rouge</td></tr></tbody></table><p class="note">Les couleurs servent à distinguer les GN entre eux; D, N et Adj indiquent le rôle de chaque mot dans son GN.</p>';
+  return '<h3>Rappel — le groupe du nom (GN)</h3>'+
+    '<p><strong>Méthode :</strong> commence toujours par repérer les <strong>noms</strong>. Chaque GN est construit autour d’un <strong>nom noyau (N)</strong>. Cherche ensuite les mots qui se rattachent à ce nom : son <strong>déterminant (D)</strong> et un ou plusieurs <strong>adjectifs (Adj)</strong>.</p>'+
+    '<p><strong>Important :</strong> ne regroupe ensemble que les mots qui appartiennent au même nom.</p>'+
+    '<table><thead><tr><th>Symbole</th><th>Rôle</th><th>Exemple</th></tr></thead><tbody>'+
+    '<tr><td><strong>D</strong></td><td>Déterminant</td><td>le, une, ces</td></tr>'+
+    '<tr><td><strong>N</strong></td><td>Nom noyau</td><td>chien, maison</td></tr>'+
+    '<tr><td><strong>Adj</strong></td><td>Adjectif</td><td>petit, rouge</td></tr>'+
+    '</tbody></table>'+
+    '<p class="note">Les couleurs servent à distinguer les GN entre eux; D, N et Adj indiquent le rôle de chaque mot dans son GN.</p>';
 }
 function reminderVerb(){
   return '<h3>Rappel — les verbes</h3>'+
@@ -829,7 +832,6 @@ document.getElementById("fullBackBtn").addEventListener("click",()=>showVerbMode
 document.getElementById("fullFinishBtn").addEventListener("click",()=>finishVerbMode("conjugate"));
 document.getElementById("fullNewSessionBtn").addEventListener("click",()=>resetVerbSession("conjugate"));
 document.querySelectorAll(".gnPick").forEach(b=>b.addEventListener("click",()=>{gnGroup=Number(b.dataset.g);document.querySelectorAll(".gnPick").forEach(x=>x.classList.toggle("active",x===b))}));
-document.getElementById("gnRulesBtn").addEventListener("click",()=>{const b=document.getElementById("gnRulesBox");b.hidden=!b.hidden;if(!b.hidden)b.innerHTML=gnRulesHtml()});
 document.getElementById("gnCheckBtn").addEventListener("click",checkGn);
 document.getElementById("gnNextBtn").addEventListener("click",newGnCase);
 document.getElementById("gnNewSessionBtn").addEventListener("click",resetGnSession);
