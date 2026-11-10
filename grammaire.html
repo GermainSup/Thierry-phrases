@@ -35,7 +35,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 @media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
 </style>
 <script>
-(function(){var PAGE="grammaire.html",BUILD="20261109-01";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+(function(){var PAGE="grammaire.html",BUILD="20261109-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
 </script>
 <script src="grammaire-data.js?build=20261021-01"></script>
 </head>
@@ -47,7 +47,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
 <div class="controls">
 <div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="noms">Noms</option><option value="determinants">Déterminants</option><option value="adjectifs">Adjectifs</option><option value="gn">Groupe du nom (GN)</option><option value="accords">Accords : féminin et pluriel</option><option value="verbes">Verbes</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
-<div class="control"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
+<div class="control" id="levelControl"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
 </div>
 <label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
 <div id="reminder" class="reminder" hidden></div>
@@ -89,7 +89,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
   <button class="accordMode" data-accord="p">Pluriel</button>
   <button class="accordMode" data-accord="fp">Féminin pluriel</button>
 </div>
-<div class="note" style="text-align:center">Le groupe est donné au masculin singulier. Écris tout le groupe correctement accordé.</div>
+<div class="note" style="text-align:center">Le groupe est donné au masculin singulier. Écris tout le groupe correctement accordé. Les cas ordinaires et les exceptions courantes sont mélangés.</div>
 <div id="accordSource" class="accordSource"></div>
 <div class="accordTarget"><input id="accordAnswer" autocomplete="off" spellcheck="false" aria-label="Groupe nominal accordé"></div>
 <div id="accordFeedback"></div>
@@ -140,7 +140,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="versionGitHub">GitHub · Grammaire V1.24</div>
+<div class="versionGitHub">GitHub · Grammaire V1.25</div>
 <script>
 (function(){
 "use strict";
@@ -461,14 +461,14 @@ const ACCORD_BANK=[
 {level:3,ms:"un directeur sérieux",f:"une directrice sérieuse",p:"des directeurs sérieux",fp:"des directrices sérieuses"},
 {level:3,ms:"un homme heureux",f:"une femme heureuse",p:"des hommes heureux",fp:"des femmes heureuses"}
 ];
-let accordMode="f",accordCurrent=null,accordAnswered=false,accordUsed={1:new Set(),2:new Set(),3:new Set()};
+let accordMode="f",accordCurrent=null,accordAnswered=false,accordUsed=new Set();
 function normalizeAccord(s){return (s||"").trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ")}
-function pickAccordCase(){const lv=level==="mix"?String(1+Math.floor(Math.random()*3)):level;const pool=ACCORD_BANK.map((x,i)=>({x,i})).filter(o=>String(o.x.level)===lv);let avail=pool.filter(o=>!accordUsed[lv].has(o.i));if(!avail.length){accordUsed[lv].clear();avail=pool.slice()}const pick=avail[Math.floor(Math.random()*avail.length)];accordUsed[lv].add(pick.i);return pick.x}
+function pickAccordCase(){const pool=ACCORD_BANK.map((x,i)=>({x,i}));let avail=pool.filter(o=>!accordUsed.has(o.i));if(!avail.length){accordUsed.clear();avail=pool.slice()}const pick=avail[Math.floor(Math.random()*avail.length)];accordUsed.add(pick.i);return pick.x}
 function newAccordCase(){accordCurrent=pickAccordCase();accordAnswered=false;const inp=document.getElementById("accordAnswer");inp.value="";inp.disabled=false;inp.classList.remove("good","bad");document.getElementById("accordSource").textContent=accordCurrent.ms;document.getElementById("accordFeedback").innerHTML="";document.getElementById("accordCorrection").innerHTML="";setTimeout(()=>inp.focus(),50);updateAccordSession()}
 function accordExpected(){return accordCurrent?accordCurrent[accordMode]:""}
-function checkAccord(){const inp=document.getElementById("accordAnswer");if(!accordCurrent||accordAnswered||!inp)return;accordAnswered=true;inp.disabled=true;const got=normalizeAccord(inp.value),expected=normalizeAccord(accordExpected());const gotWords=got?got.split(" "):[],expWords=expected.split(" ");let wc=0;for(let i=0;i<Math.max(gotWords.length,expWords.length);i++)if(gotWords[i]&&expWords[i]&&gotWords[i]===expWords[i])wc++;const ok=got===expected;stats.accordAsked++;stats.accordWordAsked+=expWords.length;stats.accordWordCorrect+=wc;if(ok){stats.accordCorrect++;stats.accordPoints+=expWords.length}else stats.accordPoints+=wc;inp.classList.add(ok?"good":"bad");document.getElementById("accordFeedback").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Tout le groupe est bien accordé. +'+expWords.length+' points':'Correction : '+wc+'/'+expWords.length+' mots corrects.')+'</div>';let html="";for(let i=0;i<expWords.length;i++){const same=gotWords[i]===expWords[i];if(same)html+='<span class="accordToken good">'+esc(expWords[i])+'</span>';else{if(gotWords[i])html+='<span class="accordToken bad">'+esc(gotWords[i])+'</span>';html+='<span class="accordToken expected">'+esc(expWords[i])+'</span>'}}document.getElementById("accordCorrection").innerHTML=html;stats.history.unshift({topic:"accords",level:accordCurrent.level,mode:accordMode,found:wc,total:expWords.length,wrong:Math.max(0,gotWords.length-wc),missed:Math.max(0,expWords.length-wc)});stats.history=stats.history.slice(0,8);updateAccordSession();updateStats()}
+function checkAccord(){const inp=document.getElementById("accordAnswer");if(!accordCurrent||accordAnswered||!inp)return;accordAnswered=true;inp.disabled=true;const got=normalizeAccord(inp.value),expected=normalizeAccord(accordExpected());const gotWords=got?got.split(" "):[],expWords=expected.split(" ");let wc=0;for(let i=0;i<Math.max(gotWords.length,expWords.length);i++)if(gotWords[i]&&expWords[i]&&gotWords[i]===expWords[i])wc++;const ok=got===expected;stats.accordAsked++;stats.accordWordAsked+=expWords.length;stats.accordWordCorrect+=wc;if(ok){stats.accordCorrect++;stats.accordPoints+=expWords.length}else stats.accordPoints+=wc;inp.classList.add(ok?"good":"bad");document.getElementById("accordFeedback").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Tout le groupe est bien accordé. +'+expWords.length+' points':'Correction : '+wc+'/'+expWords.length+' mots corrects.')+'</div>';let html="";for(let i=0;i<expWords.length;i++){const same=gotWords[i]===expWords[i];if(same)html+='<span class="accordToken good">'+esc(expWords[i])+'</span>';else{if(gotWords[i])html+='<span class="accordToken bad">'+esc(gotWords[i])+'</span>';html+='<span class="accordToken expected">'+esc(expWords[i])+'</span>'}}document.getElementById("accordCorrection").innerHTML=html;stats.history.unshift({topic:"accords",mode:accordMode,found:wc,total:expWords.length,wrong:Math.max(0,gotWords.length-wc),missed:Math.max(0,expWords.length-wc)});stats.history=stats.history.slice(0,8);updateAccordSession();updateStats()}
 function updateAccordSession(){const el=document.getElementById("accordSession");if(el)el.textContent='Points : '+stats.accordPoints+' · Cas : '+stats.accordCorrect+'/'+stats.accordAsked+' · Mots : '+stats.accordWordCorrect+'/'+stats.accordWordAsked}
-function resetAccordSession(){stats.accordAsked=0;stats.accordCorrect=0;stats.accordWordAsked=0;stats.accordWordCorrect=0;stats.accordPoints=0;stats.history=[];accordUsed={1:new Set(),2:new Set(),3:new Set()};newAccordCase();updateStats()}
+function resetAccordSession(){stats.accordAsked=0;stats.accordCorrect=0;stats.accordWordAsked=0;stats.accordWordCorrect=0;stats.accordPoints=0;stats.history=[];accordUsed=new Set();newAccordCase();updateStats()}
 function finishAccord(){document.getElementById("accordFeedback").innerHTML='<div class="accordSummary">Session terminée · Cas entièrement réussis : '+stats.accordCorrect+'/'+stats.accordAsked+' · Mots corrects : '+stats.accordWordCorrect+'/'+stats.accordWordAsked+' · Points : '+stats.accordPoints+'</div>'}
 function setAccordMode(mode){accordMode=mode;document.querySelectorAll(".accordMode").forEach(b=>b.classList.toggle("active",b.dataset.accord===mode));updateReminder();newAccordCase()}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
@@ -719,7 +719,7 @@ function updateStats(){
   document.getElementById("sClassified").textContent=stats.classCorrect+"/"+stats.classAsked;
   const h=document.getElementById("history");
   h.innerHTML=stats.history.length?stats.history.map(x=>
-    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="gn"?"GN":x.topic==="accords"?"Accords":x.topic==="verbes"?"Verbes":x.topic==="phrases"?"Phrase":"Déterminants")+' · Niveau '+x.level+' · '+x.found+'/'+x.total+' trouvés'+
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="gn"?"GN":x.topic==="accords"?"Accords":x.topic==="verbes"?"Verbes":x.topic==="phrases"?"Phrase":"Déterminants")+(x.topic==="accords"?' · '+(x.mode==="f"?"Féminin":x.mode==="p"?"Pluriel":"Féminin pluriel"):' · Niveau '+x.level)+' · '+x.found+'/'+x.total+' trouvés'+
     (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
     (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+
     (x.topic==="phrases"&&x.classAsked?' · Types : '+x.classCorrect+'/'+x.classAsked:'')+'</div>'
@@ -824,11 +824,12 @@ function resetSession(){
 document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
   level=b.dataset.level;
   document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));
-  updateReminder();if(topic==="gn")newGnCase();else if(topic==="accords")newAccordCase();else newPhrase();
+  updateReminder();if(topic==="gn")newGnCase();else if(topic!=="accords")newPhrase();
 }));
 topicEl.addEventListener("change",()=>{
   topic=topicEl.value;
   updateInstruction();updateReminder();updateStats();
+  document.getElementById("levelControl").hidden=topic==="accords";
   document.getElementById("gnPractice").hidden=topic!=="gn";
   document.getElementById("accordPractice").hidden=topic!=="accords";
   if(topic==="gn"){
