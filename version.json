@@ -24,6 +24,10 @@
     "orthographe.html": {
       "version": "V1.14",
       "build": "20261013-04"
+    },
+    "anglais-test.html": {
+      "version": "V1.0",
+      "build": "20261109-01"
     }
   }
 }
