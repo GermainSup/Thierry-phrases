@@ -24,7 +24,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 .reminder{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f8faff;border:1px solid #d8e4ff}.reminder h3{margin:0 0 4px;font-size:14px}.reminder p{margin:4px 0;color:#4b5563;line-height:1.35;font-size:13px}.reminder table{width:100%;border-collapse:collapse;font-size:12px;margin-top:5px}.reminder td,.reminder th{padding:4px 6px;border-bottom:1px solid #e5e7eb;text-align:left}
 .exercise{margin-top:8px;padding:12px}.instruction{font-size:14px;font-weight:850;text-align:center;margin-bottom:7px}.instruction span{color:var(--accent)}
 .prompt{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:14px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
-.icon{font-size:52px;line-height:1}.big{font-size:clamp(22px,3vw,30px);font-weight:900}.clue{font-size:14px;color:var(--muted);font-weight:750}
+.icon{font-size:52px;line-height:1}.descVisual{width:170px;height:92px;position:relative;display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:2px}.dvPerson{position:relative;width:34px;height:68px}.dvHead{position:absolute;left:8px;top:0;width:18px;height:18px;border:3px solid #334155;border-radius:50%;background:#fde7cf}.dvBody{position:absolute;left:11px;top:20px;width:12px;height:32px;border:3px solid #334155;border-radius:8px;background:#dbeafe}.dvLeg{position:absolute;top:50px;width:4px;height:18px;background:#334155}.dvLeg.l{left:10px}.dvLeg.r{right:10px}.dvPerson.short{transform:scale(.72);transform-origin:center bottom}.dvPerson.tall{transform:scale(1.18);transform-origin:center bottom}.dvPerson.thin .dvBody{width:7px;left:13px}.dvEar{width:34px;height:48px;border:4px solid #334155;border-radius:55% 45% 55% 45%;background:#fde7cf}.dvEar.small{transform:scale(.65)}.dvEar.big{transform:scale(1.25)}.dvArm{height:10px;background:#fde7cf;border:3px solid #334155;border-radius:999px;transform-origin:left center}.dvArm.short{width:48px}.dvArm.long{width:95px}.dvEye{width:28px;height:28px;border:4px solid #334155;border-radius:50%;background:#fff;position:relative}.dvEye:after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#334155;left:7px;top:7px}.dvPoint{width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:50px solid #fde7cf;filter:drop-shadow(0 0 0 #334155)}.dvHair{width:70px;height:58px;border:4px solid #334155;border-radius:45% 45% 35% 35%;position:relative;background:#f3f4f6}.dvHair.curly:before{content:"〰〰〰";position:absolute;left:5px;top:9px;font-size:22px;font-weight:900;color:#7c2d12;letter-spacing:-4px}.dvHair.straight:before{content:"|||||";position:absolute;left:11px;top:3px;font-size:34px;font-weight:900;color:#111827;letter-spacing:1px}.big{font-size:clamp(22px,3vw,30px);font-weight:900}.clue{font-size:14px;color:var(--muted);font-weight:750}
 .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(620px,100%);margin-top:4px}
 .choice{border:2px solid #cfd8ff;background:#fff;color:#273568;border-radius:10px;padding:10px 8px;font:inherit;font-size:16px;font-weight:850;cursor:pointer}
 .choice.selected{background:#e0e7ff;border-color:#6366f1}.choice.good{background:var(--goodbg);border-color:#22c55e;color:var(--good)}.choice.bad{background:var(--badbg);border-color:#ef4444;color:var(--bad)}
@@ -37,7 +37,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 </style>
 <script>
 (function(){
-  var PAGE="anglais-test.html",BUILD="20261109-01";
+  var PAGE="anglais-test.html",BUILD="20261109-02";
   fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(function(v){
     if(!v||!v.pages||!v.pages[PAGE])return;
     var latest=v.pages[PAGE].build;
@@ -50,7 +50,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div class="wrap">
 <a class="home" href="index.html">← Portail</a>
 <section class="hero card">
-<h1>🇬🇧 Anglais</h1>
+<h1>Anglais</h1>
 <div class="sub">Unit 1 — Body Parts · Plural Forms · Pronouns · Descriptive words</div>
 <div class="controls"><div class="control"><label class="title">Thème</label>
 <select id="topic">
@@ -87,7 +87,7 @@ select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;pad
 <div id="history" class="history"></div>
 </section>
 </div>
-<div class="version">GitHub · Anglais TEST V1.0</div>
+<div class="version">GitHub · Anglais TEST V1.1</div>
 
 <script>
 (function(){
@@ -129,16 +129,16 @@ const PRONOUNS=[
 {who:"a monster",icon:"👾",answer:"It",phrase:"It has big eyes."}
 ];
 const DESC=[
-{w:"small",alt:"little",fr:"petit",icon:"🤏"},
-{w:"big",alt:"large",fr:"grand / gros",icon:"↔️"},
-{w:"short",alt:"",fr:"court / petit",icon:"↙️"},
-{w:"long",alt:"",fr:"long",icon:"↔️"},
-{w:"tall",alt:"",fr:"grand (taille)",icon:"🧍"},
-{w:"thin",alt:"",fr:"mince",icon:"│"},
-{w:"round",alt:"",fr:"rond",icon:"⭕"},
-{w:"pointy",alt:"",fr:"pointu",icon:"🔺"},
-{w:"curly",alt:"",fr:"bouclé",icon:"➿"},
-{w:"straight",alt:"",fr:"droit / raide",icon:"➖"}
+{w:"small",alt:"little",fr:"petit",visual:"smallEars"},
+{w:"big",alt:"large",fr:"grand / gros",visual:"bigEars"},
+{w:"short",alt:"",fr:"court",visual:"shortArm"},
+{w:"long",alt:"",fr:"long",visual:"longArm"},
+{w:"tall",alt:"",fr:"grand (taille)",visual:"tallPerson"},
+{w:"thin",alt:"",fr:"mince",visual:"thinPerson"},
+{w:"round",alt:"",fr:"rond",visual:"roundEyes"},
+{w:"pointy",alt:"",fr:"pointu",visual:"pointy"},
+{w:"curly",alt:"",fr:"bouclé",visual:"curlyHair"},
+{w:"straight",alt:"",fr:"droit / raide",visual:"straightHair"}
 ];
 
 function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
@@ -153,6 +153,19 @@ function speak(text){
 }
 window.say=speak;
 
+function descVisual(type){
+  if(type==="smallEars")return '<div class="descVisual"><div class="dvEar small"></div><div class="dvEar small"></div></div>';
+  if(type==="bigEars")return '<div class="descVisual"><div class="dvEar big"></div><div class="dvEar big"></div></div>';
+  if(type==="shortArm")return '<div class="descVisual"><div class="dvArm short"></div></div>';
+  if(type==="longArm")return '<div class="descVisual"><div class="dvArm long"></div></div>';
+  if(type==="tallPerson")return '<div class="descVisual"><div class="dvPerson short"><div class="dvHead"></div><div class="dvBody"></div><div class="dvLeg l"></div><div class="dvLeg r"></div></div><div class="dvPerson tall"><div class="dvHead"></div><div class="dvBody"></div><div class="dvLeg l"></div><div class="dvLeg r"></div></div></div>';
+  if(type==="thinPerson")return '<div class="descVisual"><div class="dvPerson thin"><div class="dvHead"></div><div class="dvBody"></div><div class="dvLeg l"></div><div class="dvLeg r"></div></div></div>';
+  if(type==="roundEyes")return '<div class="descVisual"><div class="dvEye"></div><div class="dvEye"></div></div>';
+  if(type==="pointy")return '<div class="descVisual"><div class="dvPoint"></div></div>';
+  if(type==="curlyHair")return '<div class="descVisual"><div class="dvHair curly"></div></div>';
+  if(type==="straightHair")return '<div class="descVisual"><div class="dvHair straight"></div></div>';
+  return '';
+}
 function reminderBody(){
   return '<h3>Rappel — Body Parts</h3><table><tbody>'+BODY.map(x=>'<tr><td style="width:36px">'+x.icon+'</td><td><strong>'+x.w+'</strong></td><td>'+x.fr+'</td><td><button class="speak" onclick="say(\''+x.w.replace(/'/g,"\\'")+'\')">🔊</button></td></tr>').join("")+'</tbody></table>';
 }
@@ -187,7 +200,7 @@ function newCase(){
   }else{
     current=DESC[Math.floor(Math.random()*DESC.length)];
     const wrong=shuffle(DESC.filter(x=>x.w!==current.w)).slice(0,3).map(x=>x.w);
-    promptEl.innerHTML='<div class="icon">'+current.icon+'</div><div class="clue">'+esc(current.fr)+'</div>'+choicesHtml(shuffle([current.w,...wrong]));
+    promptEl.innerHTML=descVisual(current.visual)+'<div class="clue">'+esc(current.fr)+'</div>'+choicesHtml(shuffle([current.w,...wrong]));
   }
   wireChoices();
 }
