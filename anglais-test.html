@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#2563eb">
+<title>Anglais — Exercices interactifs</title>
+<style>
+:root{--bg:#f5f7ff;--card:#fff;--text:#18233f;--muted:#667085;--border:#d9deea;--accent:#2563eb;--accent2:#4f46e5;--good:#157347;--goodbg:#eaf8ef;--bad:#b42318;--badbg:#fff0ee;--miss:#9a6700;--missbg:#fff8df}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef4ff,#f9fbff);min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:8px 12px 34px}
+.home{display:inline-block;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 8px 24px rgba(31,42,68,.06)}
+.hero{padding:12px 14px}h1{margin:0;font-size:clamp(24px,3.2vw,34px)}.sub{margin-top:3px;color:var(--muted);line-height:1.3;font-size:14px}
+.controls{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.control{background:#fbfcff;border:1px solid var(--border);border-radius:12px;padding:8px 10px}
+.control label.title{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:850;margin-bottom:5px}
+select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:14px;font-weight:800;color:var(--text)}
+.reminderLine{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:14px;font-weight:800}.reminderLine input{width:17px;height:17px;accent-color:var(--accent)}
+.reminder{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f8faff;border:1px solid #d8e4ff}.reminder h3{margin:0 0 4px;font-size:14px}.reminder p{margin:4px 0;color:#4b5563;line-height:1.35;font-size:13px}.reminder table{width:100%;border-collapse:collapse;font-size:12px;margin-top:5px}.reminder td,.reminder th{padding:4px 6px;border-bottom:1px solid #e5e7eb;text-align:left}
+.exercise{margin-top:8px;padding:12px}.instruction{font-size:14px;font-weight:850;text-align:center;margin-bottom:7px}.instruction span{color:var(--accent)}
+.prompt{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:14px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
+.icon{font-size:52px;line-height:1}.big{font-size:clamp(22px,3vw,30px);font-weight:900}.clue{font-size:14px;color:var(--muted);font-weight:750}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:min(620px,100%);margin-top:4px}
+.choice{border:2px solid #cfd8ff;background:#fff;color:#273568;border-radius:10px;padding:10px 8px;font:inherit;font-size:16px;font-weight:850;cursor:pointer}
+.choice.selected{background:#e0e7ff;border-color:#6366f1}.choice.good{background:var(--goodbg);border-color:#22c55e;color:var(--good)}.choice.bad{background:var(--badbg);border-color:#ef4444;color:var(--bad)}
+.answerLine{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%}.answerLine input{min-width:280px;max-width:90%;border:2px solid #a5b4fc;border-radius:10px;padding:9px 11px;font:inherit;font-size:20px;font-weight:800}
+.answerLine input.good{background:var(--goodbg);border-color:#22c55e;color:var(--good)}.answerLine input.bad{background:var(--badbg);border-color:#ef4444;color:var(--bad)}
+.actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:9px}button.main,button.secondary,.speak{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}.speak{background:#e8f1ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:5px 8px}
+.feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}
+.stats{margin-top:8px;padding:10px 12px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#fbfcff;border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center}.stat .v{font-size:18px;font-weight:950}.stat .l{font-size:11px;color:var(--muted);font-weight:800}.history{margin-top:8px}.hist{font-size:12px;padding:5px 0;border-bottom:1px solid #eef0f4;color:#4b5563}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}.version{position:fixed;right:8px;bottom:6px;background:rgba(255,255,255,.92);border:1px solid #d9deea;border-radius:999px;padding:4px 8px;font-size:10px;color:#667085}
+@media(max-width:650px){.choices{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script>
+(function(){
+  var PAGE="anglais-test.html",BUILD="20261109-01";
+  fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(function(v){
+    if(!v||!v.pages||!v.pages[PAGE])return;
+    var latest=v.pages[PAGE].build;
+    if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}
+  }).catch(function(){});
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+<a class="home" href="index.html">← Portail</a>
+<section class="hero card">
+<h1>🇬🇧 Anglais</h1>
+<div class="sub">Unit 1 — Body Parts · Plural Forms · Pronouns · Descriptive words</div>
+<div class="controls"><div class="control"><label class="title">Thème</label>
+<select id="topic">
+<option value="body">Body Parts</option>
+<option value="plural">Plural Forms</option>
+<option value="pronouns">Pronouns</option>
+<option value="descriptive">Descriptive words</option>
+</select></div></div>
+<label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
+<div id="reminder" class="reminder" hidden></div>
+</section>
+
+<section class="exercise card">
+<div id="instruction" class="instruction"></div>
+<div id="prompt" class="prompt"></div>
+<div id="feedback"></div>
+<div class="actions">
+<button id="checkBtn" class="main">✓ Vérifier</button>
+<button id="nextBtn" class="secondary">Autre cas</button>
+<button id="backBtn" class="secondary">← Retour</button>
+<button id="finishBtn" class="secondary">⏹ Terminer</button>
+<button id="newSessionBtn" class="secondary">Nouvelle session</button>
+</div>
+</section>
+
+<section class="stats card">
+<strong>Session en cours</strong>
+<div class="statgrid" style="margin-top:10px">
+<div class="stat"><div class="v" id="sAsked">0</div><div class="l">Cas</div></div>
+<div class="stat"><div class="v" id="sCorrect">0</div><div class="l">Réussis</div></div>
+<div class="stat"><div class="v" id="sPoints">0</div><div class="l">Points</div></div>
+<div class="stat"><div class="v" id="sListen">0</div><div class="l">Écoutes</div></div>
+</div>
+<div id="history" class="history"></div>
+</section>
+</div>
+<div class="version">GitHub · Anglais TEST V1.0</div>
+
+<script>
+(function(){
+const topicEl=document.getElementById("topic"),reminderEl=document.getElementById("reminder"),promptEl=document.getElementById("prompt"),feedbackEl=document.getElementById("feedback");
+let topic="body",current=null,selected=null,answered=false;
+let stats={asked:0,correct:0,points:0,listens:0,history:[]};
+
+const BODY=[
+{w:"toe",fr:"orteil",icon:"🦶",clue:"A small part at the end of your foot."},
+{w:"finger",fr:"doigt",icon:"☝️",clue:"A part of your hand."},
+{w:"leg",fr:"jambe",icon:"🦵",clue:"You use it to walk."},
+{w:"arm",fr:"bras",icon:"💪",clue:"It connects your shoulder to your hand."},
+{w:"body",fr:"corps",icon:"🧍",clue:"Your whole physical self."},
+{w:"foot",fr:"pied",icon:"🦶",clue:"It is at the end of your leg."},
+{w:"hand",fr:"main",icon:"✋",clue:"It has fingers."},
+{w:"head",fr:"tête",icon:"🙂",clue:"Your eyes, ears, nose and mouth are here."},
+{w:"nose",fr:"nez",icon:"👃",clue:"You use it to smell."},
+{w:"ear",fr:"oreille",icon:"👂",clue:"You use it to hear."},
+{w:"knee",fr:"genou",icon:"🦵",clue:"It bends in the middle of your leg."},
+{w:"neck",fr:"cou",icon:"🧍",clue:"It connects your head to your body."},
+{w:"chin",fr:"menton",icon:"🙂",clue:"It is under your mouth."},
+{w:"mouth",fr:"bouche",icon:"👄",clue:"You use it to speak and eat."},
+{w:"teeth",fr:"dents",icon:"🦷",clue:"They are inside your mouth."},
+{w:"eyes",fr:"yeux",icon:"👀",clue:"You use them to see."},
+{w:"hair",fr:"cheveux",icon:"💇",clue:"It grows on your head."}
+];
+const PLURAL=[
+{s:"an arm",p:"two arms",word:"arms"},
+{s:"a hand",p:"two hands",word:"hands"},
+{s:"a mouth",p:"three mouths",word:"mouths"},
+{s:"a foot",p:"two feet",word:"feet"},
+{s:"a tooth",p:"four teeth",word:"teeth"},
+{s:"hair",p:"hair",word:"hair"}
+];
+const PRONOUNS=[
+{who:"a boy",icon:"👦",answer:"He",phrase:"He has two eyes."},
+{who:"a girl",icon:"👧",answer:"She",phrase:"She has two hands."},
+{who:"a robot",icon:"🤖",answer:"It",phrase:"It has two arms."},
+{who:"a monster",icon:"👾",answer:"It",phrase:"It has big eyes."}
+];
+const DESC=[
+{w:"small",alt:"little",fr:"petit",icon:"🤏"},
+{w:"big",alt:"large",fr:"grand / gros",icon:"↔️"},
+{w:"short",alt:"",fr:"court / petit",icon:"↙️"},
+{w:"long",alt:"",fr:"long",icon:"↔️"},
+{w:"tall",alt:"",fr:"grand (taille)",icon:"🧍"},
+{w:"thin",alt:"",fr:"mince",icon:"│"},
+{w:"round",alt:"",fr:"rond",icon:"⭕"},
+{w:"pointy",alt:"",fr:"pointu",icon:"🔺"},
+{w:"curly",alt:"",fr:"bouclé",icon:"➿"},
+{w:"straight",alt:"",fr:"droit / raide",icon:"➖"}
+];
+
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}
+function speak(text){
+  stats.listens++;updateStats();
+  if(!("speechSynthesis" in window)){feedbackEl.innerHTML='<div class="feedback practice">La prononciation audio n’est pas disponible dans ce navigateur.</div>';return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang="en-CA";u.rate=.82;
+  const voices=speechSynthesis.getVoices(),v=voices.find(x=>/^en-CA/i.test(x.lang))||voices.find(x=>/^en/i.test(x.lang));if(v)u.voice=v;
+  speechSynthesis.speak(u);
+}
+window.say=speak;
+
+function reminderBody(){
+  return '<h3>Rappel — Body Parts</h3><table><tbody>'+BODY.map(x=>'<tr><td style="width:36px">'+x.icon+'</td><td><strong>'+x.w+'</strong></td><td>'+x.fr+'</td><td><button class="speak" onclick="say(\''+x.w.replace(/'/g,"\\'")+'\')">🔊</button></td></tr>').join("")+'</tbody></table>';
+}
+function reminderPlural(){
+  return '<h3>Rappel — Plural Forms</h3><p>En général, on ajoute <strong>s</strong> : arm → arms, hand → hands, mouth → mouths.</p><p><strong>Exceptions étudiées :</strong> foot → feet · tooth → teeth · hair → hair.</p><table><tbody>'+PLURAL.map(x=>'<tr><td>'+x.s+'</td><td>→</td><td><strong>'+x.p+'</strong></td><td><button class="speak" onclick="say(\''+x.p+'\')">🔊</button></td></tr>').join("")+'</tbody></table>';
+}
+function reminderPronouns(){
+  return '<h3>Rappel — Pronouns</h3><p><strong>He</strong> : garçon / homme · <strong>She</strong> : fille / femme · <strong>It</strong> : chose, objet ou créature non humaine dans les exemples étudiés.</p><table><tbody><tr><td>He has...</td><td><button class="speak" onclick="say(\'He has two eyes.\')">🔊</button></td></tr><tr><td>She has...</td><td><button class="speak" onclick="say(\'She has two hands.\')">🔊</button></td></tr><tr><td>It has...</td><td><button class="speak" onclick="say(\'It has two arms.\')">🔊</button></td></tr></tbody></table>';
+}
+function reminderDesc(){
+  return '<h3>Rappel — Descriptive words</h3><p>En anglais, l’adjectif vient généralement <strong>avant le nom</strong> : <strong>big eyes</strong>, <strong>thin body</strong>, <strong>short person</strong>, <strong>curly hair</strong>.</p><table><tbody>'+DESC.map(x=>'<tr><td><strong>'+x.w+(x.alt?' / '+x.alt:'')+'</strong></td><td>'+x.fr+'</td><td><button class="speak" onclick="say(\''+x.w+'\')">🔊</button></td></tr>').join("")+'</tbody></table>';
+}
+function updateReminder(){reminderEl.innerHTML=topic==="body"?reminderBody():topic==="plural"?reminderPlural():topic==="pronouns"?reminderPronouns():reminderDesc()}
+function instruction(){
+  document.getElementById("instruction").innerHTML=topic==="body"?'Choisis le bon mot anglais pour cette <span>partie du corps</span>.':topic==="plural"?'Écris la bonne forme au <span>pluriel</span>.':topic==="pronouns"?'Choisis le bon <span>pronom</span>.':'Choisis le bon <span>descriptive word</span>.';
+}
+function choicesHtml(items){return '<div class="choices">'+items.map(x=>'<button class="choice" data-v="'+esc(x)+'">'+esc(x)+'</button>').join("")+'</div>'}
+function newCase(){
+  answered=false;selected=null;feedbackEl.innerHTML="";instruction();updateReminder();
+  if(topic==="body"){
+    current=BODY[Math.floor(Math.random()*BODY.length)];
+    const wrong=shuffle(BODY.filter(x=>x.w!==current.w)).slice(0,3).map(x=>x.w);
+    const opts=shuffle([current.w,...wrong]);
+    promptEl.innerHTML='<div class="icon">'+current.icon+'</div><div class="clue">'+esc(current.fr)+'</div>'+choicesHtml(opts);
+  }else if(topic==="plural"){
+    current=PLURAL[Math.floor(Math.random()*PLURAL.length)];
+    promptEl.innerHTML='<div class="big">'+esc(current.s)+'</div><div class="clue">Write the plural form.</div><div class="answerLine"><input id="textAnswer" autocomplete="off" spellcheck="false"></div>';
+    setTimeout(()=>document.getElementById("textAnswer")?.focus(),40);
+  }else if(topic==="pronouns"){
+    current=PRONOUNS[Math.floor(Math.random()*PRONOUNS.length)];
+    promptEl.innerHTML='<div class="icon">'+current.icon+'</div><div class="big">'+esc(current.who)+'</div>'+choicesHtml(["He","She","It"]);
+  }else{
+    current=DESC[Math.floor(Math.random()*DESC.length)];
+    const wrong=shuffle(DESC.filter(x=>x.w!==current.w)).slice(0,3).map(x=>x.w);
+    promptEl.innerHTML='<div class="icon">'+current.icon+'</div><div class="clue">'+esc(current.fr)+'</div>'+choicesHtml(shuffle([current.w,...wrong]));
+  }
+  wireChoices();
+}
+function wireChoices(){promptEl.querySelectorAll(".choice").forEach(b=>b.addEventListener("click",()=>{if(answered)return;selected=b.dataset.v;promptEl.querySelectorAll(".choice").forEach(x=>x.classList.toggle("selected",x===b))}))}
+function expected(){return topic==="body"?current.w:topic==="plural"?current.p:topic==="pronouns"?current.answer:current.w}
+function normalize(s){return (s||"").trim().toLowerCase().replace(/\s+/g," ")}
+function check(){
+  if(answered)return;
+  let got=topic==="plural"?(document.getElementById("textAnswer")?.value||""):selected;
+  if(!got){feedbackEl.innerHTML='<div class="feedback practice">Choisis ou écris une réponse avant de vérifier.</div>';return}
+  answered=true;stats.asked++;
+  const ok=normalize(got)===normalize(expected());if(ok){stats.correct++;stats.points++}
+  if(topic==="plural"){
+    const inp=document.getElementById("textAnswer");inp.disabled=true;inp.classList.add(ok?"good":"bad");
+  }else{
+    promptEl.querySelectorAll(".choice").forEach(b=>{if(normalize(b.dataset.v)===normalize(expected()))b.classList.add("good");else if(b.classList.contains("selected"))b.classList.add("bad")});
+  }
+  const spoken=topic==="pronouns"?current.phrase:expected();
+  feedbackEl.innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Bonne réponse ! +1 point':'Correction : <strong>'+esc(expected())+'</strong>')+' <button id="listenAnswer" class="speak">🔊 Écouter</button></div>';
+  document.getElementById("listenAnswer").addEventListener("click",()=>speak(spoken));
+  stats.history.unshift({topic,ok,answer:expected()});stats.history=stats.history.slice(0,8);updateStats();
+}
+function label(t){return t==="body"?"Body Parts":t==="plural"?"Plural":t==="pronouns"?"Pronouns":"Descriptions"}
+function updateStats(){
+  document.getElementById("sAsked").textContent=stats.asked;document.getElementById("sCorrect").textContent=stats.correct;document.getElementById("sPoints").textContent=stats.points;document.getElementById("sListen").textContent=stats.listens;
+  document.getElementById("history").innerHTML=stats.history.length?stats.history.map(x=>'<div class="hist">'+label(x.topic)+' · '+(x.ok?'✓':'✗')+' · '+esc(x.answer)+'</div>').join(""):'<div class="note">Aucun exercice vérifié pour le moment.</div>';
+}
+function resetSession(){stats={asked:0,correct:0,points:0,listens:0,history:[]};updateStats();newCase()}
+function finish(){feedbackEl.innerHTML='<div class="feedback good">Session terminée · '+stats.correct+'/'+stats.asked+' réussis · '+stats.points+' points · '+stats.listens+' écoutes.</div>'}
+topicEl.addEventListener("change",()=>{topic=topicEl.value;newCase();updateStats()});
+document.getElementById("showReminder").addEventListener("change",e=>{reminderEl.hidden=!e.target.checked;if(e.target.checked)updateReminder()});
+document.getElementById("checkBtn").addEventListener("click",check);
+document.getElementById("nextBtn").addEventListener("click",newCase);
+document.getElementById("newSessionBtn").addEventListener("click",resetSession);
+document.getElementById("finishBtn").addEventListener("click",finish);
+document.getElementById("backBtn").addEventListener("click",()=>{window.location.href="index.html"});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&topic==="plural")check()});
+updateStats();newCase();
+})();
+</script>
+</body>
+</html>
