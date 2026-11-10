@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "pages": {
     "index.html": {
-      "version": "V3.11",
-      "build": "20261015-01"
+      "version": "V3.12",
+      "build": "20261110-01"
     },
     "noms.html": {
       "version": "V18.5",
@@ -25,7 +25,7 @@
       "version": "V1.14",
       "build": "20261013-04"
     },
-    "anglais-test.html": {
+    "anglais.html": {
       "version": "V1.1",
       "build": "20261109-02"
     }
