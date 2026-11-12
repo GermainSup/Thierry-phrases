@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="theme-color" content="#4f46e5">
+<title>Grammaire — Exercices interactifs</title>
+<style>
+:root{--bg:#f5f7ff;--card:#fff;--text:#18233f;--muted:#667085;--border:#d9deea;--accent:#4f46e5;--accent2:#6d5ce7;--good:#157347;--goodbg:#eaf8ef;--bad:#b42318;--badbg:#fff0ee;--miss:#9a6700;--missbg:#fff8df}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eef2ff,#f9fbff);min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:8px 12px 34px}
+.home{display:inline-block;text-decoration:none;background:#172554;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:850;margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 8px 24px rgba(31,42,68,.06)}
+.hero{padding:12px 14px}h1{margin:0;font-size:clamp(24px,3.2vw,34px)}.sub{margin-top:3px;color:var(--muted);line-height:1.3;font-size:14px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.control{background:#fbfcff;border:1px solid var(--border);border-radius:12px;padding:8px 10px}
+.control label.title{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:850;margin-bottom:5px}
+select{width:100%;border:2px solid #cfd8ff;background:#fff;border-radius:9px;padding:6px 8px;font:inherit;font-size:14px;font-weight:800;color:var(--text)}
+.levels{display:flex;gap:5px;flex-wrap:wrap}.level{border:2px solid #cfd8ff;background:#eef2ff;color:#3049a1;border-radius:9px;padding:6px 9px;font-size:13px;font-weight:850;cursor:pointer}.level.active{background:var(--accent);border-color:var(--accent);color:white}
+.reminderLine{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:14px;font-weight:800}.reminderLine input{width:17px;height:17px;accent-color:var(--accent)}
+.reminder{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f8f7ff;border:1px solid #d9d3ff}.reminder h3{margin:0 0 4px;font-size:14px}.reminder p{margin:4px 0;color:#4b5563;line-height:1.35;font-size:13px}.reminder table{width:100%;border-collapse:collapse;font-size:12px;margin-top:5px}.reminder td,.reminder th{padding:4px 6px;border-bottom:1px solid #e5e7eb;text-align:left}
+.exercise{margin-top:8px;padding:12px}.instruction{font-size:14px;font-weight:850;text-align:center;margin-bottom:7px}.instruction span{color:var(--accent)}
+.sentence{min-height:92px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;font-size:clamp(20px,2.8vw,28px);line-height:1.45;text-align:center;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}
+.word{display:inline-block;padding:0 2px;border-radius:6px;cursor:pointer;transition:.12s;user-select:none}.word:hover{background:#eef2ff}.word.selected{background:#dfe5ff;outline:2px solid var(--accent)}.word.correct{background:var(--goodbg);color:var(--good);outline:2px solid #7fc69d}.word.wrong{background:var(--badbg);color:var(--bad);outline:2px solid #ef9b92}.word.missed{background:var(--missbg);color:var(--miss);outline:2px dashed #d8a72a}.word.afterCorrect{cursor:pointer}.word.inspecting{outline:3px solid #4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)}.word.classifiedGood{background:#e8f1ff!important;color:#1d4ed8!important;outline:3px solid #60a5fa!important;box-shadow:0 0 0 2px rgba(96,165,250,.18)}.word.classifiedBad{background:#fff0ee!important;color:#b42318!important;outline:3px solid #ef9b92!important}
+.actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:9px}button.main,button.secondary{border:0;border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}button.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}button.secondary{background:#eef1f6;color:#344054;border:1px solid var(--border)}
+.feedback{margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:750;line-height:1.35}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.practice{background:var(--missbg);color:#7a5600}.secondStep{margin-top:8px;padding:9px 11px;border:2px solid #4f46e5;border-radius:10px;background:#f4f3ff;color:#273568;font-size:15px;font-weight:900;line-height:1.35}.secondStep strong{color:#312e81}
+.detail{margin-top:7px;padding:8px 10px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff}.detail h3{margin:0 0 4px;font-size:15px}.chips{display:flex;gap:5px;flex-wrap:wrap}.chip{background:#fff;border:1px solid #cbd7ff;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800}
+.classifyChoices{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.classifyBtn{border:2px solid #cbd7ff;background:#fff;color:#273568;border-radius:10px;padding:7px 10px;font-weight:850;cursor:pointer}.classifyBtn:hover{background:#eef2ff}.classifyResult{margin-top:7px;font-weight:800}.classifyResult.good{color:var(--good)}.classifyResult.bad{color:var(--bad)}
+.stats{margin-top:8px;padding:10px}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:#f8f9fc;border-radius:10px;padding:6px;text-align:center}.v{font-size:18px;font-weight:900}.l{font-size:10px;color:var(--muted);text-transform:uppercase}.history{margin-top:6px;font-size:12px}.hist{padding:5px 0;border-bottom:1px solid #eceff4}.hist:last-child{border-bottom:0}.note{color:var(--muted);font-size:11px;line-height:1.3;margin-top:5px}.gnPractice{margin-top:8px;padding:12px}.gnToolbar{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:8px 0}.gnPick{border:2px solid transparent;border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:900;cursor:pointer}.gnPick[data-g="1"]{background:#dbeafe;color:#1e3a8a;border-color:#93c5fd}.gnPick[data-g="2"]{background:#dcfce7;color:#166534;border-color:#86efac}.gnPick[data-g="3"]{background:#ffedd5;color:#9a3412;border-color:#fdba74}.gnPick.active{box-shadow:0 0 0 3px #312e81}.gnSentence{min-height:92px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;font-size:clamp(20px,2.8vw,28px);line-height:1.45;text-align:center;padding:12px;border:2px dashed #cbd5e1;border-radius:14px;background:#fbfdff}.gnWord{display:inline-flex;align-items:center;gap:3px;padding:2px 5px;border-radius:7px;cursor:pointer;border:2px solid transparent;background:#fff}.gnWord.g1{background:#dbeafe;border-color:#60a5fa}.gnWord.g2{background:#dcfce7;border-color:#4ade80}.gnWord.g3{background:#ffedd5;border-color:#fb923c}.gnWord.gwrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}.gnWord.gmissing{background:#fef3c7;border:2px dashed #f59e0b;color:#92400e}.gnWord.gcorrect{box-shadow:inset 0 0 0 2px rgba(21,128,61,.18)}.gnRole{display:inline-block;border-radius:999px;background:#172554;color:#fff;font-size:10px;font-weight:950;padding:2px 5px}.gnRole.roleGood{background:#166534}.gnRole.roleBad{background:#b91c1c}.gnWord.classBad{outline:3px solid #ef4444;outline-offset:1px}.gnWord.classGood{outline:3px solid #22c55e;outline-offset:1px}.gnLegend{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}.gnRules{margin-top:8px;padding:10px;border-radius:10px;background:#f8f7ff;border:1px solid #d9d3ff}.gnClassify{margin-top:8px;padding:9px 11px;border:2px solid #4f46e5;border-radius:10px;background:#f4f3ff}.gnClassify .choices{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:7px}.gnClassify button{border:2px solid #cbd7ff;background:#fff;color:#273568;border-radius:9px;padding:7px 10px;font-weight:900;cursor:pointer}.gnSummary{margin-top:8px;padding:8px 10px;border-radius:10px;background:#eef2ff;border:1px solid #c7d2fe;font-size:13px;font-weight:850}.accordPractice{margin-top:8px;padding:12px}.accordModes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.accordMode{border:2px solid #c7d2fe;background:#f7f8ff;color:#273568;border-radius:11px;padding:9px 8px;font:inherit;font-weight:900;cursor:pointer}.accordMode.active{background:#4f46e5;border-color:#4f46e5;color:#fff}.accordSource{margin:12px auto 8px;padding:12px 14px;border-radius:12px;background:#f8fafc;border:2px solid #cbd5e1;font-size:clamp(22px,3vw,30px);font-weight:900;text-align:center}.accordTarget{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.accordTarget input{min-width:300px;max-width:90%;border:2px solid #a5b4fc;border-radius:10px;padding:9px 11px;font:inherit;font-size:20px;font-weight:800}.accordTarget input.good{background:#dcfce7;border-color:#22c55e;color:#166534}.accordTarget input.bad{background:#fee2e2;border-color:#ef4444;color:#991b1b}.accordCorrection{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px}.accordToken{padding:4px 7px;border-radius:7px;font-weight:900}.accordToken.good{background:#dcfce7;color:#166534}.accordToken.bad{background:#fee2e2;color:#991b1b;text-decoration:line-through}.accordToken.expected{background:#fef3c7;color:#92400e}.accordSummary{margin-top:8px;padding:9px 11px;border-radius:10px;background:#eef2ff;border:1px solid #c7d2fe;font-size:13px;font-weight:850;text-align:center}.verbModeChooser{margin-top:8px;padding:12px}.verbModeButtons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.verbModeBtn{border:2px solid #cfd8ff;background:#f7f8ff;color:#3049a1;border-radius:12px;padding:12px 8px;font:inherit;font-weight:900;cursor:pointer}.verbModeBtn:hover{background:#eef2ff}.verbModeBtn.active{background:var(--accent);border-color:var(--accent);color:#fff}.verbModeHelp{margin-top:8px;text-align:center;color:var(--muted);font-size:12px}.verbPractice{margin-top:8px;padding:12px}.verbControls{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}.verbPrompt{margin-top:10px;padding:12px;border:2px dashed #cbd5e1;border-radius:12px;background:#fbfdff;text-align:center}.verbPrompt .big{font-size:22px;font-weight:900}.verbMeta{display:inline-block;margin-bottom:8px;padding:7px 13px;border-radius:999px;background:#eef2ff;border:2px solid #a5b4fc;color:#3730a3;font-size:16px;font-weight:900;letter-spacing:.01em;line-height:1.25}.verbMeta .vmLabel{color:#6366f1;font-weight:900}.verbMeta .vmValue{color:#1e1b4b;font-weight:950}.verbAnswer{width:130px;max-width:45vw;border:2px solid #cfd8ff;border-radius:9px;padding:6px 8px;font:inherit;font-size:18px;font-weight:900;text-align:center;color:var(--text)}.verbAnswer.good{border-color:#7fc69d;background:var(--goodbg);color:var(--good)}.verbAnswer.bad{border-color:#ef9b92;background:var(--badbg);color:var(--bad)}.verbScore{font-size:12px;font-weight:850;color:var(--muted);margin-top:7px;text-align:center}.conjSix{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.conjRow{display:grid;grid-template-columns:100px 1fr;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:10px;background:#fbfdff}.conjRow .who{font-size:12px;font-weight:900;color:#4b5563}.conjExpr{display:flex;align-items:center;gap:3px;flex-wrap:wrap;font-weight:900}.conjExpr input{width:100px;max-width:38vw;border:2px solid #cfd8ff;border-radius:8px;padding:5px 7px;font:inherit;font-weight:900}.conjExpr input.good{border-color:#7fc69d;background:var(--goodbg);color:var(--good)}.conjExpr input.bad{border-color:#ef9b92;background:var(--badbg);color:var(--bad)}.verbSessionSummary{margin-top:8px;padding:9px 11px;border-radius:10px;background:#f4f7ff;border:1px solid #cbd7ff;font-size:13px;font-weight:800}.verbPoints{font-size:13px;font-weight:900;color:#7a5600;text-align:center;margin-top:6px}@media(max-width:680px){.verbControls{grid-template-columns:1fr 1fr}.verbControls button{grid-column:1/-1}.verbModeButtons{grid-template-columns:1fr}.conjSix{grid-template-columns:1fr}.conjRow{grid-template-columns:86px 1fr}}
+.versionGitHub{position:fixed;left:50%;bottom:6px;transform:translateX(-50%);z-index:1000;background:rgba(17,24,39,.92);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+@media(max-width:680px){.controls{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:6px 7px 34px}.hero,.exercise{padding:10px}.sentence{min-height:88px;padding:10px;font-size:clamp(19px,5.2vw,26px)}}
+</style>
+<script>
+(function(){var PAGE="grammaire-test.html",BUILD="20261109-02";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(v){if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(window.location.href);u.searchParams.set('build',latest);window.location.replace(u.toString())}}).catch(function(){})})();
+</script>
+<script src="grammaire-data.js?build=20261021-01"></script>
+</head>
+<body>
+<div class="wrap">
+<a class="home" href="index.html">🏠 Portail des exercices</a>
+<section class="hero card">
+<h1>🧠 Grammaire</h1>
+<div class="sub">Repère toi-même les mots demandés dans la phrase. Rien n’est signalé avant ta réponse.</div>
+<div class="controls">
+<div class="control"><label class="title" for="topic">Choisir</label><select id="topic"><option value="noms">Noms</option><option value="determinants">Déterminants</option><option value="adjectifs">Adjectifs</option><option value="gn">Groupe du nom (GN)</option><option value="accords">Accords : féminin et pluriel</option><option value="verbes">Verbes</option><option value="phrases">Phrases</option></select><div class="note">D’autres notions pourront être ajoutées plus tard.</div></div>
+<div class="control" id="levelControl"><label class="title">Niveau des phrases</label><div class="levels"><button class="level active" data-level="1">Niveau 1</button><button class="level" data-level="2">Niveau 2</button><button class="level" data-level="3">Niveau 3</button><button class="level" data-level="mix">Mélange</button></div></div>
+</div>
+<label class="reminderLine"><input type="checkbox" id="showReminder"> Rappel</label>
+<div id="reminder" class="reminder" hidden></div>
+</section>
+<section id="verbModeChooser" class="verbModeChooser card" hidden>
+<strong>Verbes — choisis ton jeu</strong>
+<div class="verbModeButtons">
+  <button class="verbModeBtn" data-verbmode="identify">🔎 Identifie</button>
+  <button class="verbModeBtn" data-verbmode="complete">✍️ Complète</button>
+  <button class="verbModeBtn" data-verbmode="conjugate">📚 Conjugue</button>
+</div>
+<div class="verbModeHelp">Identifie les verbes dans une phrase · Complète la partie variable · Conjugue les 6 personnes.</div>
+<div id="verbModeSummary"></div>
+</section>
+<section id="gnPractice" class="gnPractice card" hidden>
+<strong>Groupe du nom (GN)</strong>
+<div class="gnLegend">1) Choisis un GN, puis touche les mots qui lui appartiennent. 2) Vérifie. 3) Identifie D, N ou Adj.</div>
+<div class="gnToolbar">
+  <button class="gnPick active" data-g="1">GN 1</button>
+  <button class="gnPick" data-g="2">GN 2</button>
+  <button class="gnPick" data-g="3">GN 3</button>
+</div>
+<div id="gnSentence" class="gnSentence"></div>
+<div id="gnFeedback"></div>
+<div id="gnClassifier" class="gnClassify" hidden></div>
+<div class="actions">
+  <button id="gnCheckBtn" class="main">✓ Vérifier</button>
+  <button id="gnNextBtn" class="secondary">Autre cas</button>
+  <button id="gnBackBtn" class="secondary">← Retour</button>
+  <button id="gnFinishBtn" class="secondary">⏹ Terminer</button>
+  <button id="gnNewSessionBtn" class="secondary">Nouvelle session</button>
+</div>
+<div id="gnSession" class="gnSummary">Points : 0 · GN trouvés : 0/0 · Composantes : 0/0</div>
+</section>
+<section id="accordPractice" class="accordPractice card" hidden>
+<strong>Accords — transforme le groupe nominal</strong>
+<div class="accordModes">
+  <button class="accordMode active" data-accord="f">Féminin</button>
+  <button class="accordMode" data-accord="p">Pluriel</button>
+  <button class="accordMode" data-accord="fp">Féminin pluriel</button>
+</div>
+<div class="note" style="text-align:center">Le groupe est donné au masculin singulier. Écris tout le groupe correctement accordé. Les cas ordinaires et les exceptions courantes sont mélangés.</div>
+<div id="accordSource" class="accordSource"></div>
+<div class="accordTarget"><input id="accordAnswer" autocomplete="off" spellcheck="false" aria-label="Groupe nominal accordé"></div>
+<div id="accordFeedback"></div>
+<div id="accordCorrection" class="accordCorrection"></div>
+<div class="actions">
+  <button id="accordCheckBtn" class="main">✓ Vérifier</button>
+  <button id="accordNextBtn" class="secondary">Autre cas</button>
+  <button id="accordBackBtn" class="secondary">← Retour</button>
+  <button id="accordFinishBtn" class="secondary">⏹ Terminer</button>
+  <button id="accordNewSessionBtn" class="secondary">Nouvelle session</button>
+</div>
+<div id="accordSession" class="accordSummary">Points : 0 · Cas : 0/0 · Mots : 0/0</div>
+</section>
+<section class="exercise card">
+<div id="instruction" class="instruction">Clique sur tous les <span>déterminants</span> que tu trouves, puis vérifie ta réponse.</div>
+<div id="sentence" class="sentence" aria-live="polite"></div>
+<div class="actions"><button id="checkBtn" class="main">✓ Vérifier ma réponse</button><button id="nextBtn" class="secondary">Autre phrase</button><button id="verbIdentifyBack" class="secondary" hidden>← Retour</button><button id="verbIdentifyFinish" class="secondary" hidden>⏹ Terminer</button><button id="newSessionBtn" class="secondary">Nouvelle session</button></div>
+<div id="feedback"></div><div id="detail" class="detail" hidden></div>
+</section>
+<section id="verbPractice" class="verbPractice card" hidden>
+<strong>Complète — partie variable du verbe</strong>
+<div class="verbControls" style="margin-top:8px">
+  <label><span class="note">Verbe</span><select id="conjVerb"><option value="mix">Mélange</option><option>être</option><option>avoir</option><option>aimer</option><option>aller</option><option>finir</option></select></label>
+  <label><span class="note">Temps / forme</span><select id="conjTense"><option value="mix">Mélange</option><option value="participe présent">Participe présent</option><option value="présent">Présent</option><option value="imparfait">Imparfait</option><option value="conditionnel présent">Conditionnel présent</option><option value="futur simple">Futur simple</option><option value="futur proche">Futur proche</option></select></label>
+</div>
+<div id="conjPrompt" class="verbPrompt"></div>
+<div class="actions"><button id="checkConjBtn" class="main">✓ Vérifier</button><button id="newConjBtn" class="secondary">Autre cas</button><button id="completeBackBtn" class="secondary">← Retour</button><button id="completeFinishBtn" class="secondary">⏹ Terminer</button><button id="completeNewSessionBtn" class="secondary">Nouvelle session</button></div>
+<div id="conjFeedback"></div>
+<div id="conjScore" class="verbScore">Réussites : 0/0</div>
+<div id="conjPoints" class="verbPoints">Points : 0</div>
+</section>
+
+<section id="verbConjugate" class="verbPractice card" hidden>
+<strong>Conjugue — les 6 personnes</strong>
+<div class="verbControls" style="margin-top:8px">
+  <label><span class="note">Verbe</span><select id="fullVerb"><option value="mix">Mélange</option><option>être</option><option>avoir</option><option>aimer</option><option>aller</option><option>finir</option></select></label>
+  <label><span class="note">Temps</span><select id="fullTense"><option value="mix">Mélange</option><option value="présent">Présent</option><option value="imparfait">Imparfait</option><option value="conditionnel présent">Conditionnel présent</option><option value="futur simple">Futur simple</option><option value="futur proche">Futur proche</option></select></label>
+</div>
+<div id="fullConjPrompt" class="verbPrompt"></div>
+<div class="actions"><button id="checkFullConjBtn" class="main">✓ Vérifier</button><button id="newFullConjBtn" class="secondary">Autre cas</button><button id="fullBackBtn" class="secondary">← Retour</button><button id="fullFinishBtn" class="secondary">⏹ Terminer</button><button id="fullNewSessionBtn" class="secondary">Nouvelle session</button></div>
+<div id="fullConjFeedback"></div>
+<div id="fullConjScore" class="verbScore">Réussites : 0/0</div>
+<div id="fullConjPoints" class="verbPoints">Points : 0</div>
+</section>
+<section class="stats card">
+<strong>Session en cours</strong>
+<div class="statgrid" style="margin-top:10px"><div class="stat"><div class="v" id="sPhrases">0</div><div class="l">Phrases</div></div><div class="stat"><div class="v" id="sFound">0</div><div class="l">Trouvés</div></div><div class="stat"><div class="v" id="sMissed">0</div><div class="l">Oubliés</div></div><div class="stat"><div class="v" id="sWrong">0</div><div class="l">Faux clics</div></div><div class="stat" id="classStat" hidden><div class="v" id="sClassified">0/0</div><div class="l">Types réussis</div></div><div class="stat" id="gnStat" hidden><div class="v" id="sGN">0/0</div><div class="l">GN réussis</div></div><div class="stat" id="accordStat" hidden><div class="v" id="sAccord">0/0</div><div class="l">Accords réussis</div></div></div>
+<div id="history" class="history"></div>
+</section>
+</div>
+<div class="versionGitHub">GitHub · Grammaire TEST V1.25</div>
+<script>
+(function(){
+"use strict";
+const bank=window.GRAMMAR_BANK||[];
+let level="1",topic="noms",current=null,answered=false,selected=new Set(),verbMode=null;
+let used={1:new Set(),2:new Set(),3:new Set()};
+let stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,conjAsked:0,conjCorrect:0,conjPoints:0,fullAsked:0,fullCorrect:0,fullPoints:0,verbIdentifyAsked:0,verbIdentifyCorrect:0,gnAsked:0,gnCorrect:0,gnClassAsked:0,gnClassCorrect:0,gnPoints:0,accordAsked:0,accordCorrect:0,accordWordAsked:0,accordWordCorrect:0,accordPoints:0,history:[]};
+
+const sentenceEl=document.getElementById("sentence");
+const feedbackEl=document.getElementById("feedback");
+const detailEl=document.getElementById("detail");
+const reminderEl=document.getElementById("reminder");
+const instructionEl=document.getElementById("instruction");
+const topicEl=document.getElementById("topic");
+
+const PERSONS=["1re personne du singulier","2e personne du singulier","3e personne du singulier","1re personne du pluriel","2e personne du pluriel","3e personne du pluriel"];
+const PRONOUNS=["je","tu","il/elle","nous","vous","ils/elles"];
+const VERB_FORMS={
+"sont":{inf:"être",tense:"présent",person:"3e personne du pluriel"},
+"est":{inf:"être",tense:"présent",person:"3e personne du singulier"},
+"regarde":{inf:"regarder",tense:"présent",person:"3e personne du singulier"},
+"mange":{inf:"manger",tense:"présent",person:"3e personne du singulier"},
+"chante":{inf:"chanter",tense:"présent",person:"3e personne du singulier"},
+"rangent":{inf:"ranger",tense:"présent",person:"3e personne du pluriel"},
+"brille":{inf:"briller",tense:"présent",person:"3e personne du singulier"},
+"dort":{inf:"dormir",tense:"présent",person:"3e personne du singulier"},
+"saute":{inf:"sauter",tense:"présent",person:"3e personne du singulier"},
+"ouvre":{inf:"ouvrir",tense:"présent",person:"3e personne du singulier"},
+"dessine":{inf:"dessiner",tense:"présent",person:"3e personne du singulier"},
+"roule":{inf:"rouler",tense:"présent",person:"3e personne du singulier"},
+"éclairent":{inf:"éclairer",tense:"présent",person:"3e personne du pluriel"},
+"range":{inf:"ranger",tense:"présent",person:"3e personne du singulier"},
+"prépare":{inf:"préparer",tense:"présent",person:"3e personne du singulier"},
+"avance":{inf:"avancer",tense:"présent",person:"3e personne du singulier"},
+"construisent":{inf:"construire",tense:"présent",person:"3e personne du pluriel"},
+"apporte":{inf:"apporter",tense:"présent",person:"3e personne du singulier"},
+"lit":{inf:"lire",tense:"présent",person:"3e personne du singulier"},
+"visite":{inf:"visiter",tense:"présent",person:"3e personne du singulier"},
+"suit":{inf:"suivre",tense:"présent",person:"3e personne du singulier"},
+"montrent":{inf:"montrer",tense:"présent",person:"3e personne du pluriel"},
+"pose":{inf:"poser",tense:"présent",person:"3e personne du singulier"},
+"abrite":{inf:"abriter",tense:"présent",person:"3e personne du singulier"},
+"laisse":{inf:"laisser",tense:"présent",person:"3e personne du singulier"},
+"brillent":{inf:"briller",tense:"présent",person:"3e personne du pluriel"},
+"place":{inf:"placer",tense:"présent",person:"3e personne du singulier"},
+"suivent":{inf:"suivre",tense:"présent",person:"3e personne du pluriel"},
+"dois":{inf:"devoir",tense:"présent",person:"2e personne du singulier"},
+"placer":{inf:"placer",tense:"infinitif",person:"—"},
+"observent":{inf:"observer",tense:"présent",person:"3e personne du pluriel"},
+"permettent":{inf:"permettre",tense:"présent",person:"3e personne du pluriel"},
+"résoudre":{inf:"résoudre",tense:"infinitif",person:"—"},
+"pousse":{inf:"pousser",tense:"présent",person:"3e personne du singulier"},
+"apparaît":{inf:"apparaître",tense:"présent",person:"3e personne du singulier"},
+"court":{inf:"courir",tense:"présent",person:"3e personne du singulier"},
+"attend":{inf:"attendre",tense:"présent",person:"3e personne du singulier"},
+"observe":{inf:"observer",tense:"présent",person:"3e personne du singulier"},
+"porte":{inf:"porter",tense:"présent",person:"3e personne du singulier"},
+"rejoignent":{inf:"rejoindre",tense:"présent",person:"3e personne du pluriel"},
+"semble":{inf:"sembler",tense:"présent",person:"3e personne du singulier"},
+"bordent":{inf:"border",tense:"présent",person:"3e personne du pluriel"},
+"cachent":{inf:"cacher",tense:"présent",person:"3e personne du pluriel"},
+"découvre":{inf:"découvrir",tense:"présent",person:"3e personne du singulier"},
+"trouve":{inf:"trouver",tense:"présent",person:"3e personne du singulier"},
+"possède":{inf:"posséder",tense:"présent",person:"3e personne du singulier"},
+"traverse":{inf:"traverser",tense:"présent",person:"3e personne du singulier"},
+"vois":{inf:"voir",tense:"présent",person:"2e personne du singulier"}
+};
+function verbInfoFor(word){return VERB_FORMS[String(word||"").toLowerCase()]||null}
+
+const CONJ={
+"être":{
+"participe présent":["étant"],
+"présent":["suis","es","est","sommes","êtes","sont"],
+"imparfait":["étais","étais","était","étions","étiez","étaient"],
+"conditionnel présent":["serais","serais","serait","serions","seriez","seraient"],
+"futur simple":["serai","seras","sera","serons","serez","seront"],
+"futur proche":["vais être","vas être","va être","allons être","allez être","vont être"]},
+"avoir":{
+"participe présent":["ayant"],
+"présent":["ai","as","a","avons","avez","ont"],
+"imparfait":["avais","avais","avait","avions","aviez","avaient"],
+"conditionnel présent":["aurais","aurais","aurait","aurions","auriez","auraient"],
+"futur simple":["aurai","auras","aura","aurons","aurez","auront"],
+"futur proche":["vais avoir","vas avoir","va avoir","allons avoir","allez avoir","vont avoir"]},
+"aimer":{
+"participe présent":["aimant"],
+"présent":["aime","aimes","aime","aimons","aimez","aiment"],
+"imparfait":["aimais","aimais","aimait","aimions","aimiez","aimaient"],
+"conditionnel présent":["aimerais","aimerais","aimerait","aimerions","aimeriez","aimeraient"],
+"futur simple":["aimerai","aimeras","aimera","aimerons","aimerez","aimeront"],
+"futur proche":["vais aimer","vas aimer","va aimer","allons aimer","allez aimer","vont aimer"]},
+"aller":{
+"participe présent":["allant"],
+"présent":["vais","vas","va","allons","allez","vont"],
+"imparfait":["allais","allais","allait","allions","alliez","allaient"],
+"conditionnel présent":["irais","irais","irait","irions","iriez","iraient"],
+"futur simple":["irai","iras","ira","irons","irez","iront"],
+"futur proche":["vais aller","vas aller","va aller","allons aller","allez aller","vont aller"]},
+"finir":{
+"participe présent":["finissant"],
+"présent":["finis","finis","finit","finissons","finissez","finissent"],
+"imparfait":["finissais","finissais","finissait","finissions","finissiez","finissaient"],
+"conditionnel présent":["finirais","finirais","finirait","finirions","finiriez","finiraient"],
+"futur simple":["finirai","finiras","finira","finirons","finirez","finiront"],
+"futur proche":["vais finir","vas finir","va finir","allons finir","allez finir","vont finir"]}
+};
+const CONJ_STEMS={
+"être":{"participe présent":"ét","présent":["s","e","e","somm","êt","s"],"imparfait":"ét","conditionnel présent":"ser","futur simple":"ser"},
+"avoir":{"participe présent":"ay","présent":["","a","a","av","av",""],"imparfait":"av","conditionnel présent":"aur","futur simple":"aur"},
+"aimer":{"participe présent":"aim","présent":"aim","imparfait":"aim","conditionnel présent":"aimer","futur simple":"aimer"},
+"aller":{"participe présent":"all","présent":["v","v","v","all","all","v"],"imparfait":"all","conditionnel présent":"ir","futur simple":"ir"},
+"finir":{"participe présent":"finiss","présent":["fin","fin","fin","finiss","finiss","finiss"],"imparfait":"finiss","conditionnel présent":"finir","futur simple":"finir"}
+};
+function personLead(person,full){
+  if(person!==0)return PRONOUNS[person]+" ";
+  return /^[aeiouyéèêàâîïôùûh]/i.test(full)?"j’":"je ";
+}
+function conjugationParts(verb,tense,person){
+  const full=CONJ[verb][tense][person];
+  if(tense==="futur proche"){
+    const parts=full.split(" ");
+    return {lead:personLead(person,full),stem:"",answer:parts[0],tail:" "+verb,full};
+  }
+  const sm=CONJ_STEMS[verb][tense],stem=(Array.isArray(sm)?sm[person]:sm)||"";
+  return {lead:tense==="participe présent"?"":personLead(person,full),stem,answer:full.slice(stem.length),tail:"",full};
+}
+function updateVerbStats(){
+  document.getElementById("conjScore").textContent="Réussites : "+stats.conjCorrect+"/"+stats.conjAsked;
+  document.getElementById("conjPoints").textContent="Points : "+stats.conjPoints;
+  document.getElementById("fullConjScore").textContent="Réussites : "+stats.fullCorrect+"/"+stats.fullAsked;
+  document.getElementById("fullConjPoints").textContent="Points : "+stats.fullPoints;
+}
+function showVerbModeChooser(summary){
+  verbMode=null;
+  document.getElementById("verbModeChooser").hidden=false;
+  document.querySelector(".exercise").hidden=true;
+  document.getElementById("verbPractice").hidden=true;
+  document.getElementById("verbConjugate").hidden=true;
+  document.getElementById("verbModeSummary").innerHTML=summary||"";
+  document.querySelectorAll(".verbModeBtn").forEach(b=>b.classList.remove("active"));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function resetVerbSession(kind){
+  if(kind==="identify"){
+    stats.phrases=0;stats.found=0;stats.missed=0;stats.wrong=0;stats.verbIdentifyAsked=0;stats.verbIdentifyCorrect=0;stats.history=[];
+    used={1:new Set(),2:new Set(),3:new Set()};
+    updateStats();newPhrase();
+  }else if(kind==="complete"){
+    stats.conjAsked=0;stats.conjCorrect=0;stats.conjPoints=0;
+    updateVerbStats();makeConjQuestion();
+  }else if(kind==="conjugate"){
+    stats.fullAsked=0;stats.fullCorrect=0;stats.fullPoints=0;
+    updateVerbStats();makeFullConjQuestion();
+  }
+}
+function finishVerbMode(kind){
+  let html="";
+  if(kind==="identify")html='<div class="verbSessionSummary">Identifie : '+stats.verbIdentifyCorrect+'/'+stats.verbIdentifyAsked+' verbes trouvés correctement.</div>';
+  if(kind==="complete")html='<div class="verbSessionSummary">Complète : '+stats.conjCorrect+'/'+stats.conjAsked+' réussites · '+stats.conjPoints+' points.</div>';
+  if(kind==="conjugate")html='<div class="verbSessionSummary">Conjugue : '+stats.fullCorrect+'/'+stats.fullAsked+' formes réussies · '+stats.fullPoints+' points.</div>';
+  showVerbModeChooser(html);
+}
+let conjCurrent=null;
+function makeConjQuestion(){
+  const verbs=["être","avoir","aimer","aller","finir"],tenses=["participe présent","présent","imparfait","conditionnel présent","futur simple","futur proche"];
+  const vSel=document.getElementById("conjVerb").value,tSel=document.getElementById("conjTense").value;
+  const verb=vSel==="mix"?verbs[Math.floor(Math.random()*verbs.length)]:vSel;
+  const tense=tSel==="mix"?tenses[Math.floor(Math.random()*tenses.length)]:tSel;
+  const person=tense==="participe présent"?0:Math.floor(Math.random()*6);
+  conjCurrent={verb,tense,person,...conjugationParts(verb,tense,person)};
+  const who=tense==="participe présent"?"aucune personne — forme non personnelle":PERSONS[person];
+  document.getElementById("conjPrompt").innerHTML='<div class="verbMeta"><span class="vmLabel">Verbe :</span> <span class="vmValue">'+esc(cap(verb))+'</span> · <span class="vmLabel">Temps :</span> <span class="vmValue">'+esc(cap(tense))+'</span> · <span class="vmLabel">Personne :</span> <span class="vmValue">'+esc(who)+'</span></div><div class="big">'+esc(conjCurrent.lead)+esc(conjCurrent.stem)+'<input id="conjAnswer" class="verbAnswer" autocomplete="off" spellcheck="false" aria-label="Partie manquante">'+esc(conjCurrent.tail)+'</div>';
+  document.getElementById("conjFeedback").innerHTML="";
+  setTimeout(()=>document.getElementById("conjAnswer")?.focus(),50);
+}
+function checkConj(){
+  const inp=document.getElementById("conjAnswer");if(!inp||!conjCurrent||inp.disabled)return;
+  const got=inp.value.trim().toLowerCase(),ok=got===conjCurrent.answer.toLowerCase();
+  stats.conjAsked++;if(ok){stats.conjCorrect++;stats.conjPoints++}
+  inp.classList.add(ok?"good":"bad");inp.disabled=true;
+  document.getElementById("conjFeedback").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Bonne réponse ! +1 point':'Correction : <strong>'+esc(conjCurrent.full)+'</strong>')+'</div>';
+  updateVerbStats();
+}
+let fullCurrent=null;
+function makeFullConjQuestion(){
+  const verbs=["être","avoir","aimer","aller","finir"],tenses=["présent","imparfait","conditionnel présent","futur simple","futur proche"];
+  const vSel=document.getElementById("fullVerb").value,tSel=document.getElementById("fullTense").value;
+  const verb=vSel==="mix"?verbs[Math.floor(Math.random()*verbs.length)]:vSel;
+  const tense=tSel==="mix"?tenses[Math.floor(Math.random()*tenses.length)]:tSel;
+  fullCurrent={verb,tense,rows:[]};
+  let html='<div class="verbMeta"><span class="vmLabel">Verbe :</span> <span class="vmValue">'+esc(cap(verb))+'</span> · <span class="vmLabel">Temps :</span> <span class="vmValue">'+esc(cap(tense))+'</span> · <span class="vmLabel">Personnes :</span> <span class="vmValue">6</span></div><div class="conjSix">';
+  for(let p=0;p<6;p++){
+    const parts=conjugationParts(verb,tense,p);fullCurrent.rows.push(parts);
+    html+='<div class="conjRow"><div class="who">'+esc(PRONOUNS[p])+'</div><div class="conjExpr">'+esc(parts.lead.replace(PRONOUNS[p]+" ","").replace("je ","").replace("j’",""))+esc(parts.stem)+'<input id="fullA'+p+'" autocomplete="off" spellcheck="false" aria-label="Partie variable pour '+esc(PRONOUNS[p])+'">'+esc(parts.tail)+'</div></div>';
+  }
+  html+='</div>';
+  document.getElementById("fullConjPrompt").innerHTML=html;
+  document.getElementById("fullConjFeedback").innerHTML="";
+  setTimeout(()=>document.getElementById("fullA0")?.focus(),50);
+}
+function checkFullConj(){
+  if(!fullCurrent)return;
+  let correct=0,asked=0,details=[];
+  fullCurrent.rows.forEach((row,p)=>{
+    const inp=document.getElementById("fullA"+p);if(!inp||inp.disabled)return;
+    const ok=inp.value.trim().toLowerCase()===row.answer.toLowerCase();asked++;stats.fullAsked++;
+    if(ok){correct++;stats.fullCorrect++;stats.fullPoints++;inp.classList.add("good")}
+    else{inp.classList.add("bad");details.push(PRONOUNS[p]+" : "+row.full)}
+    inp.disabled=true;
+  });
+  document.getElementById("fullConjFeedback").innerHTML='<div class="feedback '+(correct===asked?'good':'practice')+'">'+(correct===asked?'✅ Les 6 personnes sont correctes ! +'+correct+' points':'✓ '+correct+'/'+asked+' correct'+(correct>1?'s':'')+(details.length?'<br>Correction : '+details.map(esc).join(" · "):''))+'</div>';
+  updateVerbStats();
+}
+
+
+const GN_BANK=[
+{level:1,parts:[["Le",1,"D"],["petit",1,"Adj"],["chien",1,"N"],["court",0,""],[".",0,""]]},
+{level:1,parts:[["Une",1,"D"],["grande",1,"Adj"],["fusée",1,"N"],["décolle",0,""],[".",0,""]]},
+{level:1,parts:[["La",1,"D"],["lune",1,"N"],["brillante",1,"Adj"],["éclaire",0,""],["le",2,"D"],["ciel",2,"N"],[".",0,""]]},
+{level:2,parts:[["Le",1,"D"],["petit",1,"Adj"],["chien",1,"N"],["regarde",0,""],["la",2,"D"],["grande",2,"Adj"],["maison",2,"N"],[".",0,""]]},
+{level:2,parts:[["Les",1,"D"],["jeunes",1,"Adj"],["espions",1,"N"],["observent",0,""],["et",0,""],["suivent",0,""],["un",2,"D"],["mystérieux",2,"Adj"],["véhicule",2,"N"],[".",0,""]]},
+{level:2,parts:[["Cette",1,"D"],["vieille",1,"Adj"],["porte",1,"N"],["cache",0,""],["un",2,"D"],["long",2,"Adj"],["passage",2,"N"],["secret",2,"Adj"],[".",0,""]]},
+{level:3,parts:[["Le",1,"D"],["jeune",1,"Adj"],["espion",1,"N"],["ne",0,""],["regarde",0,""],["pas",0,""],["la",2,"D"],["vieille",2,"Adj"],["porte",2,"N"],["et",0,""],["cherche",0,""],["un",3,"D"],["passage",3,"N"],["secret",3,"Adj"],[".",0,""]]},
+{level:3,parts:[["Les",1,"D"],["petites",1,"Adj"],["étoiles",1,"N"],["ne",0,""],["brillent",0,""],["plus",0,""],["quand",0,""],["les",2,"D"],["gros",2,"Adj"],["nuages",2,"N"],["arrivent",0,""],[".",0,""]]},
+{level:3,parts:[["Cette",1,"D"],["curieuse",1,"Adj"],["exploratrice",1,"N"],["n'",0,""],["ouvre",0,""],["pas",0,""],["la",2,"D"],["lourde",2,"Adj"],["boîte",2,"N"],["mais",0,""],["observe",0,""],["deux",3,"D"],["petits",3,"Adj"],["indices",3,"N"],["étranges",3,"Adj"],[".",0,""]]}
+];
+let gnCurrent=null,gnGroup=1,gnAssign=new Map(),gnAnswered=false,gnClassChoices=new Map(),gnClassResults=new Map(),gnUsed={1:new Set(),2:new Set(),3:new Set()};
+function pickGnCase(){
+  const lv=level==="mix"?String(1+Math.floor(Math.random()*3)):level;
+  const pool=GN_BANK.map((x,i)=>({x,i})).filter(o=>String(o.x.level)===lv);
+  let avail=pool.filter(o=>!gnUsed[lv].has(o.i));
+  if(!avail.length){gnUsed[lv].clear();avail=pool.slice()}
+  const pick=avail[Math.floor(Math.random()*avail.length)];gnUsed[lv].add(pick.i);return pick.x;
+}
+function gnMaxGroup(){return Math.max(...gnCurrent.parts.map(p=>p[1]||0))}
+function newGnCase(){
+  gnCurrent=pickGnCase();gnAssign=new Map();gnAnswered=false;gnClassChoices=new Map();gnClassResults=new Map();gnGroup=1;
+  document.querySelectorAll(".gnPick").forEach(b=>b.classList.toggle("active",b.dataset.g==="1"));
+  document.querySelectorAll(".gnPick").forEach(b=>{if(b.dataset.g)b.hidden=Number(b.dataset.g)>gnMaxGroup()});
+  document.getElementById("gnFeedback").innerHTML="";document.getElementById("gnClassifier").hidden=true;renderGnSentence();updateGnSession();
+}
+function renderGnSentence(){
+  const el=document.getElementById("gnSentence");el.innerHTML="";
+  gnCurrent.parts.forEach((p,i)=>{
+    const [txt,g,role]=p;
+    if(/^[.,!?;:]$/.test(txt)){el.appendChild(document.createTextNode(txt));return}
+    const sp=document.createElement("span");sp.className="gnWord";sp.textContent=txt;sp.dataset.i=i;sp.dataset.correctG=g;sp.dataset.role=role;
+    if(!gnAnswered){
+      const a=gnAssign.get(i);if(a)sp.classList.add("g"+a);
+      sp.addEventListener("click",()=>{if(g===0&&gnAssign.has(i)){gnAssign.delete(i)}else if(gnAssign.get(i)===gnGroup)gnAssign.delete(i);else gnAssign.set(i,gnGroup);renderGnSentence()});
+    }else{
+      if(g>0){
+        if(gnAssign.get(i)===g){sp.classList.add("g"+g,"gcorrect")}
+        else{sp.classList.add("gmissing")}
+        const chosen=gnClassChoices.get(i),res=gnClassResults.get(i);
+        const badge=document.createElement("span");badge.className="gnRole";
+        if(chosen){
+          badge.textContent=res===false ? chosen+" → "+role : chosen;
+          badge.classList.add(res===false?"roleBad":"roleGood");
+          sp.classList.add(res===false?"classBad":"classGood");
+        }else badge.textContent="?";
+        sp.appendChild(badge);sp.addEventListener("click",()=>showGnClassifier(i))
+      }else if(gnAssign.has(i))sp.classList.add("gwrong");
+    }
+    el.appendChild(sp);
+  });
+}
+function checkGn(){
+  if(gnAnswered)return;gnAnswered=true;
+  let total=0,correct=0,wrong=0;const groups=new Set();
+  gnCurrent.parts.forEach((p,i)=>{const g=p[1];if(g>0){total++;groups.add(g);if(gnAssign.get(i)===g)correct++}else if(gnAssign.has(i))wrong++});
+  stats.gnAsked+=total;stats.gnCorrect+=correct;stats.gnPoints+=correct;
+  const allGroups=[...groups].every(g=>gnCurrent.parts.every((p,i)=>p[1]!==g||gnAssign.get(i)===g));
+  const completeGroups=[...groups].filter(g=>gnCurrent.parts.every((p,i)=>p[1]!==g||gnAssign.get(i)===g)).length;
+  document.getElementById("gnFeedback").innerHTML='<div class="feedback '+(correct===total&&wrong===0?'good':'practice')+'">'+(correct===total&&wrong===0?'✅ Tous les GN sont bien associés.':'Correction : '+correct+'/'+total+' mots bien associés'+(wrong?' · '+wrong+' mot hors GN':'')+'.')+'</div><div class="note" style="margin-top:6px;font-weight:850"><span style="color:#92400e">Jaune</span> = mot du GN oublié · <span style="color:#991b1b">Rouge</span> = mot sélectionné qui ne fait pas partie du GN.</div><div class="secondStep">👉 <strong>2e étape :</strong> touche chaque mot du GN et indique <strong>D</strong>, <strong>N</strong> ou <strong>Adj</strong>.</div>';
+  stats.history.unshift({topic:"gn",level:gnCurrent.level,found:completeGroups,total:groups.size,wrong,missed:groups.size-completeGroups,classCorrect:0,classAsked:0});stats.history=stats.history.slice(0,8);
+  renderGnSentence();updateGnSession();updateStats();
+}
+function showGnClassifier(i){
+  const p=gnCurrent.parts[i];if(!p||p[1]===0)return;
+  const box=document.getElementById("gnClassifier");box.hidden=false;
+  box.innerHTML='<strong>'+esc(p[0])+'</strong> appartient au <strong>GN '+p[1]+'</strong>. Quel est son rôle ?<div class="choices"><button data-r="D">D — Déterminant</button><button data-r="N">N — Nom</button><button data-r="Adj">Adj — Adjectif</button></div><div id="gnClassResult"></div>';
+  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+    if(gnClassChoices.has(i))return;
+    const ok=b.dataset.r===p[2];gnClassChoices.set(i,b.dataset.r);gnClassResults.set(i,ok);stats.gnClassAsked++;if(ok){stats.gnClassCorrect++;stats.gnPoints++}
+    if(stats.history[0]&&stats.history[0].topic==="gn"){stats.history[0].classAsked++;if(ok)stats.history[0].classCorrect++}
+    document.getElementById("gnClassResult").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✓ Bonne réponse ! +1 point':'❌ Mauvaise réponse : <strong>'+esc(b.dataset.r)+'</strong> · Bonne réponse : <strong>'+esc(p[2])+'</strong>')+'</div>';
+    renderGnSentence();updateGnSession();updateStats();
+  }));
+}
+function updateGnSession(){
+  const el=document.getElementById("gnSession");if(!el)return;
+  el.textContent='Points : '+stats.gnPoints+' · GN : '+stats.gnCorrect+'/'+stats.gnAsked+' mots bien associés · Composantes : '+stats.gnClassCorrect+'/'+stats.gnClassAsked;
+}
+function resetGnSession(){
+  stats.gnAsked=0;stats.gnCorrect=0;stats.gnClassAsked=0;stats.gnClassCorrect=0;stats.gnPoints=0;stats.history=[];gnUsed={1:new Set(),2:new Set(),3:new Set()};newGnCase();updateStats();
+}
+function finishGn(){
+  const groupsTried=stats.history.filter(x=>x.topic==="gn").reduce((a,x)=>a+x.total,0),groupsGood=stats.history.filter(x=>x.topic==="gn").reduce((a,x)=>a+x.found,0);
+  document.getElementById("gnFeedback").innerHTML='<div class="gnSummary">Session terminée · GN complets : '+groupsGood+'/'+groupsTried+' · Composantes : '+stats.gnClassCorrect+'/'+stats.gnClassAsked+' · Points : '+stats.gnPoints+'</div>';
+}
+const ACCORD_BANK=[
+{level:1,ms:"un petit ami",f:"une petite amie",p:"des petits amis",fp:"des petites amies"},
+{level:1,ms:"le jeune voisin",f:"la jeune voisine",p:"les jeunes voisins",fp:"les jeunes voisines"},
+{level:1,ms:"un grand cousin",f:"une grande cousine",p:"des grands cousins",fp:"des grandes cousines"},
+{level:1,ms:"ce petit chat",f:"cette petite chatte",p:"ces petits chats",fp:"ces petites chattes"},
+{level:1,ms:"un gentil élève",f:"une gentille élève",p:"des gentils élèves",fp:"des gentilles élèves"},
+{level:2,ms:"un sportif heureux",f:"une sportive heureuse",p:"des sportifs heureux",fp:"des sportives heureuses"},
+{level:2,ms:"le premier voisin",f:"la première voisine",p:"les premiers voisins",fp:"les premières voisines"},
+{level:2,ms:"un ancien ami",f:"une ancienne amie",p:"des anciens amis",fp:"des anciennes amies"},
+{level:2,ms:"un bon musicien",f:"une bonne musicienne",p:"des bons musiciens",fp:"des bonnes musiciennes"},
+{level:2,ms:"un beau cousin",f:"une belle cousine",p:"des beaux cousins",fp:"des belles cousines"},
+{level:2,ms:"un nouveau voisin",f:"une nouvelle voisine",p:"des nouveaux voisins",fp:"des nouvelles voisines"},
+{level:3,ms:"un vieux sportif heureux",f:"une vieille sportive heureuse",p:"des vieux sportifs heureux",fp:"des vieilles sportives heureuses"},
+{level:3,ms:"un beau cheval noir",f:"une belle jument noire",p:"des beaux chevaux noirs",fp:"des belles juments noires"},
+{level:3,ms:"un travailleur actif",f:"une travailleuse active",p:"des travailleurs actifs",fp:"des travailleuses actives"},
+{level:3,ms:"un acteur célèbre",f:"une actrice célèbre",p:"des acteurs célèbres",fp:"des actrices célèbres"},
+{level:3,ms:"un directeur sérieux",f:"une directrice sérieuse",p:"des directeurs sérieux",fp:"des directrices sérieuses"},
+{level:3,ms:"un homme heureux",f:"une femme heureuse",p:"des hommes heureux",fp:"des femmes heureuses"}
+];
+let accordMode="f",accordCurrent=null,accordAnswered=false,accordUsed=new Set();
+function normalizeAccord(s){return (s||"").trim().toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ")}
+function pickAccordCase(){const pool=ACCORD_BANK.map((x,i)=>({x,i}));let avail=pool.filter(o=>!accordUsed.has(o.i));if(!avail.length){accordUsed.clear();avail=pool.slice()}const pick=avail[Math.floor(Math.random()*avail.length)];accordUsed.add(pick.i);return pick.x}
+function newAccordCase(){accordCurrent=pickAccordCase();accordAnswered=false;const inp=document.getElementById("accordAnswer");inp.value="";inp.disabled=false;inp.classList.remove("good","bad");document.getElementById("accordSource").textContent=accordCurrent.ms;document.getElementById("accordFeedback").innerHTML="";document.getElementById("accordCorrection").innerHTML="";setTimeout(()=>inp.focus(),50);updateAccordSession()}
+function accordExpected(){return accordCurrent?accordCurrent[accordMode]:""}
+function checkAccord(){const inp=document.getElementById("accordAnswer");if(!accordCurrent||accordAnswered||!inp)return;accordAnswered=true;inp.disabled=true;const got=normalizeAccord(inp.value),expected=normalizeAccord(accordExpected());const gotWords=got?got.split(" "):[],expWords=expected.split(" ");let wc=0;for(let i=0;i<Math.max(gotWords.length,expWords.length);i++)if(gotWords[i]&&expWords[i]&&gotWords[i]===expWords[i])wc++;const ok=got===expected;stats.accordAsked++;stats.accordWordAsked+=expWords.length;stats.accordWordCorrect+=wc;if(ok){stats.accordCorrect++;stats.accordPoints+=expWords.length}else stats.accordPoints+=wc;inp.classList.add(ok?"good":"bad");document.getElementById("accordFeedback").innerHTML='<div class="feedback '+(ok?'good':'practice')+'">'+(ok?'✅ Tout le groupe est bien accordé. +'+expWords.length+' points':'Correction : '+wc+'/'+expWords.length+' mots corrects.')+'</div>';let html="";for(let i=0;i<expWords.length;i++){const same=gotWords[i]===expWords[i];if(same)html+='<span class="accordToken good">'+esc(expWords[i])+'</span>';else{if(gotWords[i])html+='<span class="accordToken bad">'+esc(gotWords[i])+'</span>';html+='<span class="accordToken expected">'+esc(expWords[i])+'</span>'}}document.getElementById("accordCorrection").innerHTML=html;stats.history.unshift({topic:"accords",mode:accordMode,found:wc,total:expWords.length,wrong:Math.max(0,gotWords.length-wc),missed:Math.max(0,expWords.length-wc)});stats.history=stats.history.slice(0,8);updateAccordSession();updateStats()}
+function updateAccordSession(){const el=document.getElementById("accordSession");if(el)el.textContent='Points : '+stats.accordPoints+' · Cas : '+stats.accordCorrect+'/'+stats.accordAsked+' · Mots : '+stats.accordWordCorrect+'/'+stats.accordWordAsked}
+function resetAccordSession(){stats.accordAsked=0;stats.accordCorrect=0;stats.accordWordAsked=0;stats.accordWordCorrect=0;stats.accordPoints=0;stats.history=[];accordUsed=new Set();newAccordCase();updateStats()}
+function finishAccord(){document.getElementById("accordFeedback").innerHTML='<div class="accordSummary">Session terminée · Cas entièrement réussis : '+stats.accordCorrect+'/'+stats.accordAsked+' · Mots corrects : '+stats.accordWordCorrect+'/'+stats.accordWordAsked+' · Points : '+stats.accordPoints+'</div>'}
+function setAccordMode(mode){accordMode=mode;document.querySelectorAll(".accordMode").forEach(b=>b.classList.toggle("active",b.dataset.accord===mode));updateReminder();newAccordCase()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function cap(s){return s?String(s).charAt(0).toUpperCase()+String(s).slice(1):"—"}
+function topicLabel(){return topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="verbes"?"verbes":topic==="phrases"?"mots connus":"déterminants"}
+function annotation(t){
+  if(topic==="noms") return t.noun;
+  if(topic==="adjectifs") return t.adj;
+  if(topic==="verbes") return t.verb;
+  if(topic==="phrases") return t.noun||t.det||t.adj||t.verb;
+  return t.det;
+}
+function wordType(t){if(t.noun)return "nom";if(t.det)return "déterminant";if(t.adj)return "adjectif";if(t.verb)return "verbe";return ""}
+function tokenizePlain(text){
+  const re=/([A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:[-’'][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)*|\d+)/g;
+  let out=[],last=0,m;
+  while((m=re.exec(text))){
+    if(m.index>last)out.push({type:"text",text:text.slice(last,m.index)});
+    out.push({type:"word",text:m[0],det:null,noun:null,adj:null,verb:verbInfoFor(m[0])});
+    last=re.lastIndex;
+  }
+  if(last<text.length)out.push({type:"text",text:text.slice(last)});
+  return out;
+}
+function flatten(parts){
+  let out=[];
+  parts.forEach(p=>{
+    if(p.det||p.noun||p.adj||p.verb) out.push({type:"word",text:p.text,det:p.det||null,noun:p.noun||null,adj:p.adj||null,verb:p.verb||verbInfoFor(p.text)});
+    else out=out.concat(tokenizePlain(p.text));
+  });
+  return out;
+}
+function pickLevel(){return level==="mix"?String(1+Math.floor(Math.random()*3)):level}
+function phraseHasTopic(p){
+  const toks=flatten(p.parts||[]);
+  if(topic==="noms") return toks.some(t=>t.noun);
+  if(topic==="adjectifs") return toks.some(t=>t.adj);
+  if(topic==="verbes") return toks.some(t=>t.verb);
+  if(topic==="phrases") return true;
+  return toks.some(t=>t.det);
+}
+function choosePhrase(){
+  const lv=pickLevel();
+  const choices=bank.map((p,i)=>({p,i})).filter(x=>{
+    if(String(x.p.level)!==lv) return false;
+    if(topic==="phrases"){
+      const toks=flatten(x.p.parts||[]);
+      return toks.some(t=>t.noun) && toks.some(t=>t.det) && toks.some(t=>t.adj) && toks.some(t=>t.verb);
+    }
+    return phraseHasTopic(x.p);
+  });
+  let avail=choices.filter(x=>!used[lv].has(x.i));
+  if(!avail.length){used[lv].clear();avail=choices.slice()}
+  const chosen=avail[Math.floor(Math.random()*avail.length)];
+  used[lv].add(chosen.i);
+  return chosen.p;
+}
+function newPhrase(){
+  current=choosePhrase();answered=false;selected.clear();
+  feedbackEl.innerHTML="";detailEl.hidden=true;detailEl.innerHTML="";
+  renderSentence();
+}
+function renderSentence(){
+  sentenceEl.innerHTML="";
+  const tokens=flatten(current.parts);
+  current._tokens=tokens;
+  tokens.forEach((t,i)=>{
+    if(t.type==="text"){sentenceEl.appendChild(document.createTextNode(t.text));return}
+    const sp=document.createElement("span");
+    sp.className="word";sp.textContent=t.text;sp.dataset.i=i;sp.tabIndex=0;
+    sp.addEventListener("click",()=>wordClick(i,sp));
+    sp.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();wordClick(i,sp)}});
+    sentenceEl.appendChild(sp);
+  });
+}
+function wordClick(i,el){
+  const t=current._tokens[i];
+  if(answered){
+    if(t&&annotation(t)){
+      sentenceEl.querySelectorAll(".word").forEach(w=>w.classList.remove("inspecting"));
+      el.classList.add("inspecting");
+      if(topic==="phrases") showClassifier(t,i);
+      else{
+        markSecondStep(i,true);
+        showDetail(t);
+      }
+      detailEl.scrollIntoView({block:"nearest",behavior:"smooth"});
+    }
+    return;
+  }
+  if(selected.has(i)){selected.delete(i);el.classList.remove("selected")}
+  else{selected.add(i);el.classList.add("selected")}
+}
+function check(){
+  if(answered)return;
+  answered=true;stats.phrases++;
+  let found=0,missed=0,wrong=0,total=0;
+  sentenceEl.querySelectorAll(".word").forEach(el=>{
+    const i=Number(el.dataset.i),t=current._tokens[i],isTarget=!!annotation(t),isSel=selected.has(i);
+    el.classList.remove("selected");
+    if(isTarget){
+      total++;
+      if(isSel){found++;el.classList.add("correct","afterCorrect")}
+      else{missed++;el.classList.add("missed","afterCorrect")}
+    }else if(isSel){wrong++;el.classList.add("wrong")}
+  });
+  stats.found+=found;stats.missed+=missed;stats.wrong+=wrong;
+  if(topic==="verbes"&&verbMode==="identify"){stats.verbIdentifyAsked+=total;stats.verbIdentifyCorrect+=found;}
+  const perfect=found===total&&wrong===0;
+  const label=topicLabel();
+  const secondStep=topic==="phrases"
+    ? '<div class="secondStep">👉 <strong>2e étape :</strong> clique sur les mots <strong>verts ou jaunes</strong>. Pour chacun, indique s’il s’agit d’un <strong>Nom</strong>, d’un <strong>Déterminant</strong>, d’un <strong>Adjectif</strong> ou d’un <strong>Verbe</strong>. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot bien classé devient bleu</strong>; un mot mal classé devient rouge.</div>'
+    : '<div class="secondStep">👉 <strong>2e étape :</strong> clique maintenant sur chaque mot <strong>vert ou jaune</strong> pour voir ses caractéristiques. Les mots jaunes sont ceux que tu avais oubliés. <strong>Un mot consulté devient bleu</strong>.</div>';
+  feedbackEl.innerHTML='<div class="feedback '+(perfect?'good':'practice')+'">'+
+    (perfect?'✅ Bravo ! Tous les '+label+' ont été trouvés.':'👍 Correction terminée.')+
+    ' <strong>'+found+'/'+total+'</strong> '+label+' trouvé'+(found>1?'s':'')+
+    (wrong?' · '+wrong+' faux clic'+(wrong>1?'s':''):'')+
+    (missed?' · '+missed+' oublié'+(missed>1?'s':''):'')+'.</div>'+secondStep;
+  stats.history.unshift({topic:topic,level:current.level,found,total,wrong,missed,classCorrect:0,classAsked:0});
+  stats.history=stats.history.slice(0,8);
+  updateStats();
+}
+function phraseWordDetails(t){
+  if(t.noun){
+    const a=t.noun;
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div>';
+  }
+  if(t.det){
+    const a=t.det;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div>';
+  }
+  if(t.adj){
+    const a=t.adj;
+    return '<div class="chips" style="margin-top:8px">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div>';
+  }
+  if(t.verb){
+    const a=t.verb;
+    return '<div class="verbMeta" style="margin-top:8px"><span class="vmLabel">Verbe :</span> <span class="vmValue">'+esc(cap(a.inf))+'</span> · <span class="vmLabel">Temps :</span> <span class="vmValue">'+esc(cap(a.tense))+'</span> · <span class="vmLabel">Personne :</span> <span class="vmValue">'+esc(a.person)+'</span></div>';
+  }
+  return "";
+}
+function markSecondStep(i,ok){
+  const el=sentenceEl.querySelector('.word[data-i="'+i+'"]');
+  if(!el)return;
+  el.classList.remove("correct","missed","inspecting","classifiedGood","classifiedBad");
+  el.classList.add(ok?"classifiedGood":"classifiedBad");
+}
+function showClassifier(t,i){
+  const correct=wordType(t);
+  if(!correct)return;
+  detailEl.hidden=false;
+  const previous=t._classChoice||"";
+  detailEl.innerHTML='<h3>Quel type de mot est « '+esc(t.text)+' » ?</h3>'+
+    '<div class="classifyChoices">'+
+    '<button class="classifyBtn" data-type="nom">Nom</button>'+
+    '<button class="classifyBtn" data-type="déterminant">Déterminant</button>'+
+    '<button class="classifyBtn" data-type="adjectif">Adjectif</button>'+
+    '<button class="classifyBtn" data-type="verbe">Verbe</button>'+
+    '</div><div class="note" style="margin-top:6px"><strong>Plus tard :</strong> Pronom · Mot invariable…</div>'+
+    '<div id="classifyResult" class="classifyResult"></div>'+
+    '<div id="phraseWordDetails"></div>'+
+    '<div class="note">Après avoir choisi le type, les caractéristiques déjà apprises apparaissent ici.</div>';
+  const result=document.getElementById("classifyResult");
+  const details=document.getElementById("phraseWordDetails");
+  if(previous){
+    const ok=previous===correct;
+    markSecondStep(i,ok);
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse : "+cap(correct):"✗ Correction : "+cap(correct);
+    details.innerHTML=phraseWordDetails(t);
+  }
+  detailEl.querySelectorAll(".classifyBtn").forEach(btn=>btn.addEventListener("click",()=>{
+    if(t._classChoice) return;
+    const choice=btn.dataset.type;
+    t._classChoice=choice;
+    const ok=choice===correct;
+    stats.classAsked++;
+    if(ok)stats.classCorrect++;
+    if(stats.history[0]&&stats.history[0].topic==="phrases"){
+      stats.history[0].classAsked++;
+      if(ok)stats.history[0].classCorrect++;
+    }
+    markSecondStep(i,ok);
+    result.className="classifyResult "+(ok?"good":"bad");
+    result.textContent=ok?"✓ Bonne réponse ! "+cap(correct):"✗ C’est un "+correct+".";
+    details.innerHTML=phraseWordDetails(t);
+    updateStats();
+  }));
+}
+function showDetail(t){
+  const a=annotation(t); if(!a)return;
+  detailEl.hidden=false;
+  if(topic==="noms"){
+    const genre=a.gender==="non évalué"?"Genre non évalué ici":cap(a.gender);
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Nom '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(genre)+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      '<span class="chip">Catégorie : '+esc(a.category||"nom")+'</span>'+
+      '</div><div class="note">Détail du mot sélectionné après la correction.</div>';
+  }else if(topic==="adjectifs"){
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Adjectif '+esc(a.type||"qualificatif")+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.category?'<span class="chip">Exprime : '+esc(a.category)+'</span>':'')+
+      (a.position?'<span class="chip">Position : '+esc(a.position)+'</span>':'')+
+      (a.noun?'<span class="chip">Se rapporte à : '+esc(a.noun)+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }else if(topic==="verbes"){
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="verbMeta"><span class="vmLabel">Verbe :</span> <span class="vmValue">'+esc(cap(a.inf))+'</span> · <span class="vmLabel">Temps :</span> <span class="vmValue">'+esc(cap(a.tense))+'</span> · <span class="vmLabel">Personne :</span> <span class="vmValue">'+esc(a.person)+'</span></div><div class="note">Après la correction, identifie l’infinitif, le temps et la personne du verbe.</div>';
+  }else{
+    detailEl.innerHTML='<h3>'+esc(t.text)+'</h3><div class="chips">'+
+      '<span class="chip">Déterminant '+esc(a.type)+'</span>'+
+      '<span class="chip">'+esc(cap(a.gender))+'</span>'+
+      '<span class="chip">'+esc(cap(a.number))+'</span>'+
+      (a.note?'<span class="chip">'+esc(cap(a.note))+'</span>':'')+
+      '</div><div class="note">Cette information apparaît seulement après la correction.</div>';
+  }
+}
+function updateStats(){
+  document.getElementById("sPhrases").textContent=stats.phrases;
+  document.getElementById("sFound").textContent=stats.found;
+  document.getElementById("sMissed").textContent=stats.missed;
+  document.getElementById("sWrong").textContent=stats.wrong;
+  const cs=document.getElementById("classStat");
+  cs.hidden=topic!=="phrases";
+  const gs=document.getElementById("gnStat");if(gs){gs.hidden=topic!=="gn";document.getElementById("sGN").textContent=stats.gnClassCorrect+"/"+stats.gnClassAsked}
+  const as=document.getElementById("accordStat");if(as){as.hidden=topic!=="accords";document.getElementById("sAccord").textContent=stats.accordCorrect+"/"+stats.accordAsked}
+  document.getElementById("sClassified").textContent=stats.classCorrect+"/"+stats.classAsked;
+  const h=document.getElementById("history");
+  h.innerHTML=stats.history.length?stats.history.map(x=>
+    '<div class="hist">'+(x.topic==="noms"?"Noms":x.topic==="adjectifs"?"Adjectifs":x.topic==="gn"?"GN":x.topic==="accords"?"Accords":x.topic==="verbes"?"Verbes":x.topic==="phrases"?"Phrase":"Déterminants")+(x.topic==="accords"?' · '+(x.mode==="f"?"Féminin":x.mode==="p"?"Pluriel":"Féminin pluriel"):' · Niveau '+x.level)+' · '+x.found+'/'+x.total+' trouvés'+
+    (x.wrong?' · '+x.wrong+' faux clic'+(x.wrong>1?'s':''):'')+
+    (x.missed?' · '+x.missed+' oublié'+(x.missed>1?'s':''):'')+
+    (x.topic==="phrases"&&x.classAsked?' · Types : '+x.classCorrect+'/'+x.classAsked:'')+'</div>'
+  ).join(""):'<div class="note">Aucune phrase vérifiée pour le moment.</div>';
+}
+function reminderDet(){
+  let rows=[["Définis","le, la, les"],["Indéfinis","un, une, des"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Possessifs","mon, ma, mes, son, sa, ses, notre, nos, leur, leurs"]);
+    rows.push(["Démonstratifs","ce, cet, cette, ces"]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Interrogatifs","quel, quelle, quels, quelles"]);
+    rows.push(["Numéraux","deux, trois, quatre…"]);
+    rows.push(["Autres","plusieurs, quelques, chaque, aucun, aucune…"]);
+  }
+  return '<h3>Rappel — les déterminants</h3>'+
+    '<p>Un déterminant est placé devant un nom. Il reçoit généralement le genre et le nombre du nom qu’il accompagne.</p>'+
+    '<table><thead><tr><th>Catégorie</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Les exemples du rappel sont volontairement différents de la phrase en cours.</p>';
+}
+function reminderNoun(){
+  let rows=[["Nom commun","chat, école, planète"],["Nom propre","Léa, Montréal, Canada"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"]];
+  if(level==="2"||level==="3"||level==="mix")rows.push(["Catégories","personne, animal, lieu, objet, aliment, astre…"]);
+  if(level==="3"||level==="mix")rows.push(["Autres catégories","phénomène naturel, activité, matière, période, groupe…"]);
+  return '<h3>Rappel — les noms</h3>'+
+    '<p>Un nom sert à nommer une personne, un animal, un lieu, un objet, une idée ou une réalité. Un nom peut être commun ou propre.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un nom pour voir son type, son genre, son nombre et sa catégorie.</p>';
+}
+function reminderAdj(){
+  let rows=[["Adjectif qualificatif","petit chat, fleur rouge"],["Genre","masculin ou féminin"],["Nombre","singulier ou pluriel"],["Position","avant ou après le nom"]];
+  if(level==="2"||level==="3"||level==="mix"){
+    rows.push(["Ce qu’il peut exprimer","taille, couleur, forme, état, âge, température…"]);
+    rows.push(["Après un verbe","Mars semble rouge."]);
+  }
+  if(level==="3"||level==="mix"){
+    rows.push(["Plusieurs adjectifs","une vieille porte fermée"]);
+    rows.push(["Phrase interrogative","Quels anciens ponts sont solides ?"]);
+  }
+  return '<h3>Rappel — les adjectifs</h3>'+
+    '<p>Un adjectif donne une caractéristique à un nom. Il s’accorde généralement en genre et en nombre avec ce nom.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    rows.map(r=>'<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td></tr>').join("")+
+    '</tbody></table><p class="note">Après la correction, clique sur un adjectif pour voir son genre, son nombre, sa position et le nom auquel il se rapporte.</p>';
+}
+function reminderGN(){
+  return '<h3>Rappel — le groupe du nom (GN)</h3>'+
+    '<p><strong>Méthode :</strong> commence toujours par repérer les <strong>noms</strong>. Chaque GN est construit autour d’un <strong>nom noyau (N)</strong>. Cherche ensuite les mots qui se rattachent à ce nom : son <strong>déterminant (D)</strong> et un ou plusieurs <strong>adjectifs (Adj)</strong>.</p>'+
+    '<p><strong>Important :</strong> ne regroupe ensemble que les mots qui appartiennent au même nom.</p>'+
+    '<table><thead><tr><th>Symbole</th><th>Rôle</th><th>Exemple</th></tr></thead><tbody>'+
+    '<tr><td><strong>D</strong></td><td>Déterminant</td><td>le, une, ces</td></tr>'+
+    '<tr><td><strong>N</strong></td><td>Nom noyau</td><td>chien, maison</td></tr>'+
+    '<tr><td><strong>Adj</strong></td><td>Adjectif</td><td>petit, rouge</td></tr>'+
+    '</tbody></table>'+
+    '<p class="note">Les couleurs servent à distinguer les GN entre eux; D, N et Adj indiquent le rôle de chaque mot dans son GN.</p>';
+}
+function reminderAccord(){
+  const common='<p><strong>Méthode :</strong> repère le déterminant, le nom et les adjectifs. Tous doivent s’accorder avec le nom.</p>';
+  if(accordMode==="f")return '<h3>Rappel — mettre au féminin</h3>'+common+'<table><thead><tr><th>Règle</th><th>Exemple</th></tr></thead><tbody><tr><td>Souvent, on ajoute <strong>e</strong>.</td><td>petit → petite · ami → amie</td></tr><tr><td>Déjà en <strong>e</strong> : souvent inchangé.</td><td>jeune → jeune</td></tr><tr><td><strong>-f → -ve</strong></td><td>sportif → sportive</td></tr><tr><td><strong>-x → -se</strong></td><td>heureux → heureuse</td></tr><tr><td><strong>-er → -ère</strong></td><td>premier → première</td></tr><tr><td>Consonne parfois doublée + e.</td><td>bon → bonne · ancien → ancienne</td></tr><tr><td>Exceptions fréquentes.</td><td>beau → belle · nouveau → nouvelle · vieux → vieille</td></tr></tbody></table><p class="note">Le déterminant change aussi : un → une, le → la, ce → cette.</p>';
+  if(accordMode==="p")return '<h3>Rappel — mettre au pluriel</h3>'+common+'<table><thead><tr><th>Règle</th><th>Exemple</th></tr></thead><tbody><tr><td>Le plus souvent, on ajoute <strong>s</strong>.</td><td>petit ami → petits amis</td></tr><tr><td>En <strong>s, x, z</strong> : généralement inchangé.</td><td>heureux → heureux</td></tr><tr><td>Beaucoup de mots en <strong>-al → -aux</strong>.</td><td>cheval → chevaux · royal → royaux</td></tr><tr><td>Beaucoup de mots en <strong>-eau, -au, -eu</strong> prennent <strong>x</strong>.</td><td>beau → beaux · jeu → jeux</td></tr><tr><td>Exceptions fréquentes.</td><td>pneu → pneus · bleu → bleus</td></tr></tbody></table><p class="note">Le déterminant change aussi : un → des, le → les, ce → ces.</p>';
+  return '<h3>Rappel — mettre au féminin pluriel</h3>'+common+'<p>Fais les deux transformations : <strong>d’abord le féminin, puis le pluriel</strong>.</p><table><thead><tr><th>Étape</th><th>Exemple</th></tr></thead><tbody><tr><td>Masculin singulier</td><td>un petit voisin</td></tr><tr><td>Féminin</td><td>une petite voisine</td></tr><tr><td>Féminin pluriel</td><td>des petites voisines</td></tr></tbody></table><p class="note">Les mêmes exceptions du féminin et du pluriel s’appliquent ensemble.</p>';
+}
+function reminderVerb(){
+  return '<h3>Rappel — les verbes</h3>'+
+    '<p>Un verbe exprime une action, un état ou un changement. Pour l’identifier, cherche son <strong>infinitif</strong>, son <strong>temps</strong> et sa <strong>personne</strong>.</p>'+
+    '<table><thead><tr><th>À observer</th><th>Exemples</th></tr></thead><tbody>'+
+    '<tr><td><strong>Infinitif</strong></td><td>être, avoir, aimer, aller, finir</td></tr>'+
+    '<tr><td><strong>Temps / formes</strong></td><td>participe présent, présent, imparfait, conditionnel présent, futur simple, futur proche</td></tr>'+
+    '<tr><td><strong>Personne</strong></td><td>je, tu, il/elle, nous, vous, ils/elles</td></tr>'+
+    '</tbody></table><p class="note">Le participe présent est une forme non personnelle : il n’a pas de personne conjuguée.</p>';
+}
+function reminderPhrase(){
+  return '<h3>Rappel — reconnaître les types de mots</h3>'+
+    '<p>Commence par chercher les <strong>noms, déterminants, adjectifs et verbes</strong>. Tu n’as pas à classer les autres mots pour l’instant.</p>'+
+    '<table><thead><tr><th>Type</th><th>Comment le reconnaître</th><th>Exemples</th></tr></thead><tbody>'+
+    '<tr><td><strong>Nom</strong></td><td>Nomme une personne, un animal, un lieu, un objet, une idée ou une réalité.</td><td>chat, école, Léa</td></tr>'+
+    '<tr><td><strong>Déterminant</strong></td><td>Se place généralement devant un nom.</td><td>le, une, ces, mon</td></tr>'+
+    '<tr><td><strong>Adjectif</strong></td><td>Donne une caractéristique à un nom.</td><td>petit, rouge, brillante</td></tr>'+
+    '<tr><td><strong>Verbe</strong></td><td>Exprime une action ou un état et se conjugue.</td><td>regarde, sont, avance</td></tr>'+
+    '</tbody></table><p class="note" style="font-size:14px;font-weight:900;color:#273568;margin-top:8px">Après <strong>Vérifier ma réponse</strong>, passe à la <strong>2e étape</strong> : clique sur chaque mot vert ou jaune et choisis son type.</p>';
+}
+function updateReminder(){
+  reminderEl.innerHTML=topic==="noms"?reminderNoun():topic==="adjectifs"?reminderAdj():topic==="gn"?reminderGN():topic==="accords"?reminderAccord():topic==="verbes"?reminderVerb():topic==="phrases"?reminderPhrase():reminderDet();
+}
+function updateInstruction(){
+  if(topic==="phrases"){
+    instructionEl.innerHTML='Clique sur tous les <span>noms, déterminants, adjectifs et verbes</span> que tu reconnais, puis vérifie ta sélection.';
+  }else{
+    const lab=topic==="noms"?"noms":topic==="adjectifs"?"adjectifs":topic==="verbes"?"verbes":"déterminants";
+    instructionEl.innerHTML='Clique sur tous les <span>'+lab+'</span> que tu trouves, puis vérifie ta réponse.';
+  }
+}
+function resetSession(){
+  stats={phrases:0,found:0,missed:0,wrong:0,classAsked:0,classCorrect:0,conjAsked:0,conjCorrect:0,conjPoints:0,fullAsked:0,fullCorrect:0,fullPoints:0,verbIdentifyAsked:0,verbIdentifyCorrect:0,history:[]};
+  used={1:new Set(),2:new Set(),3:new Set()};
+  updateStats();
+  newPhrase();
+}
+document.querySelectorAll(".level").forEach(b=>b.addEventListener("click",()=>{
+  level=b.dataset.level;
+  document.querySelectorAll(".level").forEach(x=>x.classList.toggle("active",x===b));
+  updateReminder();if(topic==="gn")newGnCase();else if(topic!=="accords")newPhrase();
+}));
+topicEl.addEventListener("change",()=>{
+  topic=topicEl.value;
+  updateInstruction();updateReminder();updateStats();
+  document.getElementById("levelControl").hidden=topic==="accords";
+  document.getElementById("gnPractice").hidden=topic!=="gn";
+  document.getElementById("accordPractice").hidden=topic!=="accords";
+  if(topic==="gn"){
+    verbMode=null;document.getElementById("verbModeChooser").hidden=true;document.getElementById("verbPractice").hidden=true;document.getElementById("verbConjugate").hidden=true;document.querySelector(".exercise").hidden=true;newGnCase();
+  }else if(topic==="accords"){
+    verbMode=null;document.getElementById("gnPractice").hidden=true;document.getElementById("verbModeChooser").hidden=true;document.getElementById("verbPractice").hidden=true;document.getElementById("verbConjugate").hidden=true;document.querySelector(".exercise").hidden=true;newAccordCase();
+  }else if(topic==="verbes"){
+    document.getElementById("gnPractice").hidden=true;document.getElementById("accordPractice").hidden=true;showVerbModeChooser("");
+  }else{
+    verbMode=null;document.getElementById("gnPractice").hidden=true;document.getElementById("accordPractice").hidden=true;document.getElementById("verbModeChooser").hidden=true;document.getElementById("verbPractice").hidden=true;document.getElementById("verbConjugate").hidden=true;document.querySelector(".exercise").hidden=false;document.getElementById("verbIdentifyBack").hidden=true;document.getElementById("verbIdentifyFinish").hidden=true;document.getElementById("newSessionBtn").hidden=false;document.getElementById("nextBtn").textContent="Autre phrase";newPhrase();
+  }
+});
+document.getElementById("showReminder").addEventListener("change",e=>{
+  reminderEl.hidden=!e.target.checked;
+  if(e.target.checked)updateReminder();
+});
+document.getElementById("checkBtn").addEventListener("click",check);
+document.getElementById("nextBtn").addEventListener("click",newPhrase);
+document.getElementById("newSessionBtn").addEventListener("click",()=>{if(topic==="verbes"&&verbMode==="identify")resetVerbSession("identify");else resetSession()});
+document.querySelectorAll(".verbModeBtn").forEach(btn=>btn.addEventListener("click",()=>{
+  verbMode=btn.dataset.verbmode;
+  document.querySelectorAll(".verbModeBtn").forEach(b=>b.classList.toggle("active",b===btn));
+  document.getElementById("verbModeChooser").hidden=true;
+  if(verbMode==="identify"){
+    document.querySelector(".exercise").hidden=false;
+    document.getElementById("verbPractice").hidden=true;
+    document.getElementById("verbConjugate").hidden=true;
+    document.getElementById("verbIdentifyBack").hidden=false;
+    document.getElementById("verbIdentifyFinish").hidden=false;
+    document.getElementById("newSessionBtn").hidden=false;
+    document.getElementById("nextBtn").textContent="Autre cas";
+    newPhrase();
+  }else if(verbMode==="complete"){
+    document.querySelector(".exercise").hidden=true;
+    document.getElementById("verbPractice").hidden=false;
+    document.getElementById("verbConjugate").hidden=true;
+    makeConjQuestion();updateVerbStats();
+  }else{
+    document.querySelector(".exercise").hidden=true;
+    document.getElementById("verbPractice").hidden=true;
+    document.getElementById("verbConjugate").hidden=false;
+    makeFullConjQuestion();updateVerbStats();
+  }
+}));
+document.getElementById("verbIdentifyBack").addEventListener("click",()=>showVerbModeChooser(""));
+document.getElementById("verbIdentifyFinish").addEventListener("click",()=>finishVerbMode("identify"));
+document.getElementById("newConjBtn").addEventListener("click",makeConjQuestion);
+document.getElementById("checkConjBtn").addEventListener("click",checkConj);
+document.getElementById("conjVerb").addEventListener("change",makeConjQuestion);
+document.getElementById("conjTense").addEventListener("change",makeConjQuestion);
+document.getElementById("completeBackBtn").addEventListener("click",()=>showVerbModeChooser(""));
+document.getElementById("completeFinishBtn").addEventListener("click",()=>finishVerbMode("complete"));
+document.getElementById("completeNewSessionBtn").addEventListener("click",()=>resetVerbSession("complete"));
+document.getElementById("newFullConjBtn").addEventListener("click",makeFullConjQuestion);
+document.getElementById("checkFullConjBtn").addEventListener("click",checkFullConj);
+document.getElementById("fullVerb").addEventListener("change",makeFullConjQuestion);
+document.getElementById("fullTense").addEventListener("change",makeFullConjQuestion);
+document.getElementById("fullBackBtn").addEventListener("click",()=>showVerbModeChooser(""));
+document.getElementById("fullFinishBtn").addEventListener("click",()=>finishVerbMode("conjugate"));
+document.getElementById("fullNewSessionBtn").addEventListener("click",()=>resetVerbSession("conjugate"));
+document.querySelectorAll(".gnPick").forEach(b=>b.addEventListener("click",()=>{gnGroup=Number(b.dataset.g);document.querySelectorAll(".gnPick").forEach(x=>x.classList.toggle("active",x===b))}));
+document.getElementById("gnCheckBtn").addEventListener("click",checkGn);
+document.getElementById("gnNextBtn").addEventListener("click",newGnCase);
+document.getElementById("gnNewSessionBtn").addEventListener("click",resetGnSession);
+document.getElementById("gnFinishBtn").addEventListener("click",finishGn);
+document.getElementById("gnBackBtn").addEventListener("click",()=>{topicEl.value="noms";topicEl.dispatchEvent(new Event("change"));window.scrollTo({top:0,behavior:"smooth"})});
+document.querySelectorAll(".accordMode").forEach(b=>b.addEventListener("click",()=>setAccordMode(b.dataset.accord)));
+document.getElementById("accordCheckBtn").addEventListener("click",checkAccord);
+document.getElementById("accordNextBtn").addEventListener("click",newAccordCase);
+document.getElementById("accordNewSessionBtn").addEventListener("click",resetAccordSession);
+document.getElementById("accordFinishBtn").addEventListener("click",finishAccord);
+document.getElementById("accordBackBtn").addEventListener("click",()=>{topicEl.value="gn";topicEl.dispatchEvent(new Event("change"));window.scrollTo({top:0,behavior:"smooth"})});
+document.getElementById("accordAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")checkAccord()});
+
+updateInstruction();updateReminder();updateStats();newPhrase();
+})();
+</script>
+</body>
+</html>
