@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10",
+  "updated": "2026-11-12",
   "pages": {
     "index.html": {
       "version": "V3.12",
@@ -28,6 +28,10 @@
     "anglais.html": {
       "version": "V1.1",
       "build": "20261109-02"
+    },
+    "anglais-test.html": {
+      "version": "V2.0",
+      "build": "20261112-01"
     }
   }
 }
