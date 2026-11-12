@@ -174,6 +174,13 @@ window.LANGUAGE_BANK = [
 ["Parties du corps","cœur","heart","corazón","心臓","shinzō","Herz"],
 ["Parties du corps","ventre","stomach","estómago","お腹","onaka","Bauch"],
 ["Parties du corps","doigt","finger","dedo","指","yubi","Finger"],
+["Parties du corps","orteil","toe","dedo del pie","足の指","ashi no yubi","Zeh"],
+["Parties du corps","corps","body","cuerpo","体","karada","Körper"],
+["Parties du corps","genou","knee","rodilla","膝","hiza","Knie"],
+["Parties du corps","cou","neck","cuello","首","kubi","Hals"],
+["Parties du corps","menton","chin","barbilla","顎","ago","Kinn"],
+["Parties du corps","dents","teeth","dientes","歯","ha","Zähne"],
+["Parties du corps","yeux","eyes","ojos","目","me","Augen"],
 
 ["Les transports","voiture","car","coche","車","kuruma","Auto"],
 ["Les transports","bus","bus","autobús","バス","basu","Bus"],
