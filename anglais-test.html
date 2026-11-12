@@ -13,9 +13,9 @@
 @media(max-width:760px){.topnav{grid-template-columns:1fr 1fr}.choices{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.vocabTable{min-width:850px}}
 </style>
 <script>
-(function(){var PAGE="anglais-test.html",BUILD="20261112-03";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(v=>{if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(location.href);u.searchParams.set('build',latest);location.replace(u.toString())}}).catch(()=>{})})();
+(function(){var PAGE="anglais-test.html",BUILD="20261112-04";fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(v=>{if(!v||!v.pages||!v.pages[PAGE])return;var latest=v.pages[PAGE].build;if(latest&&latest!==BUILD){var u=new URL(location.href);u.searchParams.set('build',latest);location.replace(u.toString())}}).catch(()=>{})})();
 </script>
-<script src="langues-data.js?build=20261112-03"></script>
+<script src="langues-data.js?build=20261112-04"></script>
 </head>
 <body>
 <div class="wrap">
@@ -51,7 +51,7 @@
 <section id="spelling" class="panel card" hidden>
 <div class="row"><div class="field"><label>Thème</label><select id="oTheme"></select></div><div class="field"><label>Langue à apprendre</label><select id="oLang"><option value="en">Anglais</option><option value="es">Espagnol</option><option value="ja">Japonais</option><option value="de">Allemand</option></select></div></div>
 <div class="exercise"><div class="instruction">Traduis le mot français dans la langue choisie.</div><div id="oPrompt" class="prompt"></div><div id="oFeedback"></div>
-<div class="actions"><button id="oCheck" class="main">✓ Vérifier</button><button id="oHelp" class="secondary">💡 Aide</button><button id="oNext" class="secondary">Autre cas</button><button class="secondary backMode">← Retour</button><button id="oFinish" class="secondary">⏹ Terminer</button><button id="oNew" class="secondary">Nouvelle session</button></div></div>
+<div class="actions"><button id="oCheck" class="main">✓ Vérifier</button><button id="oHelp" class="main">💡 Aide — voir la traduction</button><button id="oNext" class="secondary">Autre cas</button><button class="secondary backMode">← Retour</button><button id="oFinish" class="secondary">⏹ Terminer</button><button id="oNew" class="secondary">Nouvelle session</button></div></div>
 </section>
 
 <section id="conjugation" class="panel card" hidden><div class="placeholder"><div style="font-size:34px">🧩</div>Conjugaison — bientôt disponible.<br><span class="note">L’architecture est prête pour l’ajouter plus tard sans modifier les autres fonctions.</span></div><div class="actions"><button class="secondary backMode">← Retour</button></div></section>
