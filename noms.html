@@ -210,11 +210,28 @@ th{background:#f8f9fc}
   white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.18)
 }
 @media(max-width:420px){.versionGitHub{font-size:10px;bottom:4px;padding:5px 8px}}
+
+/* Navigation uniforme vers le portail — build 20261113-01 */
+.portalReturn{
+  position:fixed;top:10px;left:10px;z-index:2100;
+  display:inline-flex;align-items:center;gap:7px;
+  text-decoration:none;background:#172554;color:#fff;
+  border:2px solid rgba(255,255,255,.9);border-radius:12px;
+  padding:10px 14px;font:inherit;font-size:14px;font-weight:900;
+  box-shadow:0 4px 14px rgba(15,23,42,.22);
+}
+.portalReturn:hover,.portalReturn:focus{
+  background:#1d4ed8;color:#fff;outline:3px solid #bfdbfe;outline-offset:2px;
+}
+@media(max-width:620px){
+  .portalReturn{top:7px;left:7px;padding:9px 11px;font-size:13px;border-radius:11px}
+}
+
 </style>
 
 <script>
 (function(){
-  var PAGE="noms.html", BUILD="20261002-01";
+  var PAGE="noms.html", BUILD="20261113-01";
   function checkVersion(){
     fetch('version.json?t=' + Date.now(), {cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -234,7 +251,7 @@ th{background:#f8f9fc}
 </script>
 </head>
 <body>
-<a class="portalHome" href="index.html">🏠 Portail des exercices</a>
+<a class="portalReturn" href="index.html">🏠 Retour au Portail</a>
 <div class="wrap">
   <section class="hero card">
     <h1>🔎 Les noms – 3e année</h1>

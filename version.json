@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12",
+  "updated": "2026-11-13",
   "pages": {
     "index.html": {
       "version": "V3.13",
@@ -7,27 +7,27 @@
     },
     "noms.html": {
       "version": "V18.5",
-      "build": "20261002-01"
+      "build": "20261113-01"
     },
     "calcul.html": {
       "version": "V4.4",
-      "build": "20260922-01"
+      "build": "20261113-01"
     },
     "tables.html": {
       "version": "V3.26",
-      "build": "20261020-05"
+      "build": "20261113-01"
     },
     "grammaire.html": {
       "version": "V1.25",
-      "build": "20261109-02"
+      "build": "20261113-01"
     },
     "orthographe.html": {
       "version": "V1.14",
-      "build": "20261013-04"
+      "build": "20261113-01"
     },
     "anglais.html": {
       "version": "V2.0",
-      "build": "20261112-06"
+      "build": "20261113-01"
     },
     "anglais-test.html": {
       "version": "V2.0",
