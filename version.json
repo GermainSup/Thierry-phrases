@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19",
+  "updated": "2026-11-24",
   "pages": {
     "index.html": {
       "version": "V3.14",
@@ -26,16 +26,16 @@
       "build": "20261113-01"
     },
     "anglais.html": {
-      "version": "V2.0",
-      "build": "20261113-01"
+      "version": "V2.1",
+      "build": "20261124-01"
     },
     "anglais-test.html": {
       "version": "V2.0",
       "build": "20261112-04"
     },
     "geographie.html": {
-      "version": "V2.0",
-      "build": "20261119-01"
+      "version": "V2.1",
+      "build": "20261124-01"
     }
   }
 }
